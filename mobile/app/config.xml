@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.tarikh.islam" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>تاريخ الإسلام</name>
+    <description>
+        موسوعة تفاعلية في تاريخ الإسلام: من عصر النبوة إلى العصور المتأخرة.
+    </description>
+    <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
+        موسوعة تاريخ الإسلام
+    </author>
+    <content src="index.html" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+
+    <platform name="android">
+        <!-- النسخ القديمة (أندرويد ٧ وما قبله): أيقونة كاملة مربعة -->
+        <icon density="ldpi" src="res/icon/android/ldpi.png" width="36" height="36" />
+        <icon density="mdpi" src="res/icon/android/mdpi.png" width="48" height="48"
+              background="res/icon/android/background-mdpi.png"
+              foreground="res/icon/android/foreground-mdpi.png" />
+        <icon density="hdpi" src="res/icon/android/hdpi.png" width="72" height="72"
+              background="res/icon/android/background-hdpi.png"
+              foreground="res/icon/android/foreground-hdpi.png" />
+        <icon density="xhdpi" src="res/icon/android/xhdpi.png" width="96" height="96"
+              background="res/icon/android/background-xhdpi.png"
+              foreground="res/icon/android/foreground-xhdpi.png" />
+        <icon density="xxhdpi" src="res/icon/android/xxhdpi.png" width="144" height="144"
+              background="res/icon/android/background-xxhdpi.png"
+              foreground="res/icon/android/foreground-xxhdpi.png" />
+        <icon density="xxxhdpi" src="res/icon/android/xxxhdpi.png" width="192" height="192"
+              background="res/icon/android/background-xxxhdpi.png"
+              foreground="res/icon/android/foreground-xxxhdpi.png" />
+    </platform>
+</widget>

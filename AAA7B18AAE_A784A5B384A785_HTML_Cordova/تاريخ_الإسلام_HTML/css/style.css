@@ -1,0 +1,30 @@
+
+:root{color-scheme:light;--bg:#f5f7f4;--paper:#fff;--ink:#24332b;--muted:#64756a;--accent:#176b4d;--line:#dce6df}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif;line-height:1.95}
+header{background:linear-gradient(135deg,#104d39,#21835d);color:white;padding:24px 18px}
+header .wrap,main,.footer{max-width:900px;margin:auto}
+header h1{font-size:1.65rem;margin:0 0 5px}
+header p{margin:0;color:#e0f1e7}
+nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+nav a,.back{color:white;text-decoration:none;border:1px solid #ffffff66;border-radius:22px;padding:6px 12px;font-size:.92rem}
+main{padding:20px 14px 40px}
+.paper{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:clamp(18px,4vw,34px);box-shadow:0 8px 28px #163b2410}
+h1,h2,h3{line-height:1.5;color:#15583f}
+h1{font-size:1.55rem} h2{font-size:1.3rem;margin-top:1.6em;border-bottom:1px solid var(--line);padding-bottom:7px} h3{font-size:1.12rem}
+p{margin:0 0 1em}
+li{margin:.35em 0}
+blockquote{border-right:4px solid var(--accent);padding:8px 14px;margin:16px 0;background:#f0f7f2;border-radius:8px;color:#455b4d}
+a{color:var(--accent)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.card{display:block;background:white;border:1px solid var(--line);border-radius:14px;padding:16px;text-decoration:none;color:var(--ink);transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 22px #163b2412}
+.card strong{display:block;color:var(--accent);font-size:1.03rem;margin-bottom:5px}
+.card small{color:var(--muted)}
+.search{width:100%;padding:13px 15px;border:1px solid #cbd9cf;border-radius:12px;font:inherit;margin:0 0 18px;background:#fff}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tools button{font:inherit;border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:white;color:var(--accent)}
+footer{color:var(--muted);text-align:center;font-size:.85rem;padding:0 16px 25px}
+@media(prefers-color-scheme:dark){body.dark-auto{--bg:#111a15;--paper:#19241d;--ink:#e5eee7;--muted:#a7b7ab;--accent:#7bd3a7;--line:#34483a} }
+body.dark{--bg:#111a15;--paper:#19241d;--ink:#e5eee7;--muted:#a7b7ab;--accent:#7bd3a7;--line:#34483a}
+body.large{font-size:1.14rem}

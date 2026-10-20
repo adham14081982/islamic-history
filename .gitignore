@@ -1,0 +1,9 @@
+node_modules/
+mobile/app/node_modules/
+mobile/app/platforms/
+mobile/app/plugins/
+mobile/app/.gradle/
+*.apk
+*.aab
+Thumbs.db
+.DS_Store
