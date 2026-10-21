@@ -374,8 +374,15 @@ function buildDeep(p) {
         u: 'c', id: ch.id, n: ch.n, ic: ch.ic || '', part: x.part.n, partId: x.part.id,
         h: `<article class="ch3" id="${esc(ch.id)}" data-toc="${esc(ch.n)}">
         <div class="ch3-h">
-          <span class="ch3-n">${AR_DIG(pi + 1)}.${AR_DIG(ci + 1)}</span>
-          <h3>${ch.ic ? ch.ic + ' ' : ''}${esc(ch.n)}</h3>
+          <div class="cho-top">
+            <span class="cho-part">${esc(x.part.n)}</span>
+            <span class="cho-cnt">الفصل ${AR_DIG(ci + 1)} من ${AR_DIG(x.chapters.length)}</span>
+          </div>
+          <div class="cho-mid">
+            <span class="cho-num">${AR_DIG(pi + 1)}<i>.</i>${AR_DIG(ci + 1)}</span>
+            <h3>${ch.ic ? ch.ic + ' ' : ''}${esc(ch.n)}</h3>
+          </div>
+          <div class="cho-rule"><i></i><b>&#10070;</b><i></i></div>
         </div>
         ${ch.lead ? (() => {
           const t = String(ch.lead).trim();

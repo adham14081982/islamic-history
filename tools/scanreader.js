@@ -59,21 +59,23 @@ async function targets() {
     await send('Runtime.evaluate', { expression: '__go(' + n + ')' });
     await sleep(200);
     const r = await send('Runtime.evaluate', {
-      returnByValue: true, expression: `(function(){
+      returnByValue: true, expression: `(function(n){
         try {
         var p=document.querySelector('.rpage[data-n="'+n+'"]'); if(!p) return JSON.stringify({missing:true});
         var b=p.querySelector('.rbody');
         var tw=0; p.querySelectorAll('.tblwrap').forEach(function(w){ tw=Math.max(tw, w.scrollWidth-w.clientWidth); });
-        return JSON.stringify({o:b.scrollHeight-b.clientHeight, t:tw, tb:p.querySelectorAll('.tblwrap').length});
+        var last=b.lastElementChild;
+        var d=last?Math.round(last.getBoundingClientRect().bottom-b.getBoundingClientRect().bottom):0;
+        return JSON.stringify({o:b.scrollHeight-b.clientHeight, d:d, t:tw, tb:p.querySelectorAll('.tblwrap').length});
         } catch(e) { return JSON.stringify({err:e.message}); }
-      })()`
+      })(${n})`
     });
     const raw = r.result.result.value;
     if (raw === undefined) { bad.push(n + ':undef'); continue; }
     const v = JSON.parse(raw);
     if (v.missing) { bad.push(n + ':missing'); continue; }
     if (v.tb) tb++;
-    if (v.o > 6) { bad.push((n + 1) + ':over' + v.o); maxOver = Math.max(maxOver, v.o); }
+    if (v.d > 2) { bad.push((n + 1) + ':clip' + v.d); maxOver = Math.max(maxOver, v.d); }
     if (v.t > 1) bad.push((n + 1) + ':tblX' + v.t);
   }
   console.log(JSON.stringify({ total, tablePages: tb, nbad: bad.length, maxOver, bad: bad.slice(0, 20) }));

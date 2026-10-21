@@ -128,6 +128,7 @@ window.__READER__ = !!document.getElementById('book');
     rendered: {}, plan: null, index: null
   };
   window.__R = R; /* مرجع للتشخيص فقط */
+  window.__go = function (n) { R.cur = Math.max(0, Math.min(n, R.total - 1)); render(); }; /* لفحص الصفحات */
 
   var stage, meas, measBody, leaf, leafFront, leafBack, chapEl, progEl, prevBtn, nextBtn;
 
@@ -625,7 +626,7 @@ window.__READER__ = !!document.getElementById('book');
     R.pages = pages;
     R.total = pages.length;
     R.plan = {
-      v: 6, w: R.cw, h: R.ch, fs: R.fs, spread: R.spread,
+      v: 7, w: R.cw, h: R.ch, fs: R.fs, spread: R.spread,
       sig: R.units.length + ':' + R.units.reduce(function (a, u) { return a + u.blocks.length; }, 0),
       chaps: R.chaps,
       pages: pages.map(function (p) {
@@ -641,7 +642,7 @@ window.__READER__ = !!document.getElementById('book');
       var raw = localStorage.getItem(planKey());
       if (!raw) return false;
       var pl = JSON.parse(raw);
-      if (!pl || pl.v !== 6 || (pl.pages.length !== undefined && !pl.pages.length)) return false;
+      if (!pl || pl.v !== 7 || (pl.pages.length !== undefined && !pl.pages.length)) return false;
       /* بصمة المحتوى: إذا تغيّر عدد الوحدات أو الكتل فالخطة قديمة ولا تصلح */
       var sig = R.units.length + ':' + R.units.reduce(function (a, u) { return a + u.blocks.length; }, 0);
       if (pl.sig !== sig) return false;
@@ -771,17 +772,16 @@ window.__READER__ = !!document.getElementById('book');
       var last = b.lastElementChild;
       if (!last) continue;
       var d = Math.round(last.getBoundingClientRect().bottom - b.getBoundingClientRect().bottom);
-      if (d > 16) over = d;   /* تسامح: نزول الحروف العربية تحت السطر */
+      if (d > 2) over = Math.max(over, d);   /* تسامح ٢بك: نزول الحروف العربية تحت السطر */
     }
-    if (over <= 4) return;
-    if (R.ovN >= 2 || R.ch <= 142) return;
+    if (over <= 2) return;
+    if (R.ovN >= 3 || R.ch <= 142) return;
     R.ovN = (R.ovN || 0) + 1;
     R.checking = true;
-    if (!R.refixed) {
-      /* مرة واحدة فقط: أعد الترقيم بالقياسات الحالية (قد تختلف عند استقرار الخط) */
-      R.refixed = true;
-      paginate(); savePlan();
-    }
+    /* قلّل ارتفاع العمود بقدر الفيض وأعد الترقيم: القياس النظري أقلّ من الواقع بعد استقرار الخط */
+    R.ch = Math.max(142, R.ch - Math.min(30, over + 4));
+    R.refixed = true;
+    paginate(); savePlan();
     R.checking = false;
     R.cur = Math.min(R.cur, R.total - 1);
     setTimeout(render, 0);
@@ -852,8 +852,10 @@ window.__READER__ = !!document.getElementById('book');
     var a = Math.abs(deg) / 180;
     leaf.style.setProperty('--a', a.toFixed(3));
   }
+  /* زمن التقليب: أبطأ وأثقل حتى لا يمرّ الفصل مرورًا خاطفًا */
+  var FLIP_MS = 620, FLIP_BACK_MS = 360;
   function commitFlip() {
-    leaf.style.transition = 'transform .40s cubic-bezier(.22,.68,.32,1)';
+    leaf.style.transition = 'transform ' + (FLIP_MS / 1000) + 's cubic-bezier(.30,.62,.28,1)';
     leaf.style.transform = 'rotateY(' + (R.dir > 0 ? 180 : -180) + 'deg)';
     leaf.style.setProperty('--a', '1');
     setTimeout(function () {
@@ -862,10 +864,10 @@ window.__READER__ = !!document.getElementById('book');
       R.cur = clamp(R.cur + R.dir, 0, R.total - 1);
       R.busy = false; R.dir = 0;
       render();
-    }, 420);
+    }, FLIP_MS + 40);
   }
   function cancelFlip() {
-    leaf.style.transition = 'transform .22s ease-out';
+    leaf.style.transition = 'transform ' + (FLIP_BACK_MS / 1000) + 's cubic-bezier(.25,.7,.3,1)';
     leaf.style.transform = 'rotateY(0deg)';
     leaf.style.setProperty('--a', '0');
     setTimeout(function () {
@@ -873,7 +875,7 @@ window.__READER__ = !!document.getElementById('book');
       leafFront.innerHTML = '';
       R.busy = false; R.dir = 0;
       render();
-    }, 240);
+    }, FLIP_BACK_MS + 40);
   }
   function flipTo(dir) {
     try {
@@ -955,7 +957,7 @@ window.__READER__ = !!document.getElementById('book');
     var dx = e.clientX - d.x0;
     var dt = Math.max(1, Date.now() - d.t0);
     var fast = Math.abs(dx) / dt > 0.5;
-    var far = Math.abs(dx) > R.pageW * 0.24;
+    var far = Math.abs(dx) > R.pageW * 0.32;
     if ((fast || far) && Math.sign(dx) === d.dir) commitFlip();
     else cancelFlip();
   }
