@@ -67,8 +67,14 @@ for (const e of eras) {
       (c.key || []).forEach(k => { scan(f, k.k, 'بطاقة'); scan(f, k.v, 'بطاقة'); });
       if (c.tbl) {
         if (!c.tbl.head || !c.tbl.rows || c.tbl.rows.length < 3) P(f, 'جدول', (c.n || i));
-        (c.tbl.rows || []).forEach(r => r.forEach(c2 => scan(f, c2, 'جدول')));
-        (c.tbl.head || []).forEach(h2 => scan(f, h2, 'رأس الجدول'));
+        const head = c.tbl.head || [];
+        (c.tbl.rows || []).forEach((r, ri) => {
+          const cells = Array.isArray(r) ? r : (r && r.cells) || [];
+          if (cells.length !== head.length)
+            P(f, 'أعمدة الجدول', (c.n || i) + ' → صف ' + (ri + 1) + ': ' + cells.length + ' ≠ ' + head.length);
+          cells.forEach(c2 => scan(f, c2, 'جدول'));
+        });
+        head.forEach(h2 => scan(f, h2, 'رأس الجدول'));
       } else P(f, 'جدول ناقص', (c.n || i));
       if (!c.quote) P(f, 'اقتباس ناقص', (c.n || i));
       else { scan(f, c.quote.t, 'اقتباس'); scan(f, c.quote.a, 'مصدر الاقتباس'); }

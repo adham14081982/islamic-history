@@ -1,5 +1,8 @@
 /* ===== مولّد موقع موسوعة تاريخ الإسلام =====
-   يقرأ data/pages/*.json ويبني index.html + صفحة لكل حقبة */
+   يقرأ data/pages/*.json ويبني index.html + صفحة لكل حقبة.
+   الصفحات العميقة (ذات الفصول) تُبنى على هيئة «كتاب»:
+   فصولها تُخرَج كبيانات JSON داخل <script type="application/json" id="book">
+   ويقوم محرك القارئ في assets/app.js بتقسيمها إلى صفحات على الجهاز. */
 const fs = require('fs');
 const path = require('path');
 
@@ -37,9 +40,8 @@ const HEAD = (title, desc) => `<!DOCTYPE html>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="description" content="${desc}">
 <title>${title}</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<link rel="preload" href="assets/fonts/amiri-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/amiri-700.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 ${css}
 </style>
@@ -50,9 +52,13 @@ ${css}
 <meta name="theme-color" content="#B8942F">
 </head>`;
 
-const TOPBAR = (pageId) => `<header class="top">
-  <a class="brand" href="index.html">📜 موسوعة تاريخ الإسلام</a>
+/* ---------- الشريط العلوي: في وضع القارئ يحمل اسم الفصل ---------- */
+const TOPBAR = (pageId, reader) => `<header class="top${reader ? ' reading' : ''}">
+  <a class="brand" href="index.html"><span class="bic">📜</span>${
+    reader ? '<span class="rbrand" id="rBrand"></span>'
+           : '<span class="btxt">موسوعة تاريخ الإسلام</span>'}</a>
   <div class="tools">
+    ${reader ? '<button class="ib" id="rMenu" title="الفهرس والذهاب إلى صفحة">☰</button>' : ''}
     <span class="dome" title="نسبة إكمالك للصفحة">${DOME}</span>
     <button class="ib" onclick="openSearch()" title="بحث">🔍</button>
     <button class="ib" id="favBtn" title="حفظ">☆</button>
@@ -71,11 +77,26 @@ const PANEL = `<div class="ov" id="ov" onclick="closeSearch()"></div>
 </div>`;
 
 const SWORD = `<svg viewBox="0 0 118 11" fill="none">
-  <path d="M2 5.5L104 3.2 116 5.5 104 7.8z" fill="none" stroke="var(--gold)" stroke-width="1" opacity=".55"/>
-  <path class="bl" d="M2 5.5L104 3.2 116 5.5 104 7.8z"/>
-  <rect x="2" y="3" width="4" height="5" rx="1" fill="var(--gold)" opacity=".8"/></svg>`;
+<path d="M2 5.5L104 3.2 116 5.5 104 7.8z" fill="none" stroke="var(--gold)" stroke-width="1" opacity=".55"/>
+<path class="bl" d="M2 5.5L104 3.2 116 5.5 104 7.8z"/>
+<rect x="2" y="3" width="4" height="5" rx="1" fill="var(--gold)" opacity=".8"/></svg>`;
 
 const PROGRESSBAR = `<div class="topbar"><i></i></div>`;
+
+/* ---------- هيكل القارئ: مسرح + شريط سفلي ---------- */
+const READER_MAIN = `<main class="reader" id="reader">
+  <div class="rstage" id="rStage">
+    <div class="rleaf" id="rLeaf">
+      <div class="rface rfront" id="rFront"></div>
+      <div class="rface rback" id="rBack"></div>
+    </div>
+  </div>
+  <div class="rfoot">
+    <button class="rnav" id="rPrev" title="الصفحة السابقة">السابق</button>
+    <button class="rprog" id="rProgBtn" title="اذهب إلى صفحة"><i id="rProg"></i></button>
+    <button class="rnav" id="rNext" title="الصفحة التالية">التالي</button>
+  </div>
+</main>`;
 
 const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -85,7 +106,14 @@ const AR_DIG = s => String(s == null ? '' : s)
   .replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
 const ar = s => esc(AR_DIG(s));
 
-/* ---------------- صفحة حقبة ---------------- */
+/* حاوية JSON آمنة داخل <script> */
+const jsonBlock = obj => {
+  const s = JSON.stringify(obj)
+    .replace(/&/g, '\\u0026').replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
+  return `<script type="application/json" id="book">${s}</script>`;
+};
+
+/* ---------------- صفحة حقبة (بدون فصول) ---------------- */
 function buildPage(p) {
   const i = pages.findIndex(x => x.id === p.id);
   const prev = pages[i - 1], next = pages[i + 1];
@@ -95,21 +123,20 @@ function buildPage(p) {
 
   const events = (p.events || []).map((e, k) => `<article class="ev" id="ev${k}">
       <div class="ev-head"><span class="ev-y">${ar(e.y)}</span><h3>${esc(e.t)}</h3></div>
-      <p>${esc(e.d)}</p>
-      ${e.r ? `<div class="res">${esc(e.r)}</div>` : ''}
+      <p>${ar(e.d)}</p>
+      ${e.r ? `<div class="res">${ar(e.r)}</div>` : ''}
     </article>`).join('');
 
   const people = (p.people || []).map(x =>
-    `<div class="pc"><b>${esc(x.n)}</b><span>${esc(x.r)}</span></div>`).join('');
+    `<div class="pc"><b>${esc(x.n)}</b><span>${ar(x.r)}</span></div>`).join('');
 
-  const outs = (p.outcomes || []).map(x => `<li>${esc(x)}</li>`).join('');
+  const outs = (p.outcomes || []).map(x => `<li>${ar(x)}</li>`).join('');
   const src = (p.sources || []).map(x =>
-    `<li><cite>${esc(x.a)}</cite> — ${esc(x.t)}${x.n ? ' (' + esc(x.n) + ')' : ''}</li>`).join('');
+    `<li><cite>${esc(x.a)}</cite> — ${ar(x.t)}${x.n ? ' (' + ar(x.n) + ')' : ''}</li>`).join('');
 
   return `${HEAD(p.n + ' | موسوعة تاريخ الإسلام', p.intro.slice(0, 150))}
 <body data-page="${p.id}">
-${TOPBAR(p.id)}
-${TOPBAR(p.id)}
+${TOPBAR(p.id, false)}
 ${PROGRESSBAR}
 <main>
   <div class="crumbs"><a href="index.html">الرئيسية</a> ‹ <span>${esc(p.n)}</span></div>
@@ -119,7 +146,7 @@ ${PROGRESSBAR}
     <div class="ic">${p.ic}</div>
     <h1>${esc(p.n)}</h1>
     <div class="period">${ar(p.period)}${p.dur ? ' · ' + ar(p.dur) : ''}</div>
-    <p class="intro">${esc(p.intro)}</p>
+    <p class="intro">${ar(p.intro)}</p>
     ${ORN}
     <div class="stats" style="display:flex;justify-content:center;gap:1.4rem;flex-wrap:wrap;font-size:.78rem;color:var(--muted)">
       <span><b style="color:${esc(p.c)};font-size:1.3rem">${(p.events || []).length}</b> حدثاً</span>
@@ -188,7 +215,7 @@ function buildHome() {
     abbasid: 'وسام الفجر', crusades: 'وسام حطين', mamluk: 'وسام النصر',
     ottoman: 'وسام السلطان', civilization: 'وسام العقل', modern: 'وسام التاريخ', all: 'تاج المؤرخ' };
   const BD = { start: 'ابدأ أول حقبة', prophets: 'الأنبياء', seerah: 'السيرة',
-    rashidun: 'الراشدون', umayyad: 'الأموية', andalus: 'الأندلس', abbasid: 'العباسية',
+    rashidun: 'الراشدون', umayyad: 'الأمويون', andalus: 'الأندلس', abbasid: 'العباسية',
     crusades: 'الصليبيون', mamluk: 'المماليك', ottoman: 'العثمانيون',
     civilization: 'الحضارة', modern: 'العصر الحديث', all: 'كل الحقب' };
 
@@ -197,7 +224,7 @@ function buildHome() {
 
   return `${HEAD('موسوعة تاريخ الإسلام', 'موسوعة مختصرة لتاريخ الإسلام: الأنبياء والسيرة والخلفاء والدول الكبرى والحروب الصليبية والعثمانيون والحضارة.')}
 <body data-page="home">
-${TOPBAR('home')}
+${TOPBAR('home', false)}
 ${PROGRESSBAR}
 <main>
   <section class="hero frame" style="--c:#B8942F">
@@ -251,7 +278,7 @@ ${js}
 </html>`;
 }
 
-/* ---------------- صفحة عميقة (فصول متعددة) ---------------- */
+/* ---------------- صفحة عميقة: تُبنى على هيئة كتاب ---------------- */
 function buildDeep(p) {
   const idx = pages.findIndex(x => x.id === p.id);
   const prev = pages[idx - 1], next = pages[idx + 1];
@@ -273,12 +300,59 @@ function buildDeep(p) {
     <circle class="ln" cx="164" cy="20" r="11"/><circle class="ln" cx="164" cy="20" r="5"/>
     <path class="ln" d="M10 14h36M10 26h36M254 14h36M254 26h36"/></svg>`;
 
-  const body = parts.map((x, pi) => {
-    const chs = x.chapters.map((ch, ci) => {
-      const pos = flat.findIndex(f => f.id === ch.id);
-      const prv = pos > 0 ? flat[pos - 1] : null;
-      const nxt = pos < flat.length - 1 ? flat[pos + 1] : null;
+  /* ============ وحدات المحتوى: ترتيب صفحات الكتاب ============ */
+  const units = [];
 
+  /* ١) الغلاف */
+  units.push({
+    u: 'f', one: true, id: 'front', n: p.n,
+    h: `<section class="hero frame" style="--c:${esc(p.c)}">
+    ${FRAME_1}
+    <div class="ic">${p.ic}</div>
+    <h1>${esc(p.n)}</h1>
+    <div class="period">${ar(p.period)}${p.dur ? ' · ' + ar(p.dur) : ''}</div>
+    <p class="intro">${ar(p.intro)}</p>
+    ${ORN}
+    <div class="stats" style="display:flex;justify-content:center;gap:1.4rem;flex-wrap:wrap;font-size:.78rem;color:var(--muted)">
+      <span><b style="color:${esc(p.c)};font-size:1.3rem">${ar(flat.length)}</b> فصلاً</span>
+      <span><b style="color:${esc(p.c)};font-size:1.3rem">${ar(parts.length)}</b> أقسام</span>
+      <span><b style="color:${esc(p.c)};font-size:1.3rem" data-stat="pages">…</b> صفحة</span>
+    </div>
+  </section>`
+  });
+
+  /* ٢) فهرس الفصول */
+  const tocHTML = parts.map((x, pi) => {
+    const chs = x.chapters.map(c => `<li><a href="#${esc(c.id)}"><i></i><span class="ttl">${esc(c.n)}</span></a></li>`).join('');
+    return `<li class="toc-part"><b>${x.part.ic || '📖'}</b>
+      <a href="#part-${pi + 1}"><span class="ttl">${esc(x.part.n)}</span></a>
+      <ul>${chs}</ul>
+    </li>`;
+  }).join('');
+
+  units.push({
+    u: 'f', one: true, id: 'toc', n: 'فهرس الفصول',
+    h: `<div class="toc frame" style="--c:${esc(p.c)}">
+    ${FRAME_1}
+    <h2 class="sec" style="margin-top:0">فهرس الفصول</h2>
+    <ol class="toclist">${tocHTML}</ol>
+  </div>`
+  });
+
+  /* ٣) الأقسام والفصول */
+  parts.forEach((x, pi) => {
+    units.push({
+      u: 'p', one: true, id: 'part-' + (pi + 1), n: x.part.n,
+      h: `<div class="part-h" id="part-${pi + 1}" style="--c:${esc(p.c)}">
+      ${PART_ORN}
+      <div class="part-ic">${x.part.ic || '📖'}</div>
+      <h2>${esc(x.part.n)}</h2>
+      ${x.part.lead ? `<p>${esc(x.part.lead)}</p>` : ''}
+      <div class="part-list">${x.chapters.map(c => `<a href="#${esc(c.id)}">${esc(c.n)}</a>`).join('')}</div>
+    </div>`
+    });
+
+    x.chapters.forEach((ch, ci) => {
       const subs = (ch.h2 || []).map(h =>
         `<h4 class="sub">${esc(h.t)}</h4>` +
         (h.p || []).map(x2 => `<p class="ap">${esc(x2)}</p>`).join('')).join('');
@@ -286,132 +360,103 @@ function buildDeep(p) {
       const keys = (ch.key || []).map(k =>
         `<div class="kb"><b>${esc(k.k)}</b><span>${esc(k.v)}</span></div>`).join('');
 
+      /* خلايا الصف: مصفوفة مباشرة أو {cells:[...]} — أي عدد أعمدة */
+      const cellsOf = r => Array.isArray(r) ? r : (r && r.cells) || [];
       const tbl = ch.tbl ? `<div class="tblwrap"><div class="tblcap">${esc(ch.tbl.cap || 'جدول')}</div>
         <table><thead><tr>${ch.tbl.head.map(h => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${
-        ch.tbl.rows.map(r => `<tr>${r.map(c => `<td>${esc(c)}</td>`).join('')}</tr>`).join('')
+        ch.tbl.rows.map(r => `<tr>${cellsOf(r).map(c => `<td>${esc(c)}</td>`).join('')}</tr>`).join('')
       }</tbody></table></div>` : '';
 
       const quote = ch.quote
         ? `<blockquote><p>${esc(ch.quote.t)}</p><cite>${esc(ch.quote.a)}</cite></blockquote>` : '';
 
-      /* تنقّل سلس بين الفصول: فقرة تمهيد + رابط + إيضاح */
-      const nav = prv || nxt ? `<nav class="chnav">
-        ${prv ? `<a class="pv" href="#${esc(prv.id)}"><small>الفصل السابق</small><b>${esc(prv.n)}</b></a>` : '<span class="pv empty"></span>'}
-        <span class="cn-pos">${(pi + 1)}.${(ci + 1)} من ${flat.length}</span>
-        ${nxt ? `<a class="nx" href="#${esc(nxt.id)}"><small>الفصل التالي</small><b>${esc(nxt.n)}</b></a>` : '<span class="nx empty"></span>'}
-      </nav>` : '';
-
-      return `<article class="ch3" id="${esc(ch.id)}" data-toc="${esc(ch.n)}">
+      units.push({
+        u: 'c', id: ch.id, n: ch.n, ic: ch.ic || '', part: x.part.n, partId: x.part.id,
+        h: `<article class="ch3" id="${esc(ch.id)}" data-toc="${esc(ch.n)}">
         <div class="ch3-h">
           <span class="ch3-n">${pi + 1}.${ci + 1}</span>
           <h3>${ch.ic ? ch.ic + ' ' : ''}${esc(ch.n)}</h3>
         </div>
-        ${ch.lead ? `<p class="lead"><span class="drop">${esc(String(ch.lead).trim().charAt(0))}</span>${esc(String(ch.lead).trim().slice(1))}</p>` : ''}
+        ${ch.lead ? (() => {
+          const t = String(ch.lead).trim();
+          const m = t.match(/^.[\u064B-\u0652\u0670\u0640]*/);
+          const dc = m ? m[0] : t.charAt(0);
+          return `<p class="lead"><span class="drop">${esc(dc)}</span>${esc(t.slice(dc.length))}</p>`;
+        })() : ''}
         ${(ch.p || []).map(x2 => `<p class="ap">${esc(x2)}</p>`).join('')}
         ${subs}
         ${keys ? `<div class="kbox"><div class="bt">خلاصة الفصل</div><div class="kgrid3">${keys}</div></div>` : ''}
         ${tbl}${quote}
         ${ch.sum ? `<div class="res">${esc(ch.sum)}</div>` : ''}
-        ${nav}
-      </article>`;
-    }).join('');
+      </article>`
+      });
+    });
+  });
 
-    return `<section class="part">
-      <div class="part-h" style="--c:${esc(p.c)}">
-        ${PART_ORN}
-        <div class="part-ic">${x.part.ic || '📖'}</div>
-        <h2>${esc(x.part.n)}</h2>
-        ${x.part.lead ? `<p>${esc(x.part.lead)}</p>` : ''}
-        <div class="part-list">${x.chapters.map(c => `<a href="#${esc(c.id)}">${esc(c.n)}</a>`).join('')}</div>
-      </div>
-      ${chs}
-    </section>`;
-  }).join('\n' + PART_ORN + '\n');
+  /* ٤) الشخصيات */
+  if ((p.people || []).length) {
+    units.push({
+      u: 'f', one: true, id: 'people', n: 'أهم الشخصيات',
+      h: `<section class="rsec">
+      <h2 class="sec">أهم الشخصيات</h2>
+      <div class="people">${(p.people || []).map(x =>
+        `<div class="pc"><b>${esc(x.n)}</b><span>${ar(x.r)}</span></div>`).join('')}</div>
+    </section>`
+    });
+  }
 
-  const tocHTML = parts.map((x, pi) => `<li class="toc-part"><b>${x.part.ic || '📖'}</b>
-      <a href="#part-${pi + 1}">${esc(x.part.n)}</a>
-      <ul>${x.chapters.map(c => `<li><a href="#${esc(c.id)}"><i></i>${esc(c.n)}</a></li>`).join('')}</ul>
-    </li>`).join('');
+  /* ٥) النتائج */
+  if ((p.outcomes || []).length) {
+    units.push({
+      u: 'f', one: true, id: 'outcomes', n: 'النتائج والآثار',
+      h: `<section class="rsec">
+      <h2 class="sec">النتائج والآثار</h2>
+      <ul class="outs">${(p.outcomes || []).map(x => `<li>${ar(x)}</li>`).join('')}</ul>
+    </section>`
+    });
+  }
 
-  const chars = parts.reduce((a, x) => a + x.chapters.reduce((b, c) => b + JSON.stringify(c).length, 0), 0);
-  const pagesEst = Math.max(1, Math.round(chars / 2600));
-
-  return `${HEAD(p.n + ' | موسوعة تاريخ الإسلام', p.intro.slice(0, 150))}
-<body data-page="${p.id}">
-${TOPBAR(p.id)}
-${PROGRESSBAR}
-<main>
-  <div class="crumbs"><a href="index.html">الرئيسية</a> ‹ <span>${esc(p.n)}</span></div>
-
-  <section class="hero frame" style="--c:${esc(p.c)}">
-    ${FRAME_1}
-    <div class="ic">${p.ic}</div>
-    <h1>${esc(p.n)}</h1>
-    <div class="period">${ar(p.period)}${p.dur ? ' · ' + ar(p.dur) : ''}</div>
-    <p class="intro">${esc(p.intro)}</p>
-    ${ORN}
-    <div class="stats" style="display:flex;justify-content:center;gap:1.6rem;flex-wrap:wrap;font-size:.78rem;color:var(--muted)">
-      <span><b style="color:${esc(p.c)};font-size:1.25rem">${flat.length}</b> فصلاً</span>
-      <span><b style="color:${esc(p.c)};font-size:1.25rem">${parts.length}</b> أقسام</span>
-      <span><b style="color:${esc(p.c)};font-size:1.25rem">${pagesEst}</b> صفحة تقريباً</span>
-    </div>
-  </section>
-
-  <div class="toc frame" style="--c:${esc(p.c)}">
-    ${FRAME_1}
-    <h2 class="sec" style="margin-top:0">فهرس الفصول</h2>
-    <ol class="toclist">${tocHTML}</ol>
-  </div>
-
-  ${ORN}
-  ${body}
-  ${ORN}
-
-  ${(p.people || []).length ? `<h2 class="sec">أهم الشخصيات</h2>
-  <section><div class="people">${(p.people || []).map(x =>
-    `<div class="pc"><b>${esc(x.n)}</b><span>${esc(x.r)}</span></div>`).join('')}</div></section>` : ''}
-
-  ${(p.outcomes || []).length ? `<h2 class="sec">النتائج والآثار</h2>
-  <section><ul class="outs">${(p.outcomes || []).map(x => `<li>${esc(x)}</li>`).join('')}</ul></section>` : ''}
-
-  <div class="src frame" style="--c:${esc(p.c)}">
+  /* ٦) المصادر */
+  units.push({
+    u: 'f', one: true, id: 'sources', n: 'المصادر والمراجع',
+    h: `<div class="src frame" style="--c:${esc(p.c)}">
     ${FRAME_2}
     <h2 class="sec" style="margin-top:0">المصادر والمراجع</h2>
     <ul>${(p.sources || []).map(x =>
-      `<li><cite>${esc(x.a)}</cite> — ${esc(x.t)}${x.n ? ' (' + esc(x.n) + ')' : ''}</li>`).join('')}</ul>
-  </div>
+      `<li><cite>${esc(x.a)}</cite> — ${ar(x.t)}${x.n ? ' (' + ar(x.n) + ')' : ''}</li>`).join('')}</ul>
+  </div>`
+  });
 
-  <nav class="pager">
-    ${prev ? `<a class="prev" href="${prev.file}"><small>الحقبة السابقة</small><b>${prev.ic} ${esc(prev.n)}</b></a>` : '<a class="prev empty"></a>'}
-    ${next ? `<a class="next" href="${next.file}"><small>الحقبة التالية</small><b>${next.ic} ${esc(next.n)}</b></a>` : '<a class="next empty"></a>'}
-  </nav>
-</main>
-<nav class="railbar" id="railbar"><span class="rb" id="rb"></span></nav>
-<div class="sword">${SWORD}<span>القراءة ٠٪</span></div>
+  /* ٧) التنقّل بين الحقب */
+  units.push({
+    u: 'f', one: true, id: 'pager', n: 'الحقب الأخرى',
+    h: `<nav class="pager">
+    ${prev ? `<a class="prev" href="${prev.file}"><small>← الحقبة السابقة</small><b>${prev.ic} ${esc(prev.n)}</b></a>`
+      : `<a class="prev empty"></a>`}
+    ${next ? `<a class="next" href="${next.file}"><small>الحقبة التالية →</small><b>${next.ic} ${esc(next.n)}</b></a>`
+      : `<a class="next empty"></a>`}
+  </nav>`
+  });
+
+  /* ============ بيانات الكتاب ============ */
+  const book = {
+    id: p.id, n: p.n, ic: p.ic, c: p.c, file: p.file,
+    units: units.map(u => ({ u: u.u, one: !!u.one, id: u.id, n: u.n, ic: u.ic || '', part: u.part || '', h: u.h }))
+  };
+
+  return `${HEAD(p.n + ' | موسوعة تاريخ الإسلام', p.intro.slice(0, 150))}
+<body data-page="${p.id}" class="reading">
+${TOPBAR(p.id, true)}
+${PROGRESSBAR}
+${READER_MAIN}
 ${PANEL}
+${jsonBlock(book)}
 <script>
 ${js}
-window.toTop=function(e){e.preventDefault();window.scrollTo({top:0,behavior:'smooth'});};
-/* فهرس عائم يعرض الفصل الحالي */
-(function(){
-  var arts=[].slice.call(document.querySelectorAll('.ch3')), rb=document.getElementById('rb');
-  if(!arts.length||!rb) return;
-  function upd(){
-    var y=window.innerHeight*0.35, cur=arts[0];
-    for(var i=0;i<arts.length;i++){ if(arts[i].getBoundingClientRect().top<y) cur=arts[i]; else break; }
-    var t=document.getElementById('toc'); if(t&&cur) t.querySelectorAll('a').forEach(function(a){
-      if(a.getAttribute('href')==='#'+cur.id) a.parentNode.classList.add('here');
-      else a.parentNode.classList.remove('here');
-    });
-    rb.textContent=cur.getAttribute('data-toc')||'';
-  }
-  window.addEventListener('scroll',upd,{passive:true}); upd();
-})();
 </script>
 </body>
 </html>`;
 }
-
 
 /* ---------------- التنفيذ ---------------- */
 fs.writeFileSync(path.join(root, 'index.html'), buildHome(), 'utf8');

@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="description" content="هذه الحقبة هي سيرة النبي محمد بن عبد الله ﷺ من يوم ولادته سنة 571م في مكة إلى وفاته سنة 632م بالمدينة، أي واحد وستين عاماً. تعرض فيها الصفحة عشر محطات">
+<title>محطات من السيرة النبوية | موسوعة تاريخ الإسلام</title>
+<link rel="preload" href="assets/fonts/amiri-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/amiri-700.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* ===== موسوعة تاريخ الإسلام — التنسيق المشترك ===== */
+
+/* الخطوط محليّة (Subset عربي): لا شبكة، ولا اختلاف في القياس بين تشغيل وتشغيل */
+@font-face{font-family:'Amiri';font-style:normal;font-weight:400;font-display:block;
+  src:url(assets/fonts/amiri-400.woff2) format('woff2')}
+@font-face{font-family:'Amiri';font-style:normal;font-weight:700;font-display:block;
+  src:url(assets/fonts/amiri-700.woff2) format('woff2')}
+@font-face{font-family:'Cairo';font-style:normal;font-weight:200 1000;font-display:block;
+  src:url(assets/fonts/cairo-var.woff2) format('woff2')}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --gold:#B8942F;--gold2:#8B6914;--cream:#FBF4E4;--paper:#FFFDF8;
+  --ink:#2E2A24;--muted:#7C7364;--line:#E7DCC3;
+  --green:#1E6B3A;--blue:#155E9C;
+  --shadow:0 4px 18px rgba(80,60,20,.08);
+  --c:#B8942F;
+}
+body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--ink);
+  min-height:100vh;line-height:1.9;transition:.3s}
+
+body.dark{--paper:#201E1A;--cream:#161512;--ink:#E8E1D2;--muted:#A79E8B;
+  --line:#3A362C;--shadow:0 4px 18px rgba(0,0,0,.35)}
+
+main{max-width:820px;margin:0 auto;padding:1.2rem 1.1rem 5rem}
+
+/* ---------- الترويسة ---------- */
+header.top{position:sticky;top:0;z-index:60;display:flex;align-items:center;
+  justify-content:space-between;gap:.6rem;padding:.55rem 1rem;
+  background:var(--paper);border-bottom:2px solid var(--gold)}
+.brand{font-family:'Amiri',serif;font-weight:700;font-size:1.02rem;color:var(--ink);
+  text-decoration:none;display:flex;align-items:center;gap:.4rem}
+.tools{display:flex;align-items:center;gap:.5rem}
+.ib{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
+  background:transparent;color:var(--ink);font-size:1.05rem;cursor:pointer;
+  display:grid;place-items:center;transition:.2s}
+.ib:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+.ib:active{transform:scale(.9)}
+
+/* ---------- قبة التقدم ---------- */
+.dome{width:38px;height:44px;position:relative;cursor:default}
+.dome svg{width:100%;height:100%;display:block}
+.dome .fill{fill:var(--gold);opacity:.85;transition:.4s}
+
+/* ---------- شارات ---------- */
+.badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.72rem;
+  background:var(--gold);color:#fff;border-radius:50px;padding:.15rem .6rem;
+  font-weight:700}
+
+/* ---------- المسار ---------- */
+.crumbs{font-size:.82rem;color:var(--muted);margin-bottom:.8rem;
+  display:flex;gap:.4rem;align-items:center;flex-wrap:wrap}
+.crumbs a{color:var(--muted);text-decoration:none}
+.crumbs a:hover{color:var(--gold2)}
+
+/* ---------- الترويسة البطلة ---------- */
+.hero{position:relative;background:var(--paper);border:1px solid var(--line);
+  border-top:6px solid var(--c);border-radius:20px;padding:1.6rem 1.3rem 1.4rem;
+  text-align:center;box-shadow:var(--shadow);margin-bottom:1.4rem;overflow:hidden}
+.hero .ic{font-size:2.6rem;line-height:1}
+.hero h1{font-family:'Amiri',serif;font-size:1.9rem;color:var(--c);margin:.3rem 0 .1rem}
+.hero .period{color:var(--gold2);font-size:.85rem;font-weight:600;margin-bottom:.6rem}
+.hero .intro{color:var(--muted);font-size:.96rem;line-height:2;max-width:620px;margin:0 auto}
+
+/* ---------- زخرفة SVG ---------- */
+.orn{display:block;margin:1.2rem auto;opacity:.55}
+.orn line,.orn path,.orn circle{stroke:var(--gold);stroke-width:1.1;fill:none}
+
+/* ---------- العناوين ---------- */
+h2.sec{font-family:'Amiri',serif;font-size:1.35rem;color:var(--c);
+  margin:2rem 0 .9rem;display:flex;align-items:center;gap:.6rem}
+h2.sec:before{content:"";width:6px;height:22px;background:var(--gold);
+  border-radius:3px;flex:0 0 auto}
+h2.sec .n{margin-right:auto;font-family:'Cairo';font-size:.75rem;color:var(--muted);font-weight:400}
+
+/* ---------- الخط الزمني ---------- */
+.tlwrap{position:relative;margin-bottom:.4rem}
+.tl{display:flex;gap:.6rem;overflow-x:auto;padding:.6rem .2rem 1rem;
+  scroll-snap-type:x mandatory;scrollbar-width:thin}
+.tl::-webkit-scrollbar{height:5px}
+.tl::-webkit-scrollbar-thumb{background:var(--gold);border-radius:9px}
+.tli{flex:0 0 150px;scroll-snap-align:center;background:var(--paper);
+  border:1px solid var(--line);border-right:4px solid var(--c);
+  border-radius:14px;padding:.6rem .7rem;cursor:pointer;text-align:right;
+  transition:.22s;font-family:'Cairo'}
+.tli:hover,.tli.on{transform:translateY(-3px);box-shadow:var(--shadow);border-right-color:var(--gold)}
+.tli b{display:block;color:var(--c);font-size:.9rem}
+.tli span{display:block;color:var(--muted);font-size:.76rem;line-height:1.6}
+.tlnav{display:flex;justify-content:space-between;margin-top:-.5rem}
+
+/* ---------- الأحداث ---------- */
+.ev{background:var(--paper);border:1px solid var(--line);border-radius:16px;
+  padding:1rem 1.1rem;margin-bottom:.9rem;box-shadow:var(--shadow);
+  opacity:0;transform:translateY(14px);transition:.45s}
+.ev.in{opacity:1;transform:none}
+.ev-head{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap;margin-bottom:.5rem}
+.ev-y{background:var(--c);color:#fff;font-size:.74rem;font-weight:700;
+  padding:.15rem .55rem;border-radius:6px;white-space:nowrap}
+.ev h3{font-family:'Amiri',serif;font-size:1.18rem;color:var(--ink)}
+.ev p{font-family:'Amiri',serif;font-size:1.08rem;line-height:2.05;text-align:justify}
+.ev .res{margin-top:.7rem;padding:.55rem .8rem;border-right:4px solid var(--gold);
+  background:linear-gradient(135deg,rgba(184,148,47,.10),rgba(184,148,47,.04));
+  border-radius:10px;font-size:.9rem;color:var(--gold2);font-weight:600}
+.ev .res:before{content:"◀ النتيجة  "}
+
+/* ---------- الشخصيات ---------- */
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.6rem}
+.pc{background:var(--paper);border:1px solid var(--line);border-radius:14px;
+  padding:.65rem .8rem;border-top:3px solid var(--c)}
+.pc b{display:block;color:var(--ink);font-size:.95rem}
+.pc span{display:block;color:var(--muted);font-size:.78rem;line-height:1.65}
+
+/* ---------- النتائج ---------- */
+.outs{list-style:none}
+.outs li{position:relative;padding:.5rem 1.5rem .5rem 0;border-bottom:1px dashed var(--line);
+  font-size:.95rem}
+.outs li:before{content:"◆";position:absolute;right:0;color:var(--gold);font-size:.8rem}
+
+/* ---------- المصادر ---------- */
+.src{background:var(--paper);border:1px solid var(--line);border-radius:16px;
+  padding:.9rem 1.1rem;margin-top:2.2rem}
+.src li{font-size:.86rem;color:var(--muted);padding:.25rem 1.2rem .25rem 0;
+  position:relative;line-height:1.8}
+.src li:before{content:"❋";position:absolute;right:0;color:var(--gold)}
+.src li cite{font-style:normal;color:var(--ink);font-weight:600}
+
+/* ---------- التنقل بين الصفحات ---------- */
+.pager{display:flex;gap:.6rem;margin-top:1.6rem}
+.pager a{flex:1;background:var(--paper);border:1px solid var(--line);border-radius:14px;
+  padding:.7rem .9rem;text-decoration:none;color:var(--ink);transition:.22s}
+.pager a:hover{border-color:var(--gold);box-shadow:var(--shadow)}
+.pager a small{display:block;color:var(--muted);font-size:.7rem}
+.pager a b{font-size:.92rem;color:var(--c)}
+.pager a.next{text-align:left}
+.pager a.empty{visibility:hidden}
+
+/* ---------- الانتقال بين الصفحات ---------- */
+main{animation:pageIn .4s ease}
+@keyframes pageIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+
+/* ---------- فهرس الصفحة الرئيسية ---------- */
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:.8rem}
+.ec{position:relative;background:var(--paper);border:1px solid var(--line);
+  border-top:5px solid var(--c);border-radius:18px;padding:1rem .8rem .9rem;
+  text-align:center;text-decoration:none;color:var(--ink);box-shadow:var(--shadow);
+  transition:.25s;overflow:hidden}
+.ec:hover{transform:translateY(-4px);box-shadow:0 10px 26px rgba(80,60,20,.16)}
+.ec .ic{font-size:2.1rem;line-height:1.2}
+.ec b{display:block;color:var(--c);font-size:.98rem;margin:.25rem 0 .15rem}
+.ec small{display:block;color:var(--muted);font-size:.72rem;line-height:1.55}
+.ec .pg{height:5px;background:var(--line);border-radius:9px;margin-top:.55rem;overflow:hidden}
+.ec .pg i{display:block;height:100%;background:var(--c);width:0;transition:.4s}
+.ec .done{position:absolute;top:.4rem;left:.5rem;font-size:.95rem;color:var(--gold)}
+
+/* ---------- البحث ---------- */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:90;display:none}
+.ov.on{display:block}
+.panel{position:fixed;inset:0;background:var(--paper);z-index:95;display:none;flex-direction:column}
+.panel.on{display:flex}
+.sh{display:flex;gap:.6rem;padding:.8rem;border-bottom:2px solid var(--gold)}
+.sh input{flex:1;border:0;background:transparent;font-family:'Cairo';
+  font-size:1.05rem;color:var(--ink);outline:none}
+.sb{flex:1;overflow-y:auto;padding:.8rem}
+.res{background:transparent;border:1px solid var(--line);border-radius:12px;
+  padding:.7rem .9rem;margin-bottom:.5rem;cursor:pointer}
+.res b{display:block;color:var(--c);font-size:.95rem}
+.res small{color:var(--muted);font-size:.78rem;line-height:1.6}
+.res em{font-style:normal;background:rgba(184,148,47,.22);border-radius:3px;padding:0 2px}
+
+@media(max-width:420px){
+  main{padding:.9rem .8rem 4rem}
+  .hero h1{font-size:1.5rem}
+  .tli{flex:0 0 132px}
+}
+
+/* ========== ١) الإطار المزخرف — حواشي المخطوطات (زوايا ثابتة الحجم) ========== */
+.frame{position:relative;border:1px solid var(--gold);border-radius:6px;padding:1.6rem 1.35rem}
+.frame:before{content:"";position:absolute;inset:5px;border:1px solid var(--gold);
+  opacity:.28;border-radius:3px;pointer-events:none}
+.crn{position:absolute;width:26px;height:26px;pointer-events:none;color:var(--gold);opacity:.75}
+.crn svg{width:100%;height:100%;display:block;stroke:currentColor;fill:none;stroke-width:1.1}
+.crn.tl{top:-1px;right:-1px}.cn-tr{}
+.crn.tr{top:-1px;left:-1px}
+.crn.bl{bottom:-1px;right:-1px}
+.crn.br{bottom:-1px;left:-1px}
+.frame>*:not(.crn){position:relative;z-index:1}
+
+/* ========== ٢) الخط الزمني الكبير ========== */
+.orn{width:210px;max-width:70%;height:18px;opacity:.55}
+.bigtl{display:flex;gap:.55rem;overflow-x:auto;padding:1rem .3rem 1.3rem;
+  scroll-snap-type:x mandatory;cursor:grab;scrollbar-width:thin;
+  -webkit-overflow-scrolling:touch}
+.bigtl:active{cursor:grabbing}
+.bigtl::-webkit-scrollbar{height:6px}
+.bigtl::-webkit-scrollbar-thumb{background:var(--gold);border-radius:9px}
+.btl{flex:0 0 126px;scroll-snap-align:center;position:relative;
+  display:flex;flex-direction:column;align-items:center;gap:.25rem;
+  text-decoration:none;color:inherit;padding-top:1.1rem}
+.btl:before{content:"";position:absolute;top:.4rem;right:-.3rem;left:-.3rem;height:2px;
+  background:var(--line)}
+.btl:after{content:"";position:absolute;top:0;right:calc(50% - 9px);
+  width:18px;height:18px;border-radius:50%;background:var(--paper);
+  border:3px solid var(--c);z-index:2;transition:.25s}
+.btl:hover:after{transform:scale(1.25)}
+.btl .ic{font-size:1.6rem;line-height:1;z-index:2}
+.btl .nm{font-family:'Amiri',serif;font-size:.86rem;color:var(--c);text-align:center;line-height:1.5}
+.btl .yr{font-size:.65rem;color:var(--muted)}
+.btl .st{font-size:.6rem;color:var(--gold2);font-weight:700}
+
+/* ========== ٣) تقليب الصفحة ========== */
+.flip{position:fixed;inset:0;background:var(--cream);z-index:200;pointer-events:none;opacity:0}
+.flip.go{animation:flipA .5s ease forwards}
+@keyframes flipA{
+  0%{opacity:.95;transform:perspective(1200px) rotateY(0)}
+  55%{opacity:.95;transform:perspective(1200px) rotateY(-38deg)}
+  100%{opacity:1;transform:perspective(1200px) rotateY(0)}
+}
+main.flip-out{animation:flipB .3s ease forwards}
+@keyframes flipB{to{opacity:0;transform:perspective(1200px) translateX(-45px)}}
+
+/* ========== ٤) تقدّم على شكل سيف ========== */
+.sword{position:fixed;bottom:14px;right:50%;transform:translateX(50%);
+  z-index:70;pointer-events:none;display:flex;align-items:center;gap:.5rem;
+  background:var(--paper);border:1px solid var(--line);border-radius:50px;
+  padding:.3rem .85rem;box-shadow:var(--shadow);font-size:.72rem;color:var(--muted)}
+.sword svg{height:11px;width:118px}
+.sword .bl{fill:var(--gold);opacity:.9}
+
+/* ========== ٥) الأوسمة ========== */
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.55rem;margin-top:.8rem}
+.bg{border:1px dashed var(--line);border-radius:14px;padding:.7rem .5rem;text-align:center;
+  background:var(--paper);opacity:.4;filter:grayscale(1);transition:.35s}
+.bg.on{opacity:1;filter:none;border:1px solid var(--gold);
+  box-shadow:0 0 0 1px rgba(184,148,47,.22),var(--shadow)}
+.bg .bi{font-size:1.9rem;line-height:1.2}
+.bg b{display:block;font-size:.82rem;color:var(--ink);margin-top:.15rem}
+.bg small{display:block;color:var(--muted);font-size:.64rem;line-height:1.5}
+
+/* ========== ٦) شريط علوي رفيع ========== */
+.topbar{position:fixed;top:0;right:0;left:0;height:3px;z-index:80}
+.topbar i{display:block;height:100%;width:0;
+  background:linear-gradient(90deg,var(--gold),#E8CE7C);transition:width .1s linear}
+
+/* ==========================================================
+   واجهة الصفحات العميقة (فصول متعددة)
+   ========================================================== */
+
+/* الفهرس */
+.toc{margin-bottom:1.4rem;padding:1.2rem 1.3rem 1.4rem}
+.toclist{list-style:none}
+.toclist li{margin:0}
+.toclist a{display:flex;align-items:center;gap:.6rem;padding:.42rem .3rem;
+  border-bottom:1px dashed var(--line);text-decoration:none;color:var(--ink);
+  font-size:.92rem;transition:.2s}
+.toclist a:hover{color:var(--c);padding-right:.8rem;background:rgba(184,148,47,.07)}
+.toclist b{background:var(--c);color:#fff;border-radius:6px;min-width:24px;
+  text-align:center;font-size:.72rem;padding:.1rem .3rem;flex:0 0 auto}
+.toclist .ttl{flex:1 1 auto;min-width:0}
+.toclist .tpg{margin-inline-start:auto;flex:0 0 auto;font-size:.74rem;color:var(--muted);
+  background:rgba(184,148,47,.1);border-radius:6px;padding:.05rem .4rem;min-width:26px;text-align:center}
+
+/* عنوان القسم */
+.part{margin-bottom:2.6rem}
+.part-h{position:relative;text-align:center;margin:2.4rem 0 1.6rem;
+  padding:1.1rem .9rem;border-top:1px solid var(--gold);border-bottom:1px solid var(--gold)}
+.part-ic{font-size:2rem;line-height:1}
+.part-h h2{font-family:'Amiri',serif;font-size:1.5rem;color:var(--c);margin:.2rem 0}
+.part-h p{color:var(--muted);font-size:.92rem;max-width:640px;margin:.4rem auto 0;line-height:1.95}
+
+/* الفصل */
+.ch3{position:relative;background:var(--paper);border:1px solid var(--line);
+  border-radius:16px;padding:1.3rem 1.2rem;margin-bottom:1.1rem;box-shadow:var(--shadow)}
+.ch3-h{display:flex;align-items:flex-start;gap:.6rem;margin-bottom:.7rem;
+  padding-bottom:.6rem;border-bottom:1px solid var(--line)}
+.ch3-n{background:var(--c);color:#fff;font-size:.72rem;font-weight:700;
+  padding:.18rem .5rem;border-radius:6px;flex:0 0 auto;margin-top:.25rem}
+.ch3 h3,.rbody h3{font-family:'Amiri',serif;font-size:1.35rem;color:var(--ink);line-height:1.6}
+.ch3 .lead,.rbody .lead{font-family:'Amiri',serif;font-size:1.12rem;line-height:2.05;
+  color:var(--c);font-weight:700;margin-bottom:.7rem}
+.ch3 .ap,.rbody .ap{font-family:'Amiri',serif;font-size:1.1rem;line-height:2.15;
+  text-align:justify;margin-bottom:.75rem}
+.ch3 .sub,.rbody .sub{font-family:'Amiri',serif;font-size:1.15rem;color:var(--c);
+  margin:1.2rem 0 .5rem;padding-right:.6rem;border-right:4px solid var(--gold)}
+
+/* صندوق الخلاصة */
+.kbox{margin-top:1rem;background:linear-gradient(135deg,rgba(184,148,47,.09),rgba(184,148,47,.03));
+  border:1px solid var(--line);border-radius:12px;padding:.8rem .9rem}
+.kbox .bt{font-family:'Amiri',serif;color:var(--gold2);font-size:1rem;margin-bottom:.5rem}
+.kgrid3{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.55rem}
+.kb{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:.5rem .6rem}
+.kb b{display:block;color:var(--blue);font-size:.88rem;margin-bottom:.1rem}
+.kb span{font-size:.78rem;color:var(--muted);line-height:1.6;display:block}
+
+/* جدول */
+.tblwrap{overflow-x:auto;margin-top:1rem;border:1px solid var(--line);border-radius:12px}
+.tblwrap table{border-collapse:collapse;width:100%;min-width:380px}
+.tblwrap th{background:var(--c);color:#fff;font-size:.82rem;font-weight:700;
+  padding:.55rem .7rem;text-align:right;white-space:nowrap}
+.tblwrap td{padding:.55rem .7rem;font-size:.84rem;border-bottom:1px solid var(--line);
+  line-height:1.8;vertical-align:top}
+.tblwrap tr:last-child td{border-bottom:0}
+.tblwrap tbody tr:nth-child(odd){background:rgba(184,148,47,.045)}
+
+/* اقتباس */
+.ch3 blockquote,.rbody blockquote{margin:1rem 0;padding:.8rem 1rem;border-right:5px solid var(--gold);
+  background:rgba(184,148,47,.07);border-radius:0 12px 12px 0}
+.ch3 blockquote p,.rbody blockquote p{font-family:'Amiri',serif;font-size:1.08rem;line-height:2;color:var(--gold2)}
+.ch3 blockquote cite,.rbody blockquote cite{display:block;margin-top:.4rem;font-size:.78rem;
+  color:var(--muted);font-style:normal}
+
+/* خلاصة الفصل */
+.ch3 .res,.rbody .res{margin-top:1rem;padding:.6rem .9rem;border-right:4px solid var(--gold);
+  background:linear-gradient(135deg,rgba(184,148,47,.12),rgba(184,148,47,.04));
+  border-radius:10px;font-size:.9rem;color:var(--gold2);font-weight:600}
+.ch3 .up{display:block;text-align:left;margin-top:.9rem;font-size:.78rem;
+  color:var(--muted);text-decoration:none}
+.ch3 .up:hover{color:var(--c)}
+
+@media(max-width:420px){
+  .ch3{padding:1rem .85rem}
+  .ch3 .ap,.rbody .ap{font-size:1.05rem}
+  .kgrid3{grid-template-columns:1fr 1fr}
+}
+
+
+/* ==========================================================
+   COMFORT — راحة القراءة والزخرفة
+   ========================================================== */
+
+/* عرض مريح للسطر: يمنع الإرهاق البصري */
+main{max-width:760px}
+.ch3 .ap,.ch3 .lead{max-width:100%}
+
+/* سطر استهلالي كبير (حرف Headline) */
+.ch3 .lead .drop,.rbody .lead .drop{float:right;font-family:'Amiri',serif;font-size:3.4rem;line-height:.82;
+  color:var(--c);margin:.18rem 0 0 .45rem;font-weight:700;opacity:.9;
+  border-right:3px solid var(--gold);padding:.1rem .45rem 0 0}
+
+/* فاصل زخرفي بين الأقسام */
+.porn{width:280px;max-width:80%;height:38px;margin:0 auto .6rem;display:block}
+.porn .ln{stroke:var(--gold);stroke-width:1.1;fill:none;opacity:.7}
+.porn .dm{stroke:var(--gold);stroke-width:.9;fill:none;opacity:.5}
+
+/* فهرس الأقسام داخل رأس القسم */
+.part-list{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-top:.7rem}
+.part-list a{font-size:.76rem;text-decoration:none;color:var(--muted);
+  border:1px solid var(--line);border-radius:50px;padding:.2rem .7rem;transition:.2s}
+.part-list a:hover{color:var(--c);border-color:var(--gold);background:rgba(184,148,47,.08)}
+
+/* فهرس متشعّب */
+.toclist>li{padding:0}
+.toc-part{list-style:none;margin-bottom:.9rem}
+.toc-part>b{display:inline-block;margin-left:.4rem}
+.toc-part>a{font-weight:700;font-size:.98rem;color:var(--c);display:flex;align-items:center;gap:.45rem}
+.toc-part>ul{list-style:none;margin:.35rem 0 0;padding-right:.9rem;
+  border-right:1px dashed var(--line)}
+.toc-part>ul>li{margin:0}
+.toc-part>ul a{padding:.32rem .3rem;font-size:.88rem;border:0;gap:.45rem}
+.toc-part>ul a i{width:6px;height:6px;border-radius:50%;background:var(--line);
+  flex:0 0 auto;display:block;margin-top:.55rem}
+.toc-part>ul a:hover i{background:var(--gold)}
+.toc-part>li.here a,.toc-part>ul>li.here a{color:var(--c);background:rgba(184,148,47,.1)}
+.toc-part>ul>li.here a i{background:var(--gold);box-shadow:0 0 0 3px rgba(184,148,47,.2)}
+
+/* تنقّل بين الفصول */
+.chnav{display:flex;gap:.5rem;align-items:stretch;margin-top:1.1rem;
+  padding-top:.9rem;border-top:1px dashed var(--line)}
+.chnav a{flex:1;background:transparent;border:1px solid var(--line);border-radius:12px;
+  padding:.5rem .7rem;text-decoration:none;transition:.22s;min-width:0}
+.chnav a:hover{border-color:var(--gold);background:rgba(184,148,47,.06)}
+.chnav a.empty{visibility:hidden}
+.chnav small{display:block;font-size:.66rem;color:var(--muted)}
+.chnav b{display:block;font-size:.82rem;color:var(--c);line-height:1.5;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chnav .nx{text-align:left}
+.chnav .nx b{white-space:normal}
+.cn-pos{align-self:center;font-size:.7rem;color:var(--muted);white-space:nowrap;padding:0 .3rem}
+
+/* عنوان الجدول */
+.tblcap{font-family:'Amiri',serif;font-size:.95rem;color:var(--gold2);
+  padding:.5rem .8rem;background:rgba(184,148,47,.07);font-weight:700}
+
+/* شريط الفصل العائم */
+.railbar{position:fixed;bottom:52px;right:0;left:0;z-index:69;pointer-events:none;
+  display:flex;justify-content:center}
+.railbar .rb{max-width:92%;background:var(--paper);border:1px solid var(--line);
+  border-radius:50px;padding:.2rem .9rem;font-size:.7rem;color:var(--gold2);
+  box-shadow:var(--shadow);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  max-height:1.7rem;line-height:1.7rem}
+
+@media(max-width:560px){
+  .ch3 .lead .drop,.rbody .lead .drop{font-size:2.7rem}
+  .chnav b{font-size:.76rem}
+  .railbar{display:none}
+}
+
+
+/* ==========================================================
+   القارئ — كتاب بلا تمرير عمودي
+   ========================================================== */
+
+/* الصفحة كلها: شريط علوي + مسرح + شريط سفلي */
+body.reading{height:100vh;height:100dvh;overflow:hidden;display:flex;flex-direction:column}
+body.reading .top{flex:0 0 auto}
+body.reading .flip,body.reading .sword,body.reading .railbar,body.reading .crumbs{display:none}
+
+main.reader{max-width:none;margin:0;padding:0;flex:1;min-height:0;
+  display:flex;flex-direction:column;animation:none}
+
+/* الشريط العلوي يحمل اسم الفصل */
+.top.reading .brand{flex:1;min-width:0;gap:.35rem}
+.top.reading .btxt{display:none}
+.rbrand{font-family:'Amiri',serif;font-size:.92rem;color:var(--ink);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* المسرح */
+.rstage{position:relative;flex:1;min-height:0;overflow:hidden;
+  perspective:2200px;perspective-origin:50% 50%;touch-action:pan-y}
+
+/* الصفحة */
+.rpage{position:absolute;display:flex;flex-direction:column;overflow:hidden;
+  background:var(--paper);border:1px solid var(--line);border-radius:10px;
+  box-shadow:0 6px 22px rgba(80,60,20,.12)}
+.rbody{flex:1;min-height:0;overflow:hidden;padding:12px 20px}
+.rpfoot{flex:0 0 auto;height:26px;display:flex;align-items:center;justify-content:center;
+  font-size:.72rem;color:var(--muted);border-top:1px solid var(--line);
+  direction:ltr;unicode-bidi:isolate}
+
+/* حاوية القياس (خارج الشاشة) */
+.rmeas{position:absolute;left:-99999px;top:0;visibility:hidden;pointer-events:none}
+.rmeas .rbody{height:auto!important;padding:0;overflow:hidden}
+
+/* ورقة التقليب */
+.rleaf{position:absolute;display:none;transform-style:preserve-3d;
+  will-change:transform;z-index:20;pointer-events:none}
+.rleaf.on{display:block}
+.rface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  background:var(--paper);border:1px solid var(--line);border-radius:10px;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);overflow:hidden}
+.rback{transform:rotateY(180deg);
+  background:linear-gradient(270deg,var(--paper) 55%,var(--cream) 100%)}
+.rleaf::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to left,rgba(0,0,0,.30),rgba(0,0,0,0) 45%);
+  opacity:calc(var(--a,0)*.95)}
+.rleaf.prev::after{background:linear-gradient(to right,rgba(0,0,0,.30),rgba(0,0,0,0) 45%)}
+
+/* الشريط السفلي */
+.rfoot{flex:0 0 auto;display:flex;align-items:center;gap:.6rem;
+  padding:.35rem .8rem;min-height:56px;border-top:1px solid var(--line);background:var(--paper)}
+.rnav{min-height:48px;min-width:66px;padding:.35rem .9rem;border:1px solid var(--line);
+  border-radius:12px;background:transparent;color:var(--ink);font-family:'Cairo';
+  font-size:.9rem;font-weight:600;cursor:pointer;transition:.2s}
+.rnav:hover:not(:disabled){border-color:var(--gold);background:rgba(184,148,47,.07)}
+.rnav:disabled{opacity:.3;cursor:default}
+.rprog{flex:1;height:9px;min-width:60px;border:0;padding:0;border-radius:9px;
+  background:var(--line);overflow:hidden;cursor:pointer;display:block}
+.rprog i{display:block;height:100%;width:0;
+  background:linear-gradient(90deg,var(--gold),#E3C56A);transition:width .25s}
+
+/* لوحة الفهرس والذهاب إلى صفحة */
+.rpanel{position:fixed;top:0;right:0;bottom:0;width:min(86vw,360px);z-index:120;
+  background:var(--paper);border-left:1px solid var(--line);display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .28s ease;
+  box-shadow:-6px 0 24px rgba(0,0,0,.14)}
+.rpanel.on{transform:translateX(0)}
+.rphead{display:flex;align-items:center;justify-content:space-between;
+  padding:.65rem .9rem;border-bottom:2px solid var(--gold);
+  font-family:'Amiri';font-size:1.05rem;color:var(--c)}
+.rpjump{display:flex;gap:.5rem;padding:.7rem .9rem;border-bottom:1px solid var(--line)}
+.rpjump input{flex:1;min-width:0;min-height:46px;border:1px solid var(--line);border-radius:10px;
+  background:var(--cream);color:var(--ink);font-family:'Cairo';font-size:1rem;padding:0 .7rem}
+.rpgo{min-height:46px;padding:0 1rem;border:0;border-radius:10px;background:var(--gold);
+  color:#fff;font-family:'Cairo';font-weight:700;cursor:pointer}
+.rpfont{display:flex;align-items:center;gap:.45rem;padding:.55rem .9rem;
+  border-bottom:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+.rpfont span{margin-left:auto}
+.rpfont button{min-width:44px;min-height:42px;border:1px solid var(--line);border-radius:9px;
+  background:transparent;color:var(--ink);font-family:'Cairo';font-size:.92rem;cursor:pointer}
+.rpfont button.on{border-color:var(--gold);background:rgba(184,148,47,.12);color:var(--c);font-weight:700}
+.rplist{flex:1;overflow-y:auto;padding:.4rem .6rem;-webkit-overflow-scrolling:touch}
+.rpitem{display:flex;align-items:center;gap:.55rem;padding:.45rem .5rem;
+  border-bottom:1px dashed var(--line);text-decoration:none;color:var(--ink);font-size:.9rem}
+.rpitem i{background:var(--gold);color:#fff;border-radius:6px;min-width:32px;text-align:center;
+  font-size:.72rem;font-style:normal;padding:.15rem .2rem;flex:0 0 auto}
+.rpitem:hover{color:var(--c);background:rgba(184,148,47,.07)}
+.rphome{display:block;text-align:center;padding:.85rem;border-top:1px solid var(--line);
+  color:var(--c);text-decoration:none;font-weight:700;font-size:.9rem}
+
+/* داخل الصفحة: إزالة إطار الفصل، وتوسيط الجدول بلا تمرير أفقي */
+.rbody .ch3{border:0;background:transparent;box-shadow:none;padding:0;margin:0 0 .5rem}
+.rbody .ch3-h{border-bottom:1px solid var(--line);padding-bottom:.5rem;margin-bottom:.7rem}
+.rbody .part-h{margin:0 0 .6rem;padding-top:.4rem}
+.rbody .tblwrap{overflow:hidden}
+.rbody .tblwrap table{min-width:0;width:100%;table-layout:auto}
+/* كسر الكلمات عند حدودها فقط: overflow-wrap:anywhere كان يقصّ «المرحلة» إلى «المر/حلة» */
+.rbody .tblwrap th,.rbody .tblwrap td{word-break:normal;overflow-wrap:break-word;white-space:normal;hyphens:none}
+.rbody .people{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+.rbody mark{background:rgba(184,148,47,.38);color:inherit;border-radius:3px;padding:0 2px}
+/* فهرس أكثف داخل القارئ: أقسام أكثر في الصفحة */
+.rbody .toc-part{margin-bottom:.5rem}
+.rbody .toclist a{padding:.26rem .3rem}
+.rbody .toc-part>ul{margin-top:.2rem}
+/* كتلة أطول من الصفحة (الغلاف مثلًا): تمرير داخلي بدل قصّ المحتوى */
+.rbody.rflow{overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px}
+
+@media(max-width:420px){
+  .rbody{padding:10px 14px}
+  .rnav{min-width:56px;font-size:.82rem;padding:.3rem .55rem}
+  .rfoot{gap:.4rem;padding:.3rem .5rem}
+}
+
+/* كثافة القراءة على الجوال: صفحة كتاب لا شرائح عرض */
+@media(max-width:560px){
+  .rbody{padding:10px 15px}
+  .rbody .ap{font-size:1.02rem;line-height:1.95}
+  .rbody .lead{font-size:1.06rem;line-height:1.95}
+  .rbody .ch3 h3{font-size:1.22rem;line-height:1.55}
+  .rbody .lead .drop{font-size:2.7rem}
+  .rbody h4.sub{font-size:1.08rem}
+  .rbody .kbox .bt{font-size:.92rem}
+  .rbody .tblwrap td{font-size:.8rem;line-height:1.7}
+  .rbody .tblwrap th{font-size:.76rem}
+}
+
+</style>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon_32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon_64.png">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon_180.png">
+<meta name="theme-color" content="#B8942F">
+</head>
+<body data-page="seerah" class="reading">
+<header class="top reading">
+  <a class="brand" href="index.html"><span class="bic">📜</span><span class="rbrand" id="rBrand"></span></a>
+  <div class="tools">
+    <button class="ib" id="rMenu" title="الفهرس والذهاب إلى صفحة">☰</button>
+    <span class="dome" title="نسبة إكمالك للصفحة"><svg viewBox="0 0 40 46" fill="none">
+<path d="M4 42V22a16 16 0 0 1 32 0v20z" fill="none" stroke="var(--gold)" stroke-width="1.4" opacity=".45"/>
+<path class="fill" d="M4 42V22a16 16 0 0 1 32 0v20z" fill="var(--gold)" opacity=".2"/></svg></span>
+    <button class="ib" onclick="openSearch()" title="بحث">🔍</button>
+    <button class="ib" id="favBtn" title="حفظ">☆</button>
+    <button class="ib" id="themeBtn" title="الوضع الليلي">🌙</button>
+  </div>
+</header>
+<div class="topbar"><i></i></div>
+<main class="reader" id="reader">
+  <div class="rstage" id="rStage">
+    <div class="rleaf" id="rLeaf">
+      <div class="rface rfront" id="rFront"></div>
+      <div class="rface rback" id="rBack"></div>
+    </div>
+  </div>
+  <div class="rfoot">
+    <button class="rnav" id="rPrev" title="الصفحة السابقة">السابق</button>
+    <button class="rprog" id="rProgBtn" title="اذهب إلى صفحة"><i id="rProg"></i></button>
+    <button class="rnav" id="rNext" title="الصفحة التالية">التالي</button>
+  </div>
+</main>
+<div class="ov" id="ov" onclick="closeSearch()"></div>
+<div class="panel" id="panel">
+  <div class="sh">
+    <input id="q" placeholder="ابحث في هذه الصفحة..." oninput="doSearch(this.value)">
+    <button class="ib" onclick="closeSearch()">✕</button>
+  </div>
+  <div class="sb" id="sb"><p style="text-align:center;color:var(--muted);padding:3rem 1rem">
+    اكتب حرفين على الأقل للبحث داخل هذه الصفحة</p></div>
+</div>
+<script type="application/json" id="book">{"id":"seerah","n":"محطات من السيرة النبوية","ic":"🌟","c":"#1E6B3A","file":"seerah.html","units":[{"u":"c","id":"t4","n":"فصل اختبار الجدول","ic":"","part":"اختبار","partId":"p1","h":"<article class=\"ch3\" id=\"t4\" data-toc=\"فصل اختبار الجدول\">\n  <div class=\"ch3-h\"><span class=\"ch3-n\">1.1</span><h3>فصل اختبار الجدول</h3></div>\n  <p class=\"lead\"><span class=\"drop\">ه</span>ذا نص تجريبي طويل لملء الصفحة قبل الجدول. هذا نص تجريبي طويل لملء الصفحة قبل الجدول. هذا نص تجريبي طويل لملء الصفحة قبل الجدول. هذا نص تجريبي طويل لملء الصفحة قبل الجدول. هذا نص تجريبي طويل لملء الصفحة قبل الجدول. هذا نص تجريبي طويل لملء الصفحة قبل الجدول. هذا نص تجريبي طويل لملء الصفحة قبل الجدول. هذا نص تجريبي طويل لملء الصفحة قبل الجدول.</p>\n  <div class=\"tblwrap\"><div class=\"tblcap\">جدول بأربعة أعمدة</div>\n  <table><thead><tr><th>المرحلة</th><th>السنة</th><th>الحدث</th><th>ملاحظة</th></tr></thead>\n  <tbody><tr><td>المرحلة 1</td><td>سنة 1</td><td>حدث طويل يشرح ما جرى في هذه المرحلة بالتفصيل مع أسماء وأماكن</td><td>ملاحظة رابعة 1</td></tr><tr><td>المرحلة 2</td><td>سنة 2</td><td>حدث طويل يشرح ما جرى في هذه المرحلة بالتفصيل مع أسماء وأماكن</td><td>ملاحظة رابعة 2</td></tr><tr><td>المرحلة 3</td><td>سنة 3</td><td>حدث طويل يشرح ما جرى في هذه المرحلة بالتفصيل مع أسماء وأماكن</td><td>ملاحظة رابعة 3</td></tr><tr><td>المرحلة 4</td><td>سنة 4</td><td>حدث طويل يشرح ما جرى في هذه المرحلة بالتفصيل مع أسماء وأماكن</td><td>ملاحظة رابعة 4</td></tr><tr><td>المرحلة 5</td><td>سنة 5</td><td>حدث طويل يشرح ما جرى في هذه المرحلة بالتفصيل مع أسماء وأماكن</td><td>ملاحظة رابعة 5</td></tr><tr><td>المرحلة 6</td><td>سنة 6</td><td>حدث طويل يشرح ما جرى في هذه المرحلة بالتفصيل مع أسماء وأماكن</td><td>ملاحظة رابعة 6</td></tr><tr><td>المرحلة 7</td><td>سنة 7</td><td>حدث طويل يشرح ما جرى في هذه المرحلة بالتفصيل مع أسماء وأماكن</td><td>ملاحظة رابعة 7</td></tr><tr><td>المرحلة 8</td><td>سنة 8</td><td>حدث طويل يشرح ما جرى في هذه المرحلة بالتفصيل مع أسماء وأماكن</td><td>ملاحظة رابعة 8</td></tr><tr><td>المرحلة 9</td><td>سنة 9</td><td>حدث طويل يشرح ما جرى في هذه المرحلة بالتفصيل مع أسماء وأماكن</td><td>ملاحظة رابعة 9</td></tr><tr><td>المرحلة 10</td><td>سنة 10</td><td>حدث طويل يشرح ما جرى في هذه المرحلة بالتفصيل مع أسماء وأماكن</td><td>ملاحظة رابعة 10</td></tr><tr><td>المرحلة 11</td><td>سنة 11</td><td>حدث طويل يشرح ما جرى في هذه المرحلة بالتفصيل مع أسماء وأماكن</td><td>ملاحظة رابعة 11</td></tr><tr><td>المرحلة 12</td><td>سنة 12</td><td>حدث طويل يشرح ما جرى في هذه المرحلة بالتفصيل مع أسماء وأماكن</td><td>ملاحظة رابعة 12</td></tr><tr><td>المرحلة 13</td><td>سنة 13</td><td>حدث طويل يشرح ما جرى في هذه المرحلة بالتفصيل مع أسماء وأماكن</td><td>ملاحظة رابعة 13</td></tr><tr><td>المرحلة 14</td><td>سنة 14</td><td>حدث طويل يشرح ما جرى في هذه المرحلة بالتفصيل مع أسماء وأماكن</td><td>ملاحظة رابعة 14</td></tr></tbody></table></div>\n</article>"}],"parts":[{"n":"اختبار","ic":"🧪"}]}</script>
+<script>
+/* ===== موسوعة تاريخ الإسلام — منطق الواجهة + قارئ الكتاب =====
+   يعمل على صفحات «الكتاب» (التي تحمل <script id="book">) وبقية الصفحات كما هي. */
+
+/* هل هذه صفحة قارئ؟ يُحدَّد قبل أي تهيئة */
+window.__READER__ = !!document.getElementById('book');
+
+(function () {
+  'use strict';
+  var STORE = 'ti_bookmarks', THEME = 'ti_theme', PROG = 'ti_progress';
+
+  /* ---------- تحويل الأرقام إلى هندية (وقت التشغيل) ---------- */
+  function arDigits(s) {
+    return String(s == null ? '' : s).replace(/\d/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'[d]; });
+  }
+  window.arDigits = arDigits;
+
+  /* ---------- الوضع الليلي ---------- */
+  function applyTheme(d) {
+    document.body.classList.toggle('dark', d);
+    var b = document.getElementById('themeBtn');
+    if (b) b.textContent = d ? '☀️' : '🌙';
+  }
+  var th = document.getElementById('themeBtn');
+  if (th) th.addEventListener('click', function () {
+    var d = !document.body.classList.contains('dark');
+    applyTheme(d); localStorage.setItem(THEME, d ? '1' : '0');
+  });
+  applyTheme(localStorage.getItem(THEME) === '1');
+
+  /* ---------- التقدّم: مشترك بين التمرير والقارئ ---------- */
+  function setProgress(id, frac) {
+    if (!id || id === 'home') return;
+    var pr = JSON.parse(localStorage.getItem(PROG) || '{}');
+    if ((pr[id] || 0) < frac) { pr[id] = frac; localStorage.setItem(PROG, JSON.stringify(pr)); }
+    if (frac > 0.92) {
+      var bm = JSON.parse(localStorage.getItem(STORE) || '[]');
+      if (bm.indexOf(id) < 0) {
+        bm.push(id); localStorage.setItem(STORE, JSON.stringify(bm));
+        if (window.refreshBadges) window.refreshBadges();
+      }
+    }
+  }
+  window.__setProgress = setProgress;
+
+  var domeFill = document.querySelector('.dome .fill');
+  var topBar = document.querySelector('.topbar i');
+  var swordBl = document.querySelector('.sword .bl');
+  var swordTx = document.querySelector('.sword span');
+
+  function paintProgress(pct) {
+    if (domeFill) domeFill.style.opacity = (0.12 + pct * 0.88).toFixed(2);
+    if (topBar) topBar.style.width = Math.round(pct * 100) + '%';
+    if (swordBl) swordBl.style.clipPath = 'inset(0 ' + (100 - pct * 100) + '% 0 0)';
+    if (swordTx) swordTx.textContent = 'القراءة ' + arDigits(Math.round(pct * 100)) + '٪';
+  }
+  window.__paintProgress = paintProgress;
+
+  /* ---------- نظام الأوسمة ---------- */
+  var BADGES = [
+    { id: 'start', ic: '🌱', n: 'نَبتُ الطريق', d: 'ابدأ أول حقبة' },
+    { id: 'prophets', ic: '📜', n: 'وسام النبوة', d: 'أنبياء' },
+    { id: 'seerah', ic: '🕊️', n: 'وسام الرحمة', d: 'السيرة' },
+    { id: 'rashidun', ic: '⚔️', n: 'وسام الفاروق', d: 'الراشدون' },
+    { id: 'umayyad', ic: '🏛️', n: 'وسام البناء', d: 'الأمويه' },
+    { id: 'andalus', ic: '🏰', n: 'وسام الأندلس', d: 'الأندلس' },
+    { id: 'abbasid', ic: '📚', n: 'وسام الفجر', d: 'العباسيه' },
+    { id: 'crusades', ic: '🛡️', n: 'وسام حطين', d: 'الصليبيون' },
+    { id: 'mamluk', ic: '🐎', n: 'وسام النصر', d: 'المماليك' },
+    { id: 'ottoman', ic: '🕌', n: 'وسام السلطان', d: 'العثمانيون' },
+    { id: 'civilization', ic: '🔬', n: 'وسام العقل', d: 'الحضاره' },
+    { id: 'modern', ic: '🕰️', n: 'وسام التاريخ', d: 'العصر الحديث' },
+    { id: 'all', ic: '👑', n: 'تاج المؤرخ', d: 'كل الحقب' }
+  ];
+  window.refreshBadges = function () {
+    var bm = JSON.parse(localStorage.getItem(STORE) || '[]');
+    var host = document.getElementById('badges');
+    if (!host) return;
+    var done = BADGES.filter(function (b) {
+      return b.id === 'start' ? bm.length >= 1
+        : b.id === 'all' ? bm.length >= 12 : bm.indexOf(b.id) >= 0;
+    }).map(function (b) { return b.id; });
+    var pct = Math.round(done.length / BADGES.length * 100);
+    document.querySelectorAll('#badges .bg').forEach(function (el) {
+      el.classList.toggle('on', done.indexOf(el.dataset.b) >= 0);
+    });
+    var c = document.getElementById('bcnt');
+    if (c) c.textContent = arDigits(done.length) + ' من ' + arDigits(BADGES.length);
+    var pb = document.getElementById('bprog');
+    if (pb) pb.style.width = pct + '%';
+  };
+  window.refreshBadges();
+
+  /* ---------- إخفاء المفضلة ---------- */
+  var f = document.getElementById('favBtn');
+  if (f) {
+    f.textContent = JSON.parse(localStorage.getItem(STORE) || '[]')
+      .indexOf(document.body.dataset.page) >= 0 ? '★' : '☆';
+    f.addEventListener('click', function () {
+      var id = document.body.dataset.page;
+      var bm = JSON.parse(localStorage.getItem(STORE) || '[]');
+      var i = bm.indexOf(id);
+      i >= 0 ? bm.splice(i, 1) : bm.push(id);
+      localStorage.setItem(STORE, JSON.stringify(bm));
+      f.textContent = i >= 0 ? '☆' : '★';
+    });
+  }
+})();
+
+
+/* ==========================================================
+   قارئ الكتاب — تقسيم المحتوى إلى صفحات بلا تمرير عمودي
+   ========================================================== */
+(function () {
+  'use strict';
+  var dataEl = document.getElementById('book');
+  if (!dataEl) return;
+
+  var BOOK;
+  try { BOOK = JSON.parse(dataEl.textContent); } catch (e) { return; }
+
+  var PGID = BOOK.id;
+  var PADX = 20, PADY = 12, FOOT = 26, GAP = 12;
+  var SPREAD = false;   /* وضع الكتاب المفتوح (صفحتان متقابلتان) — يُفعَّل لاحقًا */
+  var R = {
+    cur: 0, total: 0, pages: [], units: [], chaps: [],
+    pageW: 0, pageH: 0, cw: 0, ch: 0, stageW: 0, stageH: 0,
+    spread: false, fs: 1, busy: false, dir: 0, drag: null,
+    rendered: {}, plan: null, index: null
+  };
+  window.__R = R; /* مرجع للتشخيص فقط */
+
+  var stage, meas, measBody, leaf, leafFront, leafBack, chapEl, progEl, prevBtn, nextBtn;
+
+  /* ---------- أدوات ---------- */
+  function arD(s) { return window.arDigits(s); }
+  function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
+
+  /* ---------- ١) التهيئة ---------- */
+  function setup() {
+    stage = document.getElementById('rStage');
+    if (!stage) return;
+    leaf = document.getElementById('rLeaf');
+    leafFront = document.getElementById('rFront');
+    leafBack = document.getElementById('rBack');
+    chapEl = document.getElementById('rBrand');
+    progEl = document.getElementById('rProg');
+    prevBtn = document.getElementById('rPrev');
+    nextBtn = document.getElementById('rNext');
+
+    meas = document.createElement('div');
+    meas.className = 'rmeas';
+    meas.innerHTML = '<div class="rbody"></div>';
+    stage.appendChild(meas);
+    measBody = meas.firstChild;
+
+    R.fs = parseFloat(localStorage.getItem('ti_font') || '1') || 1;
+    applyFont();
+
+    /* القياس قبل استقرار الخطوط يعطي عدد صفحات مختلفًا في كل تحميل (٢٧٥ / ٢٧٩ / ٢٨١)،
+       فنؤجّل أول ترقيم حتى تنتهي محاولة تحميل الخطوط (نجاحًا أو فشلًا). */
+    var booted = false;
+    function boot() {
+      if (booted) return;
+      booted = true;
+
+      layout();
+      buildUnits();
+
+      var ok = loadPlan();
+      if (!ok) { paginate(); savePlan(); }
+
+      var saved = parseInt(localStorage.getItem('ti_pos_' + PGID) || '0', 10);
+      R.cur = (saved > 0 && saved <= R.total) ? saved - 1 : 0;
+
+      /* قفزة مباشرة إلى صفحة (للاختبار): seerah.html?p=12 */
+      var m = /[?&#]p=(\d+)/.exec(location.href);
+      if (m) { var jp = parseInt(m[1], 10); if (jp >= 1 && jp <= R.total) R.cur = jp - 1; }
+
+      render();
+      buildPanel();
+      wire();
+      document.body.classList.add('rready');
+    }
+
+    var fontsReady = Promise.resolve();
+    if (document.fonts && document.fonts.load) {
+      fontsReady = Promise.all([
+        document.fonts.load('1em Amiri'),
+        document.fonts.load('1em Cairo')
+      ]).catch(function () { });
+    }
+    /* مهلة أمان: لو علِق الطلب لا نُجمّد القارئ */
+    var safety = new Promise(function (res) { setTimeout(res, 2500); });
+    Promise.race([fontsReady, safety]).then(function () {
+      requestAnimationFrame(boot);
+    });
+  }
+
+  function applyFont() {
+    document.documentElement.style.fontSize = (16 * R.fs) + 'px';
+  }
+
+  /* ---------- ٢) المقاسات ---------- */
+  function layout() {
+    var r = stage.getBoundingClientRect();
+    R.stageW = r.width; R.stageH = r.height;
+    R.spread = SPREAD && (window.innerWidth >= 820) && (window.innerWidth > window.innerHeight);
+    R.pageW = R.spread ? Math.floor((R.stageW - 24 - GAP) / 2) : Math.min(R.stageW - 16, 700);
+    R.pageH = Math.floor(R.stageH - 8);
+    R.cw = R.pageW - PADX * 2;
+    R.ch = R.pageH - PADY * 2 - FOOT;
+    stage.style.setProperty('--pw', R.pageW + 'px');
+    stage.style.setProperty('--ph', R.pageH + 'px');
+    stage.style.setProperty('--ch', R.ch + 'px');
+    meas.style.width = R.cw + 'px';
+  }
+
+  /* ---------- ٣) تحويل HTML إلى كتل ---------- */
+  function buildUnits() {
+    R.units = BOOK.units.map(function (u, ui) {
+      var tpl = document.createElement('template');
+      tpl.innerHTML = u.h;
+      var root = tpl.content.firstElementChild;
+      var blocks = u.one ? [root] : Array.prototype.slice.call(root.children)
+        .filter(function (el) { return !(el.matches && el.matches('.crn,.orn,.porn,svg')); });
+      return { ui: ui, u: u.u, id: u.id, n: u.n, ic: u.ic || '', blocks: blocks };
+    });
+  }
+
+  /* ---------- ٤) القياس ---------- */
+  function measureAll(nodes) {
+    measBody.innerHTML = '';
+    var fr = document.createDocumentFragment(), i;
+    for (i = 0; i < nodes.length; i++) fr.appendChild(nodes[i].cloneNode(true));
+    measBody.appendChild(fr);
+    measBody.appendChild(document.createElement('div'));
+    var kids = measBody.children, n = nodes.length, hs = [];
+    for (i = 0; i < n; i++) hs.push(kids[i + 1].offsetTop - kids[i].offsetTop);
+    measBody.innerHTML = '';
+    return hs;
+  }
+  function measureOne(node) {
+    measBody.innerHTML = '';
+    measBody.appendChild(node.cloneNode(true));
+    measBody.appendChild(document.createElement('div'));
+    var k = measBody.children;
+    var h = k[1].offsetTop - k[0].offsetTop;
+    measBody.innerHTML = '';
+    return h;
+  }
+
+  /* ---------- ٥) تصنيف الكتل ---------- */
+  function kindOf(el) {
+    if (!el) return 'other';
+    var t = el.tagName;
+    if (t === 'P') return 'tx';
+    if (t === 'BLOCKQUOTE') return 'qt';
+    if (t === 'UL' || t === 'OL') return 'ls';
+    if (el.classList.contains('tblwrap')) return 'tb';
+    if (el.classList.contains('kbox')) return 'kb';
+    if (el.classList.contains('res')) return 'tx';
+    if (el.classList.contains('people')) return 'ls';
+    if (el.classList.contains('toclist')) return 'ls';
+    if (el.querySelector && el.querySelector('.toclist,.people,ul,ol')) return 'ls';
+    if (t === 'H2' || t === 'H3' || t === 'H4' || t === 'H5') return 'hd';
+    return 'other';
+  }
+
+  /* الحاوية التي أبناؤها عناصر القائمة (قد تكون داخل إطار) */
+  function listHost(el) {
+    if (el.matches && el.matches('ul,ol,.people,.toclist')) return el;
+    return (el.querySelector && el.querySelector('.toclist,.people,ul,ol')) || el;
+  }
+  function isHeading(el) {
+    if (!el) return false;
+    var t = el.tagName;
+    if (t === 'H2' || t === 'H3' || t === 'H4' || t === 'H5') return true;
+    if (el.classList.contains('ch3-h')) return true;
+    return false;
+  }
+
+  /* مدى الكتلة القابل للتقسيم: [بداية، نهاية) */
+  function rangeOf(el, kind) {
+    if (kind === 'tx' || kind === 'qt') return [0, textOf(el).length];
+    if (kind === 'ls') return [0, listHost(el).children.length];
+    if (kind === 'tb') return [0, el.querySelectorAll('tbody tr').length];
+    if (kind === 'kb') {
+      var g = el.querySelector('.kgrid3');
+      return [0, g ? g.children.length : 0];
+    }
+    return [0, 0];
+  }
+
+  /* ---------- ٦) نصوص الكتلة ---------- */
+  function textOf(el) {
+    if (el.tagName === 'BLOCKQUOTE') {
+      var p = el.querySelector('p');
+      return p ? p.textContent : el.textContent;
+    }
+    return el.textContent;
+  }
+  function cloneWithText(el, text, keepDrop) {
+    var c = el.cloneNode(true);
+    var drop = c.querySelector('.drop');
+    var kids = Array.prototype.slice.call(c.childNodes);
+    for (var i = 0; i < kids.length; i++) {
+      var k = kids[i];
+      if (k.nodeType === 3) c.removeChild(k);
+      else if (k.nodeType === 1 && !(keepDrop && k === drop)) c.removeChild(k);
+    }
+    var body = text;
+    if (keepDrop && drop) body = text.slice(drop.textContent.length);
+    c.appendChild(document.createTextNode(body));
+    return c;
+  }
+  function makeText(el, a, e, keepDrop) {
+    if (el.tagName === 'BLOCKQUOTE') {
+      var c = el.cloneNode(true);
+      var p = c.querySelector('p');
+      p.textContent = el.querySelector('p').textContent.slice(a, e);
+      var cite = c.querySelector('cite');
+      if (cite && a > 0) cite.remove();
+      return c;
+    }
+    return cloneWithText(el, el.textContent.slice(a, e), keepDrop);
+  }
+  function snapSentence(text, pos) {
+    var marks = ['.', '؟', '!', '۔', '،', '؛', ':'];
+    for (var i = pos; i > pos - 220 && i > 40; i--) {
+      if (marks.indexOf(text[i - 1]) >= 0) return i;
+    }
+    return pos;
+  }
+
+  /* ---------- ٧) تقسيم الكتل ---------- */
+  function splitBlock(el, kind, a, e, avail) {
+    if (avail < 70) return null;
+    if (kind === 'tx' || kind === 'qt') {
+      var full = textOf(el);
+      /* عتبة منخفضة: كان ٢٤٠/٢٠٠ حرفًا فيترك فراغًا كبيرًا في أسفل الصفحات
+         حين تأتي فقرة متوسطة لا تسع كاملة. نسمح بالقسمة ما دامت البقية سطرًا معتبرًا. */
+      if (e - a < 90) return null;
+      var hasDrop = !!el.querySelector('.drop');
+      /* تقدير نسبي ثم تصحيحان على الأكثر — أسرع بكثير من البحث الثنائي على الجوال */
+      var span = e - a;
+      var fullH = measureOne(el);
+      if (!(fullH > avail)) return null;
+      var guess = a + Math.max(60, Math.min(span - 60, Math.round(span * (avail / fullH) * 0.97)));
+      var best = -1;
+      for (var it = 0; it < 3; it++) {
+        var h = measureOne(makeText(el, a, guess, a === 0 && hasDrop));
+        if (h <= avail) {
+          best = guess;
+          var room = avail - h;
+          if (room < 24) break;
+          var step = Math.max(24, Math.round(span * room / fullH));
+          if (guess + step > e - 50) break;
+          guess += step;
+        } else {
+          var back = Math.max(24, Math.round(span * (h - avail) / fullH));
+          if (guess - back <= a + 50) break;
+          guess -= back;
+        }
+      }
+      if (best < 0) return null;
+      var cut = snapSentence(full, best);
+      if (cut <= a || cut >= e) cut = best;
+      /* لا نُبقِي ذيلًا قصيرًا جدًا (سطرًا مبتورًا) ولا رأسًا قصيرًا جدًا */
+      if ((cut - a) < 70 || (e - cut) < 50) return null;
+      var p1 = makeText(el, a, cut, a === 0 && hasDrop);
+      var p2 = makeText(el, cut, e, false);
+      return [
+        { d: { k: kind === 'qt' ? 'qt' : 'tx', a: a, e: cut, dp: (a === 0 && hasDrop) ? 1 : 0 }, node: p1 },
+        { d: { k: kind === 'qt' ? 'qt' : 'tx', a: cut, e: e, dp: 0 }, node: p2 }
+      ];
+    }
+    if (kind === 'tb') return splitTable(el, a, e, avail);
+    if (kind === 'ls') return splitList(el, a, e, avail);
+    if (kind === 'kb') return splitKbox(el, a, e, avail);
+    return null;
+  }
+
+  /* جدول: يُقسَّم بالصفوف مع تكرار صف العناوين */
+  function splitTable(el, a, e, avail) {
+    var rows = el.querySelectorAll('tbody tr');
+    if (!rows.length) return null;
+    function build(r0, r1) {
+      var w = el.cloneNode(true);
+      var rs = w.querySelectorAll('tbody tr');
+      for (var i = 0; i < rs.length; i++) {
+        if (i < r0 || i >= r1) w.querySelector('tbody').removeChild(rs[i]);
+      }
+      if (r0 > 0) { var cap = w.querySelector('.tblcap'); if (cap) cap.remove(); }
+      return w;
+    }
+    var lo = a + 1, hi = e - 1, best = -1;
+    while (lo <= hi) {
+      var mid = (lo + hi) >> 1;
+      if (measureOne(build(a, mid)) <= avail) { best = mid; lo = mid + 1; } else hi = mid - 1;
+    }
+    if (best < 0 || best <= a) return null;
+    return [
+      { d: { k: 'tb', a: a, b: best }, node: build(a, best) },
+      { d: { k: 'tb', a: best, b: e }, node: build(best, e) }
+    ];
+  }
+
+  /* قائمة أو شبكة: تُقسَّم بعناصرها */
+  function splitList(el, a, e, avail) {
+    var host = listHost(el);
+    var kids = host.children;
+    if (kids.length < 3) return null;
+    function build(c0, c1) {
+      var c = el.cloneNode(true);
+      var h = listHost(c);
+      var ch = Array.prototype.slice.call(h.children);
+      for (var i = 0; i < ch.length; i++) if (i < c0 || i >= c1) h.removeChild(ch[i]);
+      return c;
+    }
+    var lo = a + 1, hi = e - 1, best = -1;
+    while (lo <= hi) {
+      var mid = (lo + hi) >> 1;
+      if (measureOne(build(a, mid)) <= avail) { best = mid; lo = mid + 1; } else hi = mid - 1;
+    }
+    if (best < 0 || best <= a) return null;
+    return [
+      { d: { k: 'ls', a: a, b: best }, node: build(a, best) },
+      { d: { k: 'ls', a: best, b: e }, node: build(best, e) }
+    ];
+  }
+
+  /* شبكة البطاقات */
+  function splitKbox(el, a, e, avail) {
+    var grid = el.querySelector('.kgrid3');
+    if (!grid) return null;
+    var cards = grid.children;
+    if (cards.length < 3) return null;
+    function build(c0, c1) {
+      var k = el.cloneNode(true);
+      var g = k.querySelector('.kgrid3');
+      var ch = Array.prototype.slice.call(g.children);
+      for (var i = 0; i < ch.length; i++) if (i < c0 || i >= c1) g.removeChild(ch[i]);
+      if (c0 > 0) { var t = k.querySelector('.bt'); if (t) t.remove(); }
+      return k;
+    }
+    var lo = a + 1, hi = e - 1, best = -1;
+    while (lo <= hi) {
+      var mid = (lo + hi) >> 1;
+      if (measureOne(build(a, mid)) <= avail) { best = mid; lo = mid + 1; } else hi = mid - 1;
+    }
+    if (best < 0 || best <= a) return null;
+    return [
+      { d: { k: 'kb', a: a, b: best }, node: build(a, best) },
+      { d: { k: 'kb', a: best, b: e }, node: build(best, e) }
+    ];
+  }
+
+  /* ---------- ٨) بناء كتلة من واصف (لاسترجاع الخطة) ---------- */
+  function buildNode(u, b, d) {
+    var el = R.units[u].blocks[b];
+    if (d.k === 'tx' || d.k === 'qt') return makeText(el, d.a, d.e, !!d.dp);
+    if (d.k === 'tb') {
+      var w = el.cloneNode(true);
+      var rs = w.querySelectorAll('tbody tr');
+      for (var i = 0; i < rs.length; i++) if (i < d.a || i >= d.b) w.querySelector('tbody').removeChild(rs[i]);
+      if (d.a > 0) { var cap = w.querySelector('.tblcap'); if (cap) cap.remove(); }
+      return w;
+    }
+    if (d.k === 'ls') {
+      var c = el.cloneNode(true);
+      var h = listHost(c);
+      var ch = Array.prototype.slice.call(h.children);
+      for (var j = 0; j < ch.length; j++) if (j < d.a || j >= d.b) h.removeChild(ch[j]);
+      return c;
+    }
+    if (d.k === 'kb') {
+      var k = el.cloneNode(true);
+      var g = k.querySelector('.kgrid3');
+      if (g) {
+        var gc = Array.prototype.slice.call(g.children);
+        for (var q = 0; q < gc.length; q++) if (q < d.a || q >= d.b) g.removeChild(gc[q]);
+      }
+      if (d.a > 0) { var tt = k.querySelector('.bt'); if (tt) tt.remove(); }
+      return k;
+    }
+    return el;
+  }
+
+  /* ---------- ٩) الترقيم ---------- */
+  function paginate() {
+    var pages = [], cur = { items: [], ch: '' }, curH = 0;
+    R.chaps = []; R.partPages = {};
+
+    function flush() {
+      if (cur.items.length) pages.push(cur);
+      cur = { items: [], ch: cur.ch }; curH = 0;
+    }
+    function add(u, b, d, node) { cur.items.push({ u: u, b: b, d: d, node: node }); curH += measureOne(node); }
+
+    for (var ui = 0; ui < R.units.length; ui++) {
+      var unit = R.units[ui];
+      flush();
+      cur.ch = unit.n;
+      if (unit.u === 'c') R.chaps.push({ id: unit.id, n: unit.n, ic: unit.ic, page: pages.length + 1 });
+      if (unit.u === 'p') R.partPages[unit.id] = pages.length + 1;
+
+      var hs = measureAll(unit.blocks);
+      var q = [], i;
+      for (i = 0; i < unit.blocks.length; i++) {
+        var k = kindOf(unit.blocks[i]);
+        var rg = rangeOf(unit.blocks[i], k);
+        q.push({ b: i, orig: unit.blocks[i], node: unit.blocks[i], h: hs[i], d: null, a: rg[0], e: rg[1], kind: k });
+      }
+      var qi = 0;
+      while (qi < q.length) {
+        var it = q[qi];
+
+        /* عنوان: لا يبقى وحيدًا في آخر صفحة */
+        if (isHeading(it.node) && cur.items.length) {
+          var nx = q[qi + 1];
+          var nh = nx ? Math.min(nx.h, 100) : 0;
+          if (curH + it.h + nh > R.ch) { flush(); cur.ch = unit.n; continue; }
+        }
+
+        if (curH + it.h <= R.ch) {
+          /* it.d موجود إذا كان هذا الجزء بقية كتلة قُسِّمت: نحفظ وصفه لا 'full'
+             وإلا أعاد بناءُ الخطة عند التحميل التالي الكتلةَ كاملة (تكرار النص) */
+          cur.items.push({ u: ui, b: it.b, d: it.d || { k: 'full' }, node: it.node });
+          curH += it.h; qi++; continue;
+        }
+
+        /* لا يسع: قسّم إن أمكن */
+        if (cur.items.length) {
+          var sp = splitBlock(it.orig, it.kind, it.a, it.e, R.ch - curH);
+          if (sp) {
+            cur.items.push({ u: ui, b: it.b, d: sp[0].d, node: sp[0].node });
+            flush(); cur.ch = unit.n;
+            q[qi] = { b: it.b, orig: it.orig, node: sp[1].node, h: measureOne(sp[1].node),
+              d: sp[1].d, a: sp[1].d.a, e: (sp[1].d.e !== undefined ? sp[1].d.e : sp[1].d.b), kind: it.kind };
+            continue;
+          }
+          flush(); cur.ch = unit.n; continue;
+        }
+
+        /* صفحة فارغة ولا زال لا يسع */
+        var sp2 = splitBlock(it.orig, it.kind, it.a, it.e, R.ch);
+        if (sp2) {
+          cur.items.push({ u: ui, b: it.b, d: sp2[0].d, node: sp2[0].node });
+          flush(); cur.ch = unit.n;
+          q[qi] = { b: it.b, orig: it.orig, node: sp2[1].node, h: measureOne(sp2[1].node),
+            d: sp2[1].d, a: sp2[1].d.a, e: (sp2[1].d.e !== undefined ? sp2[1].d.e : sp2[1].d.b), kind: it.kind };
+          continue;
+        }
+        cur.items.push({ u: ui, b: it.b, d: { k: 'full' }, node: it.node });
+        curH += it.h; qi++;
+      }
+    }
+    flush();
+
+    R.pages = pages;
+    R.total = pages.length;
+    R.plan = {
+      v: 3, w: R.cw, h: R.ch, fs: R.fs, spread: R.spread,
+      chaps: R.chaps,
+      pages: pages.map(function (p) {
+        return { ch: p.ch, items: p.items.map(function (it) { return { u: it.u, b: it.b, d: it.d }; }) };
+      })
+    };
+  }
+
+  /* ---------- ١٠) الخطة المخزَّنة ---------- */
+  function planKey() { return 'ti_plan_' + PGID + '_' + R.cw + 'x' + R.ch + '_' + R.fs; }
+  function loadPlan() {
+    try {
+      var raw = localStorage.getItem(planKey());
+      if (!raw) return false;
+      var pl = JSON.parse(raw);
+      if (!pl || pl.v !== 3 || (pl.pages.length !== undefined && !pl.pages.length)) return false;
+      R.chaps = pl.chaps || [];
+      R.pages = pl.pages.map(function (p) {
+        return {
+          ch: p.ch,
+          items: p.items.map(function (it) {
+            return { u: it.u, b: it.b, d: it.d, node: buildNode(it.u, it.b, it.d) };
+          })
+        };
+      });
+      R.total = R.pages.length;
+      R.plan = pl;
+      return R.total > 0;
+    } catch (e) { return false; }
+  }
+  function savePlan() {
+    if (!R.plan) return;
+    try { localStorage.setItem(planKey(), JSON.stringify(R.plan)); }
+    catch (e) { /* المساحة ممتلئة: تجاهل */ }
+  }
+
+  /* ---------- ١١) العرض ---------- */
+  function mountPage(n) {
+    if (R.rendered[n]) return R.rendered[n];
+    var el = document.createElement('div');
+    el.className = 'rpage';
+    el.setAttribute('data-n', n);
+    var body = document.createElement('div');
+    body.className = 'rbody';
+    var foot = document.createElement('div');
+    foot.className = 'rpfoot';
+    /* عزل LTR: الأرقام العربية-الهندية تُرتَّب من اليمين فتنقلب «صفحة/إجمالي» */
+    foot.textContent = '\u2066' + arD(n + 1) + ' / ' + arD(R.total) + '\u2069';
+    el.appendChild(body); el.appendChild(foot);
+    R.pages[n].items.forEach(function (it) {
+      if (it.node.getAttribute) {
+        it.node.setAttribute('data-u', it.u);
+        it.node.setAttribute('data-b', it.b);
+      }
+      body.appendChild(it.node);
+    });
+    place(el, n);
+    stage.appendChild(el);
+    /* كتلة واحدة أطول من الصفحة ولا تُقسَّم (كالغلاف): اسمح بالتمرير داخلها فقط */
+    if (body.scrollHeight > body.clientHeight + 4 && R.pages[n].items.length === 1) body.classList.add('rflow');
+    R.rendered[n] = el;
+    return el;
+  }
+  function place(el, n) {
+    var x;
+    if (R.spread) x = (n % 2 === 0) ? (R.stageW - R.pageW - 10) : 10;
+    else x = Math.round((R.stageW - R.pageW) / 2);
+    el.style.left = x + 'px';
+    el.style.top = '4px';
+    el.style.width = R.pageW + 'px';
+    el.style.height = R.pageH + 'px';
+  }
+  function unmountAll() {
+    for (var k in R.rendered) {
+      var el = R.rendered[k];
+      if (el && el.parentNode) el.parentNode.removeChild(el);
+    }
+    R.rendered = {};
+  }
+  /* أرقام صفحات الفهرس تُحسب وقت التشغيل */
+  function fillToc() {
+    var links = document.querySelectorAll('.toclist a[href^="#"]');
+    if (!links.length) return;
+    var map = {}, k;
+    for (k in (R.partPages || {})) map[k] = R.partPages[k];
+    R.chaps.forEach(function (c) { map[c.id] = c.page; });
+    for (var i = 0; i < links.length; i++) {
+      var id = links[i].getAttribute('href').slice(1);
+      var pg = map[id];
+      if (!pg) continue;
+      var s = links[i].querySelector('.tpg');
+      if (!s) { s = document.createElement('span'); s.className = 'tpg'; links[i].appendChild(s); }
+      s.textContent = arD(pg);
+    }
+  }
+
+  function refreshPanel() {
+    var list = document.getElementById('rPlist');
+    if (!list) return;
+    list.innerHTML = '';
+    R.chaps.forEach(function (c) {
+      var a = document.createElement('a');
+      a.className = 'rpitem';
+      a.href = 'javascript:void(0)';
+      a.innerHTML = '<i>' + arD(c.page) + '</i><span>' + (c.ic ? c.ic + ' ' : '') + c.n + '</span>';
+      a.addEventListener('click', function () { closePanel(); goto(c.page - 1); });
+      list.appendChild(a);
+    });
+  }
+
+  function render() {
+    unmountAll();
+    var from = Math.max(0, R.cur - 2), to = Math.min(R.total - 1, R.cur + 2);
+    for (var i = from; i <= to; i++) {
+      var el = mountPage(i);
+      el.style.visibility = (i === R.cur) ? 'visible' : 'hidden';
+      el.style.zIndex = (i === R.cur) ? 3 : 1;
+    }
+    updateChrome();
+    fillToc();
+    refreshPanel();
+    checkOverflow();
+  }
+
+  /* إن تجاوز المحتوى حدود الصفحة: أعد الترقيم بقياس جديد، ثم قلّل الارتفاع إن لزم.
+     الحد الأقصى محاولتين ثم توقّف — وإلا دارت الحلقة بلا نهاية عند كتلة لا تُقسَّم. */
+  function checkOverflow() {
+    if (R.checking) return;
+    var over = 0;
+    for (var k in R.rendered) {
+      var b = R.rendered[k].querySelector('.rbody');
+      if (!b || b.classList.contains('rflow')) continue;
+      /* قِس آخر عنصر فعليًا: الهوامش الختامية لا تُحتسب فيضًا */
+      var last = b.lastElementChild;
+      if (!last) continue;
+      var d = Math.round(last.getBoundingClientRect().bottom - b.getBoundingClientRect().bottom);
+      if (d > 16) over = d;   /* تسامح: نزول الحروف العربية تحت السطر */
+    }
+    if (over <= 4) return;
+    if (R.ovN >= 2 || R.ch <= 142) return;
+    R.ovN = (R.ovN || 0) + 1;
+    R.checking = true;
+    if (!R.refixed) {
+      R.refixed = true;
+      paginate(); savePlan();
+    } else {
+      R.ch = Math.max(140, R.ch - over - 6);
+      stage.style.setProperty('--ch', R.ch + 'px');
+      paginate(); savePlan();
+    }
+    R.checking = false;
+    R.cur = Math.min(R.cur, R.total - 1);
+    setTimeout(render, 0);
+  }
+
+  function repaginate() {
+    var keep = R.cur;
+    paginate();
+    savePlan();
+    R.cur = Math.min(keep, R.total - 1);
+    render();
+  }
+
+  function updateChrome() {
+    var fr = R.total ? (R.cur + 1) / R.total : 0;
+    document.body.setAttribute('data-dbg', 'cur=' + R.cur + ' total=' + R.total +
+      ' rendered=' + Object.keys(R.rendered).join(',') + ' busy=' + R.busy +
+      ' pages=' + R.pages.length + ' ch=' + R.ch);
+    if (progEl) progEl.style.width = Math.round(fr * 100) + '%';
+    if (chapEl) chapEl.textContent = (R.pages[R.cur] && R.pages[R.cur].ch) || BOOK.n;
+    if (window.__paintProgress) window.__paintProgress(fr);
+    if (window.__setProgress) window.__setProgress(PGID, fr);
+    try { localStorage.setItem('ti_pos_' + PGID, String(R.cur + 1)); } catch (e) { }
+    if (prevBtn) prevBtn.disabled = (R.cur <= 0);
+    if (nextBtn) nextBtn.disabled = (R.cur >= R.total - 1);
+    var st = document.querySelector('[data-stat="pages"]');
+    if (st) st.textContent = arD(R.total);
+  }
+
+  /* ---------- ١٢) الانتقال ---------- */
+  function goto(n, hl) {
+    n = clamp(n, 0, R.total - 1);
+    if (n === R.cur && !hl) { return; }
+    R.cur = n;
+    render();
+    if (hl) setTimeout(function () { highlightPage(n, hl); }, 30);
+  }
+
+  /* ---------- ١٣) التقليب ---------- */
+  function startFlip(dir) {
+    if (R.busy) return false;
+    var dest = R.cur + dir;
+    if (dest < 0 || dest >= R.total) return false;
+    R.busy = true; R.dir = dir;
+
+    var destEl = mountPage(dest);
+    var curEl = R.rendered[R.cur];
+    leafFront.innerHTML = curEl ? curEl.querySelector('.rbody').innerHTML : '';
+    leafBack.innerHTML = '';
+    var x = Math.round((R.stageW - R.pageW) / 2);
+    leaf.style.width = R.pageW + 'px';
+    leaf.style.height = R.pageH + 'px';
+    leaf.style.left = x + 'px';
+    leaf.style.top = '4px';
+    leaf.style.transformOrigin = dir > 0 ? 'right center' : 'left center';
+    leaf.style.transition = 'none';
+    leaf.style.transform = 'rotateY(0deg)';
+    leaf.classList.toggle('prev', dir < 0);
+    leaf.classList.add('on');
+    if (curEl) { curEl.style.visibility = 'hidden'; curEl.style.zIndex = 1; }
+    destEl.style.visibility = 'visible';
+    destEl.style.zIndex = 2;
+    return true;
+  }
+  function setAngle(deg) {
+    leaf.style.transition = 'none';
+    leaf.style.transform = 'rotateY(' + deg + 'deg)';
+    var a = Math.abs(deg) / 180;
+    leaf.style.setProperty('--a', a.toFixed(3));
+  }
+  function commitFlip() {
+    leaf.style.transition = 'transform .40s cubic-bezier(.22,.68,.32,1)';
+    leaf.style.transform = 'rotateY(' + (R.dir > 0 ? 180 : -180) + 'deg)';
+    leaf.style.setProperty('--a', '1');
+    setTimeout(function () {
+      leaf.classList.remove('on');
+      leafFront.innerHTML = '';
+      R.cur = clamp(R.cur + R.dir, 0, R.total - 1);
+      R.busy = false; R.dir = 0;
+      render();
+    }, 420);
+  }
+  function cancelFlip() {
+    leaf.style.transition = 'transform .22s ease-out';
+    leaf.style.transform = 'rotateY(0deg)';
+    leaf.style.setProperty('--a', '0');
+    setTimeout(function () {
+      leaf.classList.remove('on');
+      leafFront.innerHTML = '';
+      R.busy = false; R.dir = 0;
+      render();
+    }, 240);
+  }
+  function flipTo(dir) {
+    try {
+      if (!startFlip(dir)) { document.body.setAttribute('data-dbg', 'flip-refused dir=' + dir + ' busy=' + R.busy + ' cur=' + R.cur + ' total=' + R.total); return; }
+      commitFlip();
+    } catch (err) {
+      document.body.setAttribute('data-dbg', 'flip-error ' + (err && err.message));
+    }
+  }
+
+  /* ---------- ١٤) اللمس والسحب ---------- */
+  function wire() {
+    stage.addEventListener('pointerdown', onDown, { passive: true });
+    window.addEventListener('pointermove', onMove, { passive: false });
+    window.addEventListener('pointerup', onUp, { passive: true });
+    window.addEventListener('pointercancel', onUp, { passive: true });
+
+    if (prevBtn) prevBtn.addEventListener('click', function () { flipTo(-1); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { flipTo(1); });
+    var menu = document.getElementById('rMenu');
+    if (menu) menu.addEventListener('click', openPanel);
+    var pbtn = document.getElementById('rProgBtn');
+    if (pbtn) pbtn.addEventListener('click', openPanel);
+
+    /* الروابط الداخلية (فهرس الفصول) تقفز إلى الصفحة */
+    stage.addEventListener('click', function (e) {
+      var a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+      e.preventDefault();
+      var id = a.getAttribute('href').slice(1);
+      var ci = R.chaps.filter(function (c) { return c.id === id; })[0];
+      if (ci) { closePanel(); goto(ci.page - 1); }
+    });
+
+    var t = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(t);
+      t = setTimeout(function () {
+        layout();
+        repaginate();
+      }, 220);
+    });
+
+    document.addEventListener('backbutton', function (e) {
+      if (R.cur > 0) { e.preventDefault(); goto(R.cur - 1); }
+      else { e.preventDefault(); location.href = 'index.html'; }
+    });
+  }
+
+  function onDown(e) {
+    if (R.busy) return;
+    if (e.target.closest('a,button,input,select')) return;
+    R.drag = { x0: e.clientX, y0: e.clientY, dir: 0, t0: Date.now(), active: false };
+  }
+  function onMove(e) {
+    if (!R.drag || R.busy) return;
+    var dx = e.clientX - R.drag.x0, dy = e.clientY - R.drag.y0;
+    if (!R.drag.active) {
+      if (Math.abs(dx) < 12 || Math.abs(dx) < Math.abs(dy)) return;
+      R.drag.active = true;
+      R.drag.dir = dx > 0 ? 1 : -1;
+      if (!startFlip(R.drag.dir)) { R.drag = null; return; }
+    }
+    e.preventDefault();
+    var deg = clamp((dx / R.pageW) * 180, -180, 180);
+    setAngle(deg);
+  }
+  function onUp(e) {
+    if (!R.drag) return;
+    var d = R.drag; R.drag = null;
+    if (!d.active) {
+      /* نقر على الحافة: يسار = التالي، يمين = السابق */
+      var r = stage.getBoundingClientRect();
+      var rel = (e.clientX - r.left) / r.width;
+      if (rel < 0.28) flipTo(1);
+      else if (rel > 0.72) flipTo(-1);
+      return;
+    }
+    var dx = e.clientX - d.x0;
+    var dt = Math.max(1, Date.now() - d.t0);
+    var fast = Math.abs(dx) / dt > 0.5;
+    var far = Math.abs(dx) > R.pageW * 0.24;
+    if ((fast || far) && Math.sign(dx) === d.dir) commitFlip();
+    else cancelFlip();
+  }
+
+  /* ---------- ١٥) لوحة الفهرس والذهاب إلى صفحة ---------- */
+  function buildPanel() {
+    var pan = document.createElement('div');
+    pan.className = 'rpanel';
+    pan.id = 'rPanel';
+    pan.innerHTML =
+      '<div class="rphead"><b>الذهاب إلى صفحة</b><button class="ib" id="rClose" title="إغلاق">✕</button></div>' +
+      '<div class="rpjump"><input type="number" id="rJumpIn" min="1" placeholder="رقم الصفحة">' +
+      '<button class="rpgo" id="rJumpGo">انتقل</button></div>' +
+      '<div class="rpfont"><span>حجم الخط</span>' +
+      '<button data-fs="0.9">ص</button><button data-fs="1">م</button>' +
+      '<button data-fs="1.12">ك</button><button data-fs="1.25">ج</button></div>' +
+      '<div class="rplist" id="rPlist"></div>' +
+      '<a class="rphome" href="index.html">فهرس الموسوعة</a>';
+    document.body.appendChild(pan);
+    refreshPanel();
+    document.getElementById('rClose').addEventListener('click', closePanel);
+    document.getElementById('rJumpGo').addEventListener('click', function () {
+      var v = parseInt(document.getElementById('rJumpIn').value, 10);
+      if (v >= 1 && v <= R.total) { closePanel(); goto(v - 1); }
+    });
+    pan.querySelectorAll('[data-fs]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        setFont(parseFloat(b.getAttribute('data-fs')));
+        closePanel();
+      });
+    });
+  }
+  function openPanel() {
+    var p = document.getElementById('rPanel');
+    if (!p) return;
+    p.classList.add('on');
+    var inp = document.getElementById('rJumpIn');
+    if (inp) { inp.max = R.total; inp.value = R.cur + 1; inp.focus(); }
+  }
+  function closePanel() {
+    var p = document.getElementById('rPanel');
+    if (p) p.classList.remove('on');
+  }
+
+  function setFont(fs) {
+    R.fs = fs;
+    try { localStorage.setItem('ti_font', String(fs)); } catch (e) { }
+    applyFont();
+    layout();
+    repaginate();
+  }
+
+  /* ---------- ١٦) البحث في نص الكتاب ---------- */
+  function normKeep(s) {
+    return s.replace(/[أإآ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه');
+  }
+  function buildIndex() {
+    if (R.index) return R.index;
+    var idx = [];
+    R.pages.forEach(function (p, pi) {
+      p.items.forEach(function (it) {
+        var t = it.node.textContent || '';
+        if (t.trim().length > 8) idx.push({ page: pi, u: it.u, b: it.b, text: t });
+      });
+    });
+    R.index = idx;
+    return idx;
+  }
+  function highlightPage(pageNo, q) {
+    var el = R.rendered[pageNo];
+    if (!el) return;
+    var nq = normKeep(q);
+    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+    var nodes = [], n;
+    while ((n = walker.nextNode())) if (n.nodeValue && n.nodeValue.trim()) nodes.push(n);
+    nodes.forEach(function (t) {
+      var s = t.nodeValue, low = normKeep(s);
+      var i = low.indexOf(nq);
+      if (i < 0) return;
+      var frag = document.createDocumentFragment(), last = 0, j = i;
+      while (j >= 0) {
+        frag.appendChild(document.createTextNode(s.slice(last, j)));
+        var mk = document.createElement('mark');
+        mk.textContent = s.substr(j, q.length);
+        frag.appendChild(mk);
+        last = j + q.length;
+        j = low.indexOf(nq, last);
+      }
+      frag.appendChild(document.createTextNode(s.slice(last)));
+      t.parentNode.replaceChild(frag, t);
+    });
+    var mk = el.querySelector('mark');
+    if (mk) mk.scrollIntoView({ block: 'center' });
+  }
+  window.__searchBook = function (q) {
+    var sb = document.getElementById('sb');
+    if (!sb) return;
+    var nq = normKeep(q.trim());
+    if (nq.length < 2) { sb.innerHTML = ''; return; }
+    var idx = buildIndex(), res = [], i;
+    for (i = 0; i < idx.length && res.length < 40; i++) {
+      var low = normKeep(idx[i].text);
+      var at = low.indexOf(nq);
+      if (at < 0) continue;
+      var st = Math.max(0, at - 40);
+      res.push({
+        page: idx[i].page, u: idx[i].u, b: idx[i].b,
+        snip: idx[i].text.substr(st, 130),
+        name: R.pages[idx[i].page] ? R.pages[idx[i].page].ch : BOOK.n
+      });
+    }
+    if (!res.length) {
+      sb.innerHTML = '<p style="text-align:center;color:var(--muted);padding:2rem">لا توجد نتائج</p>';
+      return;
+    }
+    var html = '';
+    res.forEach(function (r) {
+      var sn = escHtml(r.snip), at = normKeep(r.snip).indexOf(nq);
+      if (at >= 0) {
+        sn = escHtml(r.snip.slice(0, at)) + '<em>' + escHtml(r.snip.substr(at, q.length)) +
+          '</em>' + escHtml(r.snip.slice(at + q.length));
+      }
+      html += '<div class="res" data-p="' + r.page + '" data-q="' + escHtml(q) + '">' +
+        '<b>' + escHtml(r.name) + ' — صفحة ' + arD(r.page + 1) + '</b><small>' + sn + '</small></div>';
+    });
+    sb.innerHTML = html;
+    sb.querySelectorAll('.res').forEach(function (el) {
+      el.addEventListener('click', function () {
+        closeSearch();
+        goto(parseInt(el.getAttribute('data-p'), 10), el.getAttribute('data-q'));
+      });
+    });
+  };
+  function escHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  /* ---------- انطلاق ---------- */
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup);
+  else setup();
+})();
+
+
+/* ==========================================================
+   منطق الصفحات العادية (غير القارئ)
+   ========================================================== */
+(function () {
+  'use strict';
+  var PROG = 'ti_progress', STORE = 'ti_bookmarks';
+
+  /* ---------- قبة التقدم + الشريط العلوي + السيف ---------- */
+  function updateProgress() {
+    if (window.__READER__) return;
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? Math.min(1, Math.max(0, window.scrollY / h)) : 1;
+    if (window.__paintProgress) window.__paintProgress(p);
+    if (window.__setProgress) window.__setProgress(document.body.dataset.page, p);
+  }
+  var tick = false;
+  window.addEventListener('scroll', function () {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(function () { updateProgress(); tick = false; });
+  }, { passive: true });
+  updateProgress();
+
+  /* ---------- تقليب الصفحة عند الانتقال ---------- */
+  if (!window.__READER__) {
+    var flip = document.createElement('div');
+    flip.className = 'flip';
+    document.body.appendChild(flip);
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('a[href]');
+      if (!a) return;
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) === '#' || a.target === '_blank') return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+      e.preventDefault();
+      document.querySelector('main').classList.add('flip-out');
+      flip.classList.add('go');
+      setTimeout(function () { window.location.href = href; }, 320);
+    });
+  }
+
+  /* ---------- الخط الزمني الكبير: سحب بالماوس ---------- */
+  [].forEach.call(document.querySelectorAll('.bigtl'), function (el) {
+    var down = false, sx = 0, sl = 0;
+    el.addEventListener('pointerdown', function (e) {
+      down = true; sx = e.clientX; sl = el.scrollLeft;
+    });
+    window.addEventListener('pointermove', function (e) {
+      if (!down) return;
+      el.scrollLeft = sl - (e.clientX - sx);
+    });
+    window.addEventListener('pointerup', function () { down = false; });
+  });
+
+  /* ---------- ظهور بطاقات الأحداث تدريجياً ---------- */
+  var evs = document.querySelectorAll('.ev');
+  if ('IntersectionObserver' in window && evs.length) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: .08 });
+    evs.forEach(function (e) { io.observe(e); });
+  } else {
+    evs.forEach(function (e) { e.classList.add('in'); });
+  }
+
+  /* ---------- الخط الزمني: سحب وربط بالأحداث ---------- */
+  var tl = document.getElementById('tl');
+  if (tl) {
+    var btns = tl.querySelectorAll('.tli');
+    var grab = null, sx = 0, sl = 0;
+    tl.addEventListener('pointerdown', function (e) {
+      grab = tl.scrollLeft; sx = e.clientX; tl.style.cursor = 'grabbing';
+    });
+    window.addEventListener('pointermove', function (e) {
+      if (grab === null) return;
+      tl.scrollLeft = grab - (e.clientX - sx);
+    });
+    window.addEventListener('pointerup', function () { grab = null; tl.style.cursor = ''; });
+
+    btns.forEach(function (b, i) {
+      b.addEventListener('click', function () {
+        var t = document.getElementById(b.dataset.target);
+        if (!t) return;
+        t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        t.style.transition = 'box-shadow .3s';
+        t.style.boxShadow = '0 0 0 3px var(--gold)';
+        setTimeout(function () { t.style.boxShadow = ''; }, 1400);
+      });
+    });
+    var io2 = 'IntersectionObserver' in window ? new IntersectionObserver(function (en) {
+      en.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        btns.forEach(function (b) { b.classList.toggle('on', b.dataset.target === e.target.id); });
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' }) : null;
+    if (io2) evs.forEach(function (e) { io2.observe(e); });
+  }
+
+  /* ---------- تنقل بالكيبورد ---------- */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeSearch();
+  });
+
+  /* ---------- البحث داخل الصفحة ---------- */
+  var pan = document.getElementById('panel'), ov = document.getElementById('ov'),
+    q = document.getElementById('q'), out = document.getElementById('out');
+  var sb = document.getElementById('sb');
+  var sbOriginal = sb ? sb.innerHTML : '';
+
+  function norm(s) {
+    return s.replace(/[أإآ]/g, 'ا').replace(/[ىي]/g, 'ي').replace(/ة/g, 'ه')
+      .replace(/[ً-ْٰ]/g, '').replace(/\s+/g, ' ').trim();
+  }
+  window.openSearch = function () {
+    if (!pan) return;
+    pan.classList.add('on'); if (ov) ov.classList.add('on'); if (q) q.focus();
+  };
+  window.closeSearch = function () {
+    if (pan) pan.classList.remove('on'); if (ov) ov.classList.remove('on');
+  };
+  window.doSearch = function (v) {
+    if (v.length < 2) { if (sb) sb.innerHTML = sbOriginal; return; }
+    if (window.__searchBook) { window.__searchBook(v); return; }
+    if (!sb) return;
+    var nq = norm(v), html = '';
+    document.querySelectorAll('main section').forEach(function (sec) {
+      var h2 = sec.querySelector('h2.sec');
+      var title = h2 ? h2.childNodes[0].textContent.trim() : '';
+      sec.querySelectorAll('article.ev, .pc, .outs li, .src li, .tli').forEach(function (it) {
+        var txt = it.textContent.replace(/\s+/g, ' ');
+        if (norm(txt).indexOf(nq) >= 0) {
+          var at = txt.indexOf(v);
+          var snip = at >= 0
+            ? txt.substr(Math.max(0, at - 35), 110)
+            : txt.substr(0, 110);
+          html += '<div class="res" onclick="closeSearch();go(\'' + it.id + '\')">' +
+            '<b>' + esc(title || '') + '</b><small>' + hl(snip, v) + '</small></div>';
+        }
+      });
+    });
+    sb.innerHTML = html || '<p style="text-align:center;color:var(--muted);padding:2rem">لا توجد نتائج</p>';
+  };
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+  function hl(s, q2) {
+    var i = s.indexOf(q2);
+    if (i < 0) return esc(s);
+    return esc(s.slice(0, i)) + '<em>' + esc(s.substr(i, q2.length)) + '</em>' + esc(s.slice(i + q2.length));
+  }
+  window.go = function (id) {
+    var t = document.getElementById(id);
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+})();
+
+</script>
+</body>
+</html>
