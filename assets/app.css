@@ -276,7 +276,7 @@ main.flip-out{animation:flipB .3s ease forwards}
   padding:.18rem .5rem;border-radius:6px;flex:0 0 auto;margin-top:.25rem}
 .ch3 h3,.rbody h3{font-family:'Amiri',serif;font-size:1.35rem;color:var(--ink);line-height:1.6}
 .ch3 .lead,.rbody .lead{font-family:'Amiri',serif;font-size:1.12rem;line-height:2.05;
-  color:var(--c);font-weight:700;margin-bottom:.7rem}
+  color:var(--c);font-weight:700;margin-bottom:.7rem;text-align:right}
 .ch3 .ap,.rbody .ap{font-family:'Amiri',serif;font-size:1.1rem;line-height:2.15;
   text-align:justify;margin-bottom:.75rem}
 .ch3 .sub,.rbody .sub{font-family:'Amiri',serif;font-size:1.15rem;color:var(--c);
@@ -490,6 +490,20 @@ main.reader{max-width:none;margin:0;padding:0;flex:1;min-height:0;
 .rbody .ch3{border:0;background:transparent;box-shadow:none;padding:0;margin:0 0 .5rem}
 .rbody .ch3-h{border-bottom:1px solid var(--line);padding-bottom:.5rem;margin-bottom:.7rem}
 .rbody .part-h{margin:0 0 .6rem;padding-top:.4rem}
+/* غلاف الحقبة داخل القارئ: مضغوط ليدخل في صفحة واحدة بلا تمرير */
+.rbody .hero{padding:.9rem .8rem .7rem;margin:0;border-top-width:4px}
+.rbody .hero .ic{font-size:1.7rem}
+.rbody .hero h1{font-size:1.42rem;margin:.15rem 0 0}
+.rbody .hero .period{font-size:.78rem;margin-bottom:.35rem}
+.rbody .hero .intro{font-size:.86rem;line-height:1.72}
+.rbody .hero .orn{margin:.5rem auto;height:14px}
+/* غلاف القسم داخل القارئ: مضغوط ليدخل في صفحة واحدة بلا قصّ */
+.rbody .part-h .part-list{gap:.22rem;margin-top:.45rem}
+.rbody .part-h .part-list a{font-size:.66rem;padding:.1rem .5rem}
+.rbody .part-h p{font-size:.84rem;line-height:1.72;margin-top:.3rem}
+.rbody .part-h h2{font-size:1.28rem}
+.rbody .part-ic{font-size:1.5rem}
+.rpfoot span:nth-child(2){margin:0 .22rem}
 .rbody .tblwrap{overflow:hidden}
 .rbody .tblwrap table{min-width:0;width:100%;table-layout:auto}
 /* كسر الكلمات عند حدودها فقط: overflow-wrap:anywhere كان يقصّ «المرحلة» إلى «المر/حلة» */

@@ -374,7 +374,7 @@ function buildDeep(p) {
         u: 'c', id: ch.id, n: ch.n, ic: ch.ic || '', part: x.part.n, partId: x.part.id,
         h: `<article class="ch3" id="${esc(ch.id)}" data-toc="${esc(ch.n)}">
         <div class="ch3-h">
-          <span class="ch3-n">${pi + 1}.${ci + 1}</span>
+          <span class="ch3-n">${AR_DIG(pi + 1)}.${AR_DIG(ci + 1)}</span>
           <h3>${ch.ic ? ch.ic + ' ' : ''}${esc(ch.n)}</h3>
         </div>
         ${ch.lead ? (() => {

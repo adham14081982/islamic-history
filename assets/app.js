@@ -607,8 +607,14 @@ window.__READER__ = !!document.getElementById('book');
     body.className = 'rbody';
     var foot = document.createElement('div');
     foot.className = 'rpfoot';
-    /* عزل LTR: الأرقام العربية-الهندية تُرتَّب من اليمين فتنقلب «صفحة/إجمالي» */
-    foot.textContent = '\u2066' + arD(n + 1) + ' / ' + arD(R.total) + '\u2069';
+    /* عزل LTR: نضع كل جزء في عنصر مستقل حتى لا يعيد bidi ترتيب «صفحة/إجمالي» */
+    var fcur = document.createElement('span');
+    fcur.textContent = arD(n + 1);
+    var fsep = document.createElement('span');
+    fsep.textContent = ' / ';
+    var ftot = document.createElement('span');
+    ftot.textContent = arD(R.total);
+    foot.appendChild(fcur); foot.appendChild(fsep); foot.appendChild(ftot);
     el.appendChild(body); el.appendChild(foot);
     R.pages[n].items.forEach(function (it) {
       if (it.node.getAttribute) {
