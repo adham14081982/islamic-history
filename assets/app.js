@@ -478,12 +478,15 @@ window.__READER__ = !!document.getElementById('book');
     return w;
   }
   function splitToc(el, a, e, avail) {
+    var rows = tocRows(el);
     var lo = a + 1, hi = e - 1, best = -1;
     while (lo <= hi) {
       var mid = (lo + hi) >> 1;
       if (measureOne(buildToc(el, a, mid)) <= avail) { best = mid; lo = mid + 1; } else hi = mid - 1;
     }
     if (best < 0 || best <= a) return null;
+    /* لا تترك عنوان قسم وحده في آخر الصفحة بلا فصول */
+    while (best > a + 1 && rows[best - 1] && rows[best - 1].kind === 'p') best--;
     return [
       { d: { k: 'toc', a: a, b: best }, node: buildToc(el, a, best) },
       { d: { k: 'toc', a: best, b: e }, node: buildToc(el, best, e) }
@@ -622,7 +625,7 @@ window.__READER__ = !!document.getElementById('book');
     R.pages = pages;
     R.total = pages.length;
     R.plan = {
-      v: 5, w: R.cw, h: R.ch, fs: R.fs, spread: R.spread,
+      v: 6, w: R.cw, h: R.ch, fs: R.fs, spread: R.spread,
       sig: R.units.length + ':' + R.units.reduce(function (a, u) { return a + u.blocks.length; }, 0),
       chaps: R.chaps,
       pages: pages.map(function (p) {
@@ -638,7 +641,7 @@ window.__READER__ = !!document.getElementById('book');
       var raw = localStorage.getItem(planKey());
       if (!raw) return false;
       var pl = JSON.parse(raw);
-      if (!pl || pl.v !== 5 || (pl.pages.length !== undefined && !pl.pages.length)) return false;
+      if (!pl || pl.v !== 6 || (pl.pages.length !== undefined && !pl.pages.length)) return false;
       /* بصمة المحتوى: إذا تغيّر عدد الوحدات أو الكتل فالخطة قديمة ولا تصلح */
       var sig = R.units.length + ':' + R.units.reduce(function (a, u) { return a + u.blocks.length; }, 0);
       if (pl.sig !== sig) return false;
