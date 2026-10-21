@@ -1039,6 +1039,7 @@ window.__READER__ = !!document.getElementById('book');
     if (t === 'UL' || t === 'OL') return 'ls';
     if (el.classList.contains('tblwrap')) return 'tb';
     if (el.classList.contains('kbox')) return 'kb';
+    if (el.classList.contains('toc')) return 'toc';
     if (el.classList.contains('res')) return 'tx';
     if (el.classList.contains('people')) return 'ls';
     if (el.classList.contains('toclist')) return 'ls';
@@ -1064,6 +1065,7 @@ window.__READER__ = !!document.getElementById('book');
   function rangeOf(el, kind) {
     if (kind === 'tx' || kind === 'qt') return [0, textOf(el).length];
     if (kind === 'ls') return [0, listHost(el).children.length];
+    if (kind === 'toc') return [0, tocRows(el).length];
     if (kind === 'tb') return [0, el.querySelectorAll('tbody tr').length];
     if (kind === 'kb') {
       var g = el.querySelector('.kgrid3');
@@ -1158,6 +1160,7 @@ window.__READER__ = !!document.getElementById('book');
     if (kind === 'tb') return splitTable(el, a, e, avail);
     if (kind === 'ls') return splitList(el, a, e, avail);
     if (kind === 'kb') return splitKbox(el, a, e, avail);
+    if (kind === 'toc') return splitToc(el, a, e, avail);
     return null;
   }
 
@@ -1207,6 +1210,63 @@ window.__READER__ = !!document.getElementById('book');
     return [
       { d: { k: 'ls', a: a, b: best }, node: build(a, best) },
       { d: { k: 'ls', a: best, b: e }, node: build(best, e) }
+    ];
+  }
+
+  /* فهرس الفصول: يُقسَّم بالصفوف، مع تكرار عنوان القسم في الصفحة التالية */
+  function tocRows(el) {
+    var host = listHost(el), rows = [];
+    Array.prototype.slice.call(host.children).forEach(function (li) {
+      var ul = (li.classList && li.classList.contains('toc-part')) ? li.querySelector('ul') : null;
+      if (ul) {
+        rows.push({ kind: 'p', node: li });
+        Array.prototype.slice.call(ul.children).forEach(function (c) { rows.push({ kind: 'c', node: c }); });
+      } else rows.push({ kind: 'c', node: li });
+    });
+    return rows;
+  }
+  function buildToc(el, a, b) {
+    var rows = tocRows(el);
+    var w = el.cloneNode(true);
+    var host = listHost(w);
+    host.innerHTML = '';
+    var start = a, k;
+    /* إن بدأت الصفحة بفصلٍ بعيد عن عنوان قسمه، أعد العنوان معه */
+    if (start > 0 && rows[start] && rows[start].kind === 'c') {
+      for (k = start - 1; k >= 0; k--) if (rows[k].kind === 'p') { start = k; break; }
+    }
+    var curUl = null;
+    for (var i = start; i < b; i++) {
+      var r = rows[i];
+      if (r.kind === 'p') {
+        var li = r.node.cloneNode(true);
+        var ul = li.querySelector('ul');
+        if (ul) ul.innerHTML = '';
+        curUl = ul;
+        host.appendChild(li);
+      } else {
+        if (!curUl) {
+          curUl = document.createElement('ul');
+          var holder = document.createElement('li');
+          holder.className = 'toc-part toc-cont';
+          holder.appendChild(curUl);
+          host.appendChild(holder);
+        }
+        curUl.appendChild(r.node.cloneNode(true));
+      }
+    }
+    return w;
+  }
+  function splitToc(el, a, e, avail) {
+    var lo = a + 1, hi = e - 1, best = -1;
+    while (lo <= hi) {
+      var mid = (lo + hi) >> 1;
+      if (measureOne(buildToc(el, a, mid)) <= avail) { best = mid; lo = mid + 1; } else hi = mid - 1;
+    }
+    if (best < 0 || best <= a) return null;
+    return [
+      { d: { k: 'toc', a: a, b: best }, node: buildToc(el, a, best) },
+      { d: { k: 'toc', a: best, b: e }, node: buildToc(el, best, e) }
     ];
   }
 
@@ -1264,6 +1324,7 @@ window.__READER__ = !!document.getElementById('book');
       if (d.a > 0) { var tt = k.querySelector('.bt'); if (tt) tt.remove(); }
       return k;
     }
+    if (d.k === 'toc') return buildToc(el, d.a, d.b);
     return el;
   }
 
@@ -1341,7 +1402,8 @@ window.__READER__ = !!document.getElementById('book');
     R.pages = pages;
     R.total = pages.length;
     R.plan = {
-      v: 3, w: R.cw, h: R.ch, fs: R.fs, spread: R.spread,
+      v: 5, w: R.cw, h: R.ch, fs: R.fs, spread: R.spread,
+      sig: R.units.length + ':' + R.units.reduce(function (a, u) { return a + u.blocks.length; }, 0),
       chaps: R.chaps,
       pages: pages.map(function (p) {
         return { ch: p.ch, items: p.items.map(function (it) { return { u: it.u, b: it.b, d: it.d }; }) };
@@ -1356,7 +1418,10 @@ window.__READER__ = !!document.getElementById('book');
       var raw = localStorage.getItem(planKey());
       if (!raw) return false;
       var pl = JSON.parse(raw);
-      if (!pl || pl.v !== 3 || (pl.pages.length !== undefined && !pl.pages.length)) return false;
+      if (!pl || pl.v !== 5 || (pl.pages.length !== undefined && !pl.pages.length)) return false;
+      /* بصمة المحتوى: إذا تغيّر عدد الوحدات أو الكتل فالخطة قديمة ولا تصلح */
+      var sig = R.units.length + ':' + R.units.reduce(function (a, u) { return a + u.blocks.length; }, 0);
+      if (pl.sig !== sig) return false;
       R.chaps = pl.chaps || [];
       R.pages = pl.pages.map(function (p) {
         return {

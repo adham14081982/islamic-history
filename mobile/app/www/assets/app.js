@@ -561,7 +561,8 @@ window.__READER__ = !!document.getElementById('book');
     R.pages = pages;
     R.total = pages.length;
     R.plan = {
-      v: 3, w: R.cw, h: R.ch, fs: R.fs, spread: R.spread,
+      v: 4, w: R.cw, h: R.ch, fs: R.fs, spread: R.spread,
+      sig: R.units.length + ':' + R.units.reduce(function (a, u) { return a + u.blocks.length; }, 0),
       chaps: R.chaps,
       pages: pages.map(function (p) {
         return { ch: p.ch, items: p.items.map(function (it) { return { u: it.u, b: it.b, d: it.d }; }) };
@@ -576,7 +577,10 @@ window.__READER__ = !!document.getElementById('book');
       var raw = localStorage.getItem(planKey());
       if (!raw) return false;
       var pl = JSON.parse(raw);
-      if (!pl || pl.v !== 3 || (pl.pages.length !== undefined && !pl.pages.length)) return false;
+      if (!pl || pl.v !== 4 || (pl.pages.length !== undefined && !pl.pages.length)) return false;
+      /* بصمة المحتوى: إذا تغيّر عدد الوحدات أو الكتل فالخطة قديمة ولا تصلح */
+      var sig = R.units.length + ':' + R.units.reduce(function (a, u) { return a + u.blocks.length; }, 0);
+      if (pl.sig !== sig) return false;
       R.chaps = pl.chaps || [];
       R.pages = pl.pages.map(function (p) {
         return {
@@ -607,8 +611,14 @@ window.__READER__ = !!document.getElementById('book');
     body.className = 'rbody';
     var foot = document.createElement('div');
     foot.className = 'rpfoot';
-    /* عزل LTR: الأرقام العربية-الهندية تُرتَّب من اليمين فتنقلب «صفحة/إجمالي» */
-    foot.textContent = '\u2066' + arD(n + 1) + ' / ' + arD(R.total) + '\u2069';
+    /* عزل LTR: نضع كل جزء في عنصر مستقل حتى لا يعيد bidi ترتيب «صفحة/إجمالي» */
+    var fcur = document.createElement('span');
+    fcur.textContent = arD(n + 1);
+    var fsep = document.createElement('span');
+    fsep.textContent = ' / ';
+    var ftot = document.createElement('span');
+    ftot.textContent = arD(R.total);
+    foot.appendChild(fcur); foot.appendChild(fsep); foot.appendChild(ftot);
     el.appendChild(body); el.appendChild(foot);
     R.pages[n].items.forEach(function (it) {
       if (it.node.getAttribute) {
