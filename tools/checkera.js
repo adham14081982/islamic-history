@@ -6,7 +6,8 @@ const fs = require('fs');
 const path = require('path');
 const root = path.join(__dirname, '..');
 const eraDir = path.join(root, 'data', 'era');
-const only = process.argv.slice(2);
+/* «all» كلمة تعني: افحص كل العصور — لا تُستخدم كمرشّح */
+const only = process.argv.slice(2).filter(o => o !== 'all');
 
 if (!fs.existsSync(eraDir)) { console.log('لا مجلد data/era'); process.exit(0); }
 

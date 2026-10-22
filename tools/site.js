@@ -150,9 +150,9 @@ ${PROGRESSBAR}
     <p class="intro">${ar(p.intro)}</p>
     ${ORN}
     <div class="stats" style="display:flex;justify-content:center;gap:1.4rem;flex-wrap:wrap;font-size:.78rem;color:var(--muted)">
-      <span><b style="color:${esc(p.c)};font-size:1.3rem">${(p.events || []).length}</b> حدثاً</span>
-      <span><b style="color:${esc(p.c)};font-size:1.3rem">${(p.people || []).length}</b> شخصية</span>
-      <span><b style="color:${esc(p.c)};font-size:1.3rem">${(p.timeline || []).length}</b> محطة زمنية</span>
+      <span><b style="color:${esc(p.c)};font-size:1.3rem">${AR_DIG((p.events || []).length)}</b> حدثاً</span>
+      <span><b style="color:${esc(p.c)};font-size:1.3rem">${AR_DIG((p.people || []).length)}</b> شخصية</span>
+      <span><b style="color:${esc(p.c)};font-size:1.3rem">${AR_DIG((p.timeline || []).length)}</b> محطة زمنية</span>
     </div>
   </section>
 
@@ -160,7 +160,7 @@ ${PROGRESSBAR}
   <div class="tlwrap"><div class="tl" id="tl">${timeline}</div></div>
   ${ORN}
 
-  <h2 class="sec">أهم الأحداث <span class="n">${(p.events || []).length} حدثاً</span></h2>
+  <h2 class="sec">أهم الأحداث <span class="n">${AR_DIG((p.events || []).length)} حدثاً</span></h2>
   <section>${events}</section>
 
   <h2 class="sec">أهم الشخصيات</h2>
@@ -195,7 +195,7 @@ function buildHome() {
       <b>${esc(p.n)}</b>
       <small>${ar(p.period)}</small>
       <div class="pg"><i id="pg-${p.id}"></i></div>
-      <small style="margin-top:.35rem;color:${esc(p.c)};font-weight:700">${(p.events || []).length} حدثاً</small>
+      <small style="margin-top:.35rem;color:${esc(p.c)};font-weight:700">${AR_DIG((p.events || []).length)} حدثاً</small>
       <span class="done" id="dn-${p.id}">★</span>
     </a>`).join('');
 
@@ -230,7 +230,7 @@ ${PROGRESSBAR}
     ${FRAME_1}
     <div class="ic">📜</div>
     <h1>موسوعة تاريخ الإسلام</h1>
-    <div class="period">${pages.length} حقبة · من قبل الإسلام إلى اليوم</div>
+    <div class="period">${AR_DIG(pages.length)} حقبة · من قبل الإسلام إلى اليوم</div>
     <p class="intro">موسوعة مختصرة تروي تاريخ الإسلام في صفحات مستقلة: ماذا حدث؟ ومتى؟ ومن الشخصيات؟ وما نتيجته؟
     اختر حقبة لتقرأ أهم أحداثها وشخصياتها ونتائجها في دقائق.</p>
     ${ORN}
@@ -471,6 +471,18 @@ const inline = html => html
 fs.writeFileSync(path.join(root, 'index.html'), inline(buildHome()), 'utf8');
 for (const p of pages) {
   fs.writeFileSync(path.join(root, p.file), inline(p.parts ? buildDeep(p) : buildPage(p)), 'utf8');
+}
+
+/* أيقونات الفافيكون: WebView يطلبها من جذر www فيرمي FileNotFoundException إن غابت */
+const FAV = ['favicon.ico', 'favicon.png', 'favicon_32.png', 'favicon_64.png', 'apple-touch-icon_180.png'];
+const wwwDir = path.join(root, 'mobile', 'app', 'www');
+if (fs.existsSync(wwwDir)) {
+  let n = 0;
+  FAV.forEach(f => {
+    const src = path.join(root, f);
+    if (fs.existsSync(src)) { fs.copyFileSync(src, path.join(wwwDir, f)); n++; }
+  });
+  console.log('✔ نُسخت ' + n + ' أيقونة إلى mobile/app/www/');
 }
 
 console.log(pages.map(p => (p.file + ' ').padEnd(20) +
