@@ -2,7 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script>try{if(localStorage.getItem('ti_theme')==='1')document.documentElement.classList.add('dark')}catch(e){}</script>
 <meta name="description" content="قامت دولة المماليك في مصر سنة 1250م حين تولى أمرها من الأيوبيين عبيد أتراك دربوا على القتال، وبقيت قائمة نحو أربعة قرون حتى هزمها السلطان العثماني سلي">
 <title>المماليك وعالم الشرق | موسوعة تاريخ الإسلام</title>
 <link rel="preload" href="assets/fonts/amiri-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -29,7 +30,7 @@
 body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--ink);
   min-height:100vh;line-height:1.9;transition:.3s}
 
-body.dark{--paper:#201E1A;--cream:#161512;--ink:#E8E1D2;--muted:#A79E8B;
+html.dark body,body.dark{--paper:#201E1A;--cream:#161512;--ink:#E8E1D2;--muted:#A79E8B;
   --line:#3A362C;--shadow:0 4px 18px rgba(0,0,0,.35)}
 
 main{max-width:820px;margin:0 auto;padding:1.2rem 1.1rem 5rem}
@@ -41,7 +42,7 @@ header.top{position:sticky;top:0;z-index:60;display:flex;align-items:center;
 .brand{font-family:'Amiri',serif;font-weight:700;font-size:1.02rem;color:var(--ink);
   text-decoration:none;display:flex;align-items:center;gap:.4rem}
 .tools{display:flex;align-items:center;gap:.5rem}
-.ib{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
+.ib{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);
   background:transparent;color:var(--ink);font-size:1.05rem;cursor:pointer;
   display:grid;place-items:center;transition:.2s}
 .ib:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
@@ -176,6 +177,7 @@ main{animation:pageIn .4s ease}
 .res b{display:block;color:var(--c);font-size:.95rem}
 .res small{color:var(--muted);font-size:.78rem;line-height:1.6}
 .res em{font-style:normal;background:rgba(184,148,47,.22);border-radius:3px;padding:0 2px}
+.nores{text-align:center;color:var(--muted);padding:2rem}
 
 @media(max-width:420px){
   main{padding:.9rem .8rem 4rem}
@@ -280,7 +282,7 @@ main.flip-out{animation:flipB .3s ease forwards}
 /* الفصل */
 .ch3{position:relative;background:var(--paper);border:1px solid var(--line);
   border-radius:16px;padding:1.3rem 1.2rem;margin-bottom:1.1rem;box-shadow:var(--shadow)}
-.ch3-h{display:flex;align-items:flex-start;gap:.6rem;margin-bottom:.7rem;
+.ch3-h{display:block;margin-bottom:.7rem;
   padding-bottom:.6rem;border-bottom:1px solid var(--line)}
 .ch3-n{background:var(--c);color:#fff;font-size:.72rem;font-weight:700;
   padding:.18rem .5rem;border-radius:6px;flex:0 0 auto;margin-top:.25rem}
@@ -443,14 +445,25 @@ main.reader{max-width:none;margin:0;padding:0;flex:1;min-height:0;
 .rstage{position:relative;flex:1;min-height:0;overflow:hidden;
   perspective:2200px;perspective-origin:50% 50%;touch-action:pan-y}
 
+/* طبقة انتظار الترقيم: تختفي حين يجهز القارئ */
+.rload{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:.8rem;color:var(--muted);
+  font-size:1rem;transition:opacity .3s}
+.rload i{font-style:normal;font-size:2.2rem;animation:rloadPulse 1.2s ease-in-out infinite}
+@keyframes rloadPulse{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.15);opacity:1}}
+body.rready .rload{opacity:0;pointer-events:none}
+
 /* الصفحة */
 .rpage{position:absolute;display:flex;flex-direction:column;overflow:hidden;
   background:var(--paper);border:1px solid var(--line);border-radius:10px;
   box-shadow:0 6px 22px rgba(80,60,20,.12)}
 .rbody{flex:1;min-height:0;overflow:hidden;padding:12px 20px}
-.rpfoot{flex:0 0 auto;height:26px;display:flex;align-items:center;justify-content:center;
+.rpfoot{position:relative;flex:0 0 auto;height:26px;display:flex;align-items:center;justify-content:center;
   font-size:.72rem;color:var(--muted);border-top:1px solid var(--line);
   direction:ltr;unicode-bidi:isolate}
+.rpch{position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  font-size:.66rem;color:var(--muted);opacity:.9;direction:rtl;white-space:nowrap;
+  unicode-bidi:isolate;background:rgba(184,148,47,.1);border-radius:20px;padding:.05rem .45rem}
 
 /* حاوية القياس (خارج الشاشة) */
 .rmeas{position:absolute;left:-99999px;top:0;visibility:hidden;pointer-events:none}
@@ -514,9 +527,9 @@ main.reader{max-width:none;margin:0;padding:0;flex:1;min-height:0;
 
 /* داخل الصفحة: إزالة إطار الفصل، وتوسيط الجدول بلا تمرير أفقي */
 .rbody .ch3{border:0;background:transparent;box-shadow:none;padding:.2rem 0 0;margin:0 0 .5rem}
-.rbody .ch3-h{border:0;padding:.1rem 0 .25rem;margin:0 0 1.15rem}
+.rbody .ch3-h{border:0;padding:.1rem 0 .25rem;margin:0 0 1.15rem;display:block}
 .rbody .ch3-h h3{font-family:'Amiri',serif;font-size:1.58rem;font-weight:700;
-  color:var(--c);line-height:1.5}
+  color:var(--c);line-height:1.5;flex:1 1 auto;min-width:0}
 .rbody .cho-top{font-size:.68rem;margin-bottom:.4rem}
 .rbody .cho-num{font-size:1.5rem}
 .rbody .part-h{margin:0 0 .6rem;padding-top:.4rem}
@@ -577,17 +590,18 @@ main.reader{max-width:none;margin:0;padding:0;flex:1;min-height:0;
 <header class="top reading">
   <a class="brand" href="index.html"><span class="bic">📜</span><span class="rbrand" id="rBrand"></span></a>
   <div class="tools">
-    <button class="ib" id="rMenu" title="الفهرس والذهاب إلى صفحة">☰</button>
+    <button class="ib" id="rMenu" title="الفهرس والذهاب إلى صفحة" aria-label="الفهرس والذهاب إلى صفحة">☰</button>
     <span class="dome" title="نسبة إكمالك للصفحة"><svg viewBox="0 0 40 46" fill="none">
 <path d="M4 42V22a16 16 0 0 1 32 0v20z" fill="none" stroke="var(--gold)" stroke-width="1.4" opacity=".45"/>
 <path class="fill" d="M4 42V22a16 16 0 0 1 32 0v20z" fill="var(--gold)" opacity=".2"/></svg></span>
-    <button class="ib" onclick="openSearch()" title="بحث">🔍</button>
-    <button class="ib" id="favBtn" title="حفظ">☆</button>
-    <button class="ib" id="themeBtn" title="الوضع الليلي">🌙</button>
+    <button class="ib" onclick="openSearch()" title="بحث" aria-label="بحث">🔍</button>
+    <button class="ib" id="favBtn" title="حفظ في المفضلة" aria-label="حفظ في المفضلة">☆</button>
+    <button class="ib" id="themeBtn" title="الوضع الليلي" aria-label="تبديل الوضع الليلي">🌙</button>
   </div>
 </header>
 <div class="topbar"><i></i></div>
 <main class="reader" id="reader">
+  <div class="rload" id="rLoad"><i>📖</i>جاري تجهيز الكتاب…</div>
   <div class="rstage" id="rStage">
     <div class="rleaf" id="rLeaf">
       <div class="rface rfront" id="rFront"></div>
@@ -595,9 +609,9 @@ main.reader{max-width:none;margin:0;padding:0;flex:1;min-height:0;
     </div>
   </div>
   <div class="rfoot">
-    <button class="rnav" id="rPrev" title="الصفحة السابقة">السابق</button>
-    <button class="rprog" id="rProgBtn" title="اذهب إلى صفحة"><i id="rProg"></i></button>
-    <button class="rnav" id="rNext" title="الصفحة التالية">التالي</button>
+    <button class="rnav" id="rPrev" title="الصفحة السابقة" aria-label="الصفحة السابقة">السابق</button>
+    <button class="rprog" id="rProgBtn" title="اذهب إلى صفحة" aria-label="اذهب إلى صفحة"><i id="rProg"></i></button>
+    <button class="rnav" id="rNext" title="الصفحة التالية" aria-label="الصفحة التالية">التالي</button>
   </div>
 </main>
 <div class="ov" id="ov" onclick="closeSearch()"></div>
@@ -628,14 +642,15 @@ window.__READER__ = !!document.getElementById('book');
   window.arDigits = arDigits;
 
   /* ---------- الوضع الليلي ---------- */
+  /* الكلاس يوضع على <html> حتى يعمل السكريبت المبكر في <head> قبل رسم الصفحة بلا وميض */
   function applyTheme(d) {
-    document.body.classList.toggle('dark', d);
+    document.documentElement.classList.toggle('dark', d);
     var b = document.getElementById('themeBtn');
     if (b) b.textContent = d ? '☀️' : '🌙';
   }
   var th = document.getElementById('themeBtn');
   if (th) th.addEventListener('click', function () {
-    var d = !document.body.classList.contains('dark');
+    var d = !document.documentElement.classList.contains('dark');
     applyTheme(d); localStorage.setItem(THEME, d ? '1' : '0');
   });
   applyTheme(localStorage.getItem(THEME) === '1');
@@ -793,6 +808,8 @@ window.__READER__ = !!document.getElementById('book');
       render();
       buildPanel();
       wire();
+      var ld = document.getElementById('rLoad');
+      if (ld) ld.remove();
       document.body.classList.add('rready');
     }
 
@@ -838,7 +855,7 @@ window.__READER__ = !!document.getElementById('book');
       var root = tpl.content.firstElementChild;
       var blocks = u.one ? [root] : Array.prototype.slice.call(root.children)
         .filter(function (el) { return !(el.matches && el.matches('.crn,.orn,.porn,svg')); });
-      return { ui: ui, u: u.u, id: u.id, n: u.n, ic: u.ic || '', blocks: blocks };
+      return { ui: ui, u: u.u, id: u.id, n: u.n, ic: u.ic || '', part: u.partId || '', blocks: blocks };
     });
   }
 
@@ -1180,7 +1197,7 @@ window.__READER__ = !!document.getElementById('book');
       var unit = R.units[ui];
       flush();
       cur.ch = unit.n;
-      if (unit.u === 'c') R.chaps.push({ id: unit.id, n: unit.n, ic: unit.ic, page: pages.length + 1 });
+      if (unit.u === 'c') R.chaps.push({ id: unit.id, n: unit.n, ic: unit.ic, part: unit.part, page: pages.length + 1 });
       if (unit.u === 'p') R.partPages[unit.id] = pages.length + 1;
 
       var hs = measureAll(unit.blocks);
@@ -1238,8 +1255,17 @@ window.__READER__ = !!document.getElementById('book');
 
     R.pages = pages;
     R.total = pages.length;
+
+    /* ترتيب الفصل داخل قسمه: «الفصل ٣ من ٧» — يُحسب مرة واحدة بعد الترقيم */
+    var perPart = {}, seenPart = {};
+    R.chaps.forEach(function (c) { perPart[c.part] = (perPart[c.part] || 0) + 1; });
+    R.chaps.forEach(function (c) {
+      seenPart[c.part] = (seenPart[c.part] || 0) + 1;
+      c.ci = seenPart[c.part]; c.cn = perPart[c.part];
+    });
+
     R.plan = {
-      v: 7, w: R.cw, h: R.ch, fs: R.fs, spread: R.spread,
+      v: 8, w: R.cw, h: R.ch, fs: R.fs, spread: R.spread,
       sig: R.units.length + ':' + R.units.reduce(function (a, u) { return a + u.blocks.length; }, 0),
       chaps: R.chaps,
       pages: pages.map(function (p) {
@@ -1255,7 +1281,7 @@ window.__READER__ = !!document.getElementById('book');
       var raw = localStorage.getItem(planKey());
       if (!raw) return false;
       var pl = JSON.parse(raw);
-      if (!pl || pl.v !== 7 || (pl.pages.length !== undefined && !pl.pages.length)) return false;
+      if (!pl || pl.v !== 8 || (pl.pages.length !== undefined && !pl.pages.length)) return false;
       /* بصمة المحتوى: إذا تغيّر عدد الوحدات أو الكتل فالخطة قديمة ولا تصلح */
       var sig = R.units.length + ':' + R.units.reduce(function (a, u) { return a + u.blocks.length; }, 0);
       if (pl.sig !== sig) return false;
@@ -1275,11 +1301,33 @@ window.__READER__ = !!document.getElementById('book');
   }
   function savePlan() {
     if (!R.plan) return;
-    try { localStorage.setItem(planKey(), JSON.stringify(R.plan)); }
-    catch (e) { /* المساحة ممتلئة: تجاهل */ }
+    var key = planKey();
+    /* لا نحتفظ إلا بخطة واحدة لكل كتاب: المقاسات/الخط الأقدم بلا فائدة ويملأ المساحة */
+    for (var i = localStorage.length - 1; i >= 0; i--) {
+      var k = localStorage.key(i);
+      if (k && k.indexOf('ti_plan_' + PGID + '_') === 0 && k !== key) localStorage.removeItem(k);
+    }
+    try { localStorage.setItem(key, JSON.stringify(R.plan)); }
+    catch (e) {
+      /* المساحة ممتلئة: امسح خطط الكتب الأخرى وحاول مرة أخرى */
+      for (var j = localStorage.length - 1; j >= 0; j--) {
+        var k2 = localStorage.key(j);
+        if (k2 && k2.indexOf('ti_plan_') === 0 && k2 !== key) localStorage.removeItem(k2);
+      }
+      try { localStorage.setItem(key, JSON.stringify(R.plan)); } catch (e2) { }
+    }
   }
 
   /* ---------- ١١) العرض ---------- */
+  /* الفصل الذي تنتمي إليه الصفحة n + موضع الصفحة داخله */
+  function chapAt(n) {
+    var best = null, bi = -1, i;
+    for (i = 0; i < R.chaps.length; i++) if (R.chaps[i].page - 1 <= n) { best = R.chaps[i]; bi = i; }
+    if (!best) return null;
+    var start = best.page - 1;
+    var end = (bi + 1 < R.chaps.length ? R.chaps[bi + 1].page - 1 : R.total);
+    return { c: best, i: n - start + 1, n: end - start };
+  }
   function mountPage(n) {
     if (R.rendered[n]) return R.rendered[n];
     var el = document.createElement('div');
@@ -1297,6 +1345,14 @@ window.__READER__ = !!document.getElementById('book');
     var ftot = document.createElement('span');
     ftot.textContent = arD(R.total);
     foot.appendChild(fcur); foot.appendChild(fsep); foot.appendChild(ftot);
+    /* تقدّم القراءة داخل الفصل: «٣ من ١٢» (أرقام بين كلمات عربية = بلا اختلال bidi) */
+    var ca = chapAt(n);
+    if (ca && ca.n > 1) {
+      var chp = document.createElement('span');
+      chp.className = 'rpch';
+      chp.textContent = arD(ca.i) + ' من ' + arD(ca.n);
+      foot.appendChild(chp);
+    }
     el.appendChild(body); el.appendChild(foot);
     R.pages[n].items.forEach(function (it) {
       if (it.node.getAttribute) {
@@ -1408,9 +1464,10 @@ window.__READER__ = !!document.getElementById('book');
     render();
   }
 
+  var DBG = /[?&#]debug/.test(location.href);
   function updateChrome() {
     var fr = R.total ? (R.cur + 1) / R.total : 0;
-    document.body.setAttribute('data-dbg', 'cur=' + R.cur + ' total=' + R.total +
+    if (DBG) document.body.setAttribute('data-dbg', 'cur=' + R.cur + ' total=' + R.total +
       ' rendered=' + Object.keys(R.rendered).join(',') + ' busy=' + R.busy +
       ' pages=' + R.pages.length + ' ch=' + R.ch);
     if (progEl) progEl.style.width = Math.round(fr * 100) + '%';
@@ -1492,10 +1549,10 @@ window.__READER__ = !!document.getElementById('book');
   }
   function flipTo(dir) {
     try {
-      if (!startFlip(dir)) { document.body.setAttribute('data-dbg', 'flip-refused dir=' + dir + ' busy=' + R.busy + ' cur=' + R.cur + ' total=' + R.total); return; }
+      if (!startFlip(dir)) { if (DBG) document.body.setAttribute('data-dbg', 'flip-refused dir=' + dir + ' busy=' + R.busy + ' cur=' + R.cur + ' total=' + R.total); return; }
       commitFlip();
     } catch (err) {
-      document.body.setAttribute('data-dbg', 'flip-error ' + (err && err.message));
+      if (DBG) document.body.setAttribute('data-dbg', 'flip-error ' + (err && err.message));
     }
   }
 
@@ -1512,6 +1569,23 @@ window.__READER__ = !!document.getElementById('book');
     if (menu) menu.addEventListener('click', openPanel);
     var pbtn = document.getElementById('rProgBtn');
     if (pbtn) pbtn.addEventListener('click', openPanel);
+
+    /* كيبورد: الأسهم تقلّب الصفحات (RTL: اليسار تالٍ) */
+    document.addEventListener('keydown', function (e) {
+      if (e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+      if (e.key === 'ArrowLeft') flipTo(1);
+      else if (e.key === 'ArrowRight') flipTo(-1);
+      else if (e.key === 'PageDown') flipTo(1);
+      else if (e.key === 'PageUp') flipTo(-1);
+    });
+
+    /* عجلة الماوس الأفقية تقلّب الصفحات */
+    stage.addEventListener('wheel', function (e) {
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      if (R.busy) return;
+      e.preventDefault();
+      flipTo(e.deltaX < 0 ? 1 : -1);
+    }, { passive: false });
 
     /* الروابط الداخلية (فهرس الفصول) تقفز إلى الصفحة */
     stage.addEventListener('click', function (e) {
@@ -1585,8 +1659,8 @@ window.__READER__ = !!document.getElementById('book');
       '<div class="rpjump"><input type="number" id="rJumpIn" min="1" placeholder="رقم الصفحة">' +
       '<button class="rpgo" id="rJumpGo">انتقل</button></div>' +
       '<div class="rpfont"><span>حجم الخط</span>' +
-      '<button data-fs="0.9">ص</button><button data-fs="1">م</button>' +
-      '<button data-fs="1.12">ك</button><button data-fs="1.25">ج</button></div>' +
+      '<button data-fs="0.9" title="صغير" aria-label="حجم خط صغير">ص</button><button data-fs="1" title="متوسط" aria-label="حجم خط متوسط">م</button>' +
+      '<button data-fs="1.12" title="كبير" aria-label="حجم خط كبير">ك</button><button data-fs="1.25" title="كبير جدًا" aria-label="حجم خط كبير جدًا">ج</button></div>' +
       '<div class="rplist" id="rPlist"></div>' +
       '<a class="rphome" href="index.html">فهرس الموسوعة</a>';
     document.body.appendChild(pan);
@@ -1603,10 +1677,18 @@ window.__READER__ = !!document.getElementById('book');
       });
     });
   }
+  function markFontBtns() {
+    var p = document.getElementById('rPanel');
+    if (!p) return;
+    p.querySelectorAll('[data-fs]').forEach(function (b) {
+      b.classList.toggle('on', parseFloat(b.getAttribute('data-fs')) === R.fs);
+    });
+  }
   function openPanel() {
     var p = document.getElementById('rPanel');
     if (!p) return;
     p.classList.add('on');
+    markFontBtns();
     var inp = document.getElementById('rJumpIn');
     if (inp) { inp.max = R.total; inp.value = R.cur + 1; inp.focus(); }
   }
@@ -1621,6 +1703,7 @@ window.__READER__ = !!document.getElementById('book');
     applyFont();
     layout();
     repaginate();
+    markFontBtns();
   }
 
   /* ---------- ١٦) البحث في نص الكتاب ---------- */
@@ -1683,7 +1766,7 @@ window.__READER__ = !!document.getElementById('book');
       });
     }
     if (!res.length) {
-      sb.innerHTML = '<p style="text-align:center;color:var(--muted);padding:2rem">لا توجد نتائج</p>';
+      sb.innerHTML = '<p class="nores">لا توجد نتائج</p>';
       return;
     }
     var html = '';
@@ -1856,7 +1939,7 @@ window.__READER__ = !!document.getElementById('book');
         }
       });
     });
-    sb.innerHTML = html || '<p style="text-align:center;color:var(--muted);padding:2rem">لا توجد نتائج</p>';
+    sb.innerHTML = html || '<p class="nores">لا توجد نتائج</p>';
   };
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
   function hl(s, q2) {

@@ -19,7 +19,7 @@
 body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--ink);
   min-height:100vh;line-height:1.9;transition:.3s}
 
-body.dark{--paper:#201E1A;--cream:#161512;--ink:#E8E1D2;--muted:#A79E8B;
+html.dark body,body.dark{--paper:#201E1A;--cream:#161512;--ink:#E8E1D2;--muted:#A79E8B;
   --line:#3A362C;--shadow:0 4px 18px rgba(0,0,0,.35)}
 
 main{max-width:820px;margin:0 auto;padding:1.2rem 1.1rem 5rem}
@@ -31,7 +31,7 @@ header.top{position:sticky;top:0;z-index:60;display:flex;align-items:center;
 .brand{font-family:'Amiri',serif;font-weight:700;font-size:1.02rem;color:var(--ink);
   text-decoration:none;display:flex;align-items:center;gap:.4rem}
 .tools{display:flex;align-items:center;gap:.5rem}
-.ib{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
+.ib{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);
   background:transparent;color:var(--ink);font-size:1.05rem;cursor:pointer;
   display:grid;place-items:center;transition:.2s}
 .ib:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
@@ -166,6 +166,7 @@ main{animation:pageIn .4s ease}
 .res b{display:block;color:var(--c);font-size:.95rem}
 .res small{color:var(--muted);font-size:.78rem;line-height:1.6}
 .res em{font-style:normal;background:rgba(184,148,47,.22);border-radius:3px;padding:0 2px}
+.nores{text-align:center;color:var(--muted);padding:2rem}
 
 @media(max-width:420px){
   main{padding:.9rem .8rem 4rem}
@@ -270,11 +271,27 @@ main.flip-out{animation:flipB .3s ease forwards}
 /* الفصل */
 .ch3{position:relative;background:var(--paper);border:1px solid var(--line);
   border-radius:16px;padding:1.3rem 1.2rem;margin-bottom:1.1rem;box-shadow:var(--shadow)}
-.ch3-h{display:flex;align-items:flex-start;gap:.6rem;margin-bottom:.7rem;
+.ch3-h{display:block;margin-bottom:.7rem;
   padding-bottom:.6rem;border-bottom:1px solid var(--line)}
 .ch3-n{background:var(--c);color:#fff;font-size:.72rem;font-weight:700;
   padding:.18rem .5rem;border-radius:6px;flex:0 0 auto;margin-top:.25rem}
 .ch3 h3,.rbody h3{font-family:'Amiri',serif;font-size:1.35rem;color:var(--ink);line-height:1.6}
+
+/* افتتاحية الفصل: تميّز فصلًا عن آخر داخل القارئ */
+.cho-top{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;
+  font-family:'Cairo';font-size:.7rem;color:var(--muted);margin-bottom:.45rem}
+.cho-part{font-weight:700;color:var(--c);opacity:.9}
+.cho-cnt{margin-inline-start:auto;background:rgba(184,148,47,.13);color:var(--gold2);
+  border-radius:20px;padding:.12rem .6rem;font-weight:700;white-space:nowrap}
+.cho-mid{display:flex;align-items:flex-start;gap:.6rem}
+.cho-num{font-family:'Amiri',serif;font-weight:700;font-size:1.45rem;color:var(--gold2);
+  line-height:1.25;flex:0 0 auto;padding-top:.1rem}
+.cho-num i{font-style:normal;opacity:.5;margin:0 .04rem}
+.cho-rule{display:flex;align-items:center;gap:.5rem;margin-top:.65rem}
+.cho-rule i{flex:1 1 auto;height:1px}
+.cho-rule i:first-child{background:linear-gradient(to right,var(--gold),rgba(184,148,47,.06))}
+.cho-rule i:last-child{background:linear-gradient(to left,var(--gold),rgba(184,148,47,.06))}
+.cho-rule b{color:var(--gold);font-size:.68rem;font-weight:400;line-height:1}
 .ch3 .lead,.rbody .lead{font-family:'Amiri',serif;font-size:1.12rem;line-height:2.05;
   color:var(--c);font-weight:700;margin-bottom:.7rem;text-align:right}
 .ch3 .ap,.rbody .ap{font-family:'Amiri',serif;font-size:1.1rem;line-height:2.15;
@@ -417,14 +434,25 @@ main.reader{max-width:none;margin:0;padding:0;flex:1;min-height:0;
 .rstage{position:relative;flex:1;min-height:0;overflow:hidden;
   perspective:2200px;perspective-origin:50% 50%;touch-action:pan-y}
 
+/* طبقة انتظار الترقيم: تختفي حين يجهز القارئ */
+.rload{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:.8rem;color:var(--muted);
+  font-size:1rem;transition:opacity .3s}
+.rload i{font-style:normal;font-size:2.2rem;animation:rloadPulse 1.2s ease-in-out infinite}
+@keyframes rloadPulse{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.15);opacity:1}}
+body.rready .rload{opacity:0;pointer-events:none}
+
 /* الصفحة */
 .rpage{position:absolute;display:flex;flex-direction:column;overflow:hidden;
   background:var(--paper);border:1px solid var(--line);border-radius:10px;
   box-shadow:0 6px 22px rgba(80,60,20,.12)}
 .rbody{flex:1;min-height:0;overflow:hidden;padding:12px 20px}
-.rpfoot{flex:0 0 auto;height:26px;display:flex;align-items:center;justify-content:center;
+.rpfoot{position:relative;flex:0 0 auto;height:26px;display:flex;align-items:center;justify-content:center;
   font-size:.72rem;color:var(--muted);border-top:1px solid var(--line);
   direction:ltr;unicode-bidi:isolate}
+.rpch{position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  font-size:.66rem;color:var(--muted);opacity:.9;direction:rtl;white-space:nowrap;
+  unicode-bidi:isolate;background:rgba(184,148,47,.1);border-radius:20px;padding:.05rem .45rem}
 
 /* حاوية القياس (خارج الشاشة) */
 .rmeas{position:absolute;left:-99999px;top:0;visibility:hidden;pointer-events:none}
@@ -487,8 +515,12 @@ main.reader{max-width:none;margin:0;padding:0;flex:1;min-height:0;
   color:var(--c);text-decoration:none;font-weight:700;font-size:.9rem}
 
 /* داخل الصفحة: إزالة إطار الفصل، وتوسيط الجدول بلا تمرير أفقي */
-.rbody .ch3{border:0;background:transparent;box-shadow:none;padding:0;margin:0 0 .5rem}
-.rbody .ch3-h{border-bottom:1px solid var(--line);padding-bottom:.5rem;margin-bottom:.7rem}
+.rbody .ch3{border:0;background:transparent;box-shadow:none;padding:.2rem 0 0;margin:0 0 .5rem}
+.rbody .ch3-h{border:0;padding:.1rem 0 .25rem;margin:0 0 1.15rem;display:block}
+.rbody .ch3-h h3{font-family:'Amiri',serif;font-size:1.58rem;font-weight:700;
+  color:var(--c);line-height:1.5;flex:1 1 auto;min-width:0}
+.rbody .cho-top{font-size:.68rem;margin-bottom:.4rem}
+.rbody .cho-num{font-size:1.5rem}
 .rbody .part-h{margin:0 0 .6rem;padding-top:.4rem}
 /* غلاف الحقبة داخل القارئ: مضغوط ليدخل في صفحة واحدة بلا تمرير */
 .rbody .hero{padding:.9rem .8rem .7rem;margin:0;border-top-width:4px}

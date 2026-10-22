@@ -15,14 +15,15 @@ window.__READER__ = !!document.getElementById('book');
   window.arDigits = arDigits;
 
   /* ---------- الوضع الليلي ---------- */
+  /* الكلاس يوضع على <html> حتى يعمل السكريبت المبكر في <head> قبل رسم الصفحة بلا وميض */
   function applyTheme(d) {
-    document.body.classList.toggle('dark', d);
+    document.documentElement.classList.toggle('dark', d);
     var b = document.getElementById('themeBtn');
     if (b) b.textContent = d ? '☀️' : '🌙';
   }
   var th = document.getElementById('themeBtn');
   if (th) th.addEventListener('click', function () {
-    var d = !document.body.classList.contains('dark');
+    var d = !document.documentElement.classList.contains('dark');
     applyTheme(d); localStorage.setItem(THEME, d ? '1' : '0');
   });
   applyTheme(localStorage.getItem(THEME) === '1');
@@ -180,6 +181,8 @@ window.__READER__ = !!document.getElementById('book');
       render();
       buildPanel();
       wire();
+      var ld = document.getElementById('rLoad');
+      if (ld) ld.remove();
       document.body.classList.add('rready');
     }
 
@@ -225,7 +228,7 @@ window.__READER__ = !!document.getElementById('book');
       var root = tpl.content.firstElementChild;
       var blocks = u.one ? [root] : Array.prototype.slice.call(root.children)
         .filter(function (el) { return !(el.matches && el.matches('.crn,.orn,.porn,svg')); });
-      return { ui: ui, u: u.u, id: u.id, n: u.n, ic: u.ic || '', blocks: blocks };
+      return { ui: ui, u: u.u, id: u.id, n: u.n, ic: u.ic || '', part: u.partId || '', blocks: blocks };
     });
   }
 
@@ -567,7 +570,7 @@ window.__READER__ = !!document.getElementById('book');
       var unit = R.units[ui];
       flush();
       cur.ch = unit.n;
-      if (unit.u === 'c') R.chaps.push({ id: unit.id, n: unit.n, ic: unit.ic, page: pages.length + 1 });
+      if (unit.u === 'c') R.chaps.push({ id: unit.id, n: unit.n, ic: unit.ic, part: unit.part, page: pages.length + 1 });
       if (unit.u === 'p') R.partPages[unit.id] = pages.length + 1;
 
       var hs = measureAll(unit.blocks);
@@ -625,8 +628,17 @@ window.__READER__ = !!document.getElementById('book');
 
     R.pages = pages;
     R.total = pages.length;
+
+    /* ترتيب الفصل داخل قسمه: «الفصل ٣ من ٧» — يُحسب مرة واحدة بعد الترقيم */
+    var perPart = {}, seenPart = {};
+    R.chaps.forEach(function (c) { perPart[c.part] = (perPart[c.part] || 0) + 1; });
+    R.chaps.forEach(function (c) {
+      seenPart[c.part] = (seenPart[c.part] || 0) + 1;
+      c.ci = seenPart[c.part]; c.cn = perPart[c.part];
+    });
+
     R.plan = {
-      v: 7, w: R.cw, h: R.ch, fs: R.fs, spread: R.spread,
+      v: 8, w: R.cw, h: R.ch, fs: R.fs, spread: R.spread,
       sig: R.units.length + ':' + R.units.reduce(function (a, u) { return a + u.blocks.length; }, 0),
       chaps: R.chaps,
       pages: pages.map(function (p) {
@@ -642,7 +654,7 @@ window.__READER__ = !!document.getElementById('book');
       var raw = localStorage.getItem(planKey());
       if (!raw) return false;
       var pl = JSON.parse(raw);
-      if (!pl || pl.v !== 7 || (pl.pages.length !== undefined && !pl.pages.length)) return false;
+      if (!pl || pl.v !== 8 || (pl.pages.length !== undefined && !pl.pages.length)) return false;
       /* بصمة المحتوى: إذا تغيّر عدد الوحدات أو الكتل فالخطة قديمة ولا تصلح */
       var sig = R.units.length + ':' + R.units.reduce(function (a, u) { return a + u.blocks.length; }, 0);
       if (pl.sig !== sig) return false;
@@ -662,11 +674,33 @@ window.__READER__ = !!document.getElementById('book');
   }
   function savePlan() {
     if (!R.plan) return;
-    try { localStorage.setItem(planKey(), JSON.stringify(R.plan)); }
-    catch (e) { /* المساحة ممتلئة: تجاهل */ }
+    var key = planKey();
+    /* لا نحتفظ إلا بخطة واحدة لكل كتاب: المقاسات/الخط الأقدم بلا فائدة ويملأ المساحة */
+    for (var i = localStorage.length - 1; i >= 0; i--) {
+      var k = localStorage.key(i);
+      if (k && k.indexOf('ti_plan_' + PGID + '_') === 0 && k !== key) localStorage.removeItem(k);
+    }
+    try { localStorage.setItem(key, JSON.stringify(R.plan)); }
+    catch (e) {
+      /* المساحة ممتلئة: امسح خطط الكتب الأخرى وحاول مرة أخرى */
+      for (var j = localStorage.length - 1; j >= 0; j--) {
+        var k2 = localStorage.key(j);
+        if (k2 && k2.indexOf('ti_plan_') === 0 && k2 !== key) localStorage.removeItem(k2);
+      }
+      try { localStorage.setItem(key, JSON.stringify(R.plan)); } catch (e2) { }
+    }
   }
 
   /* ---------- ١١) العرض ---------- */
+  /* الفصل الذي تنتمي إليه الصفحة n + موضع الصفحة داخله */
+  function chapAt(n) {
+    var best = null, bi = -1, i;
+    for (i = 0; i < R.chaps.length; i++) if (R.chaps[i].page - 1 <= n) { best = R.chaps[i]; bi = i; }
+    if (!best) return null;
+    var start = best.page - 1;
+    var end = (bi + 1 < R.chaps.length ? R.chaps[bi + 1].page - 1 : R.total);
+    return { c: best, i: n - start + 1, n: end - start };
+  }
   function mountPage(n) {
     if (R.rendered[n]) return R.rendered[n];
     var el = document.createElement('div');
@@ -684,6 +718,14 @@ window.__READER__ = !!document.getElementById('book');
     var ftot = document.createElement('span');
     ftot.textContent = arD(R.total);
     foot.appendChild(fcur); foot.appendChild(fsep); foot.appendChild(ftot);
+    /* تقدّم القراءة داخل الفصل: «٣ من ١٢» (أرقام بين كلمات عربية = بلا اختلال bidi) */
+    var ca = chapAt(n);
+    if (ca && ca.n > 1) {
+      var chp = document.createElement('span');
+      chp.className = 'rpch';
+      chp.textContent = arD(ca.i) + ' من ' + arD(ca.n);
+      foot.appendChild(chp);
+    }
     el.appendChild(body); el.appendChild(foot);
     R.pages[n].items.forEach(function (it) {
       if (it.node.getAttribute) {
@@ -795,9 +837,10 @@ window.__READER__ = !!document.getElementById('book');
     render();
   }
 
+  var DBG = /[?&#]debug/.test(location.href);
   function updateChrome() {
     var fr = R.total ? (R.cur + 1) / R.total : 0;
-    document.body.setAttribute('data-dbg', 'cur=' + R.cur + ' total=' + R.total +
+    if (DBG) document.body.setAttribute('data-dbg', 'cur=' + R.cur + ' total=' + R.total +
       ' rendered=' + Object.keys(R.rendered).join(',') + ' busy=' + R.busy +
       ' pages=' + R.pages.length + ' ch=' + R.ch);
     if (progEl) progEl.style.width = Math.round(fr * 100) + '%';
@@ -879,10 +922,10 @@ window.__READER__ = !!document.getElementById('book');
   }
   function flipTo(dir) {
     try {
-      if (!startFlip(dir)) { document.body.setAttribute('data-dbg', 'flip-refused dir=' + dir + ' busy=' + R.busy + ' cur=' + R.cur + ' total=' + R.total); return; }
+      if (!startFlip(dir)) { if (DBG) document.body.setAttribute('data-dbg', 'flip-refused dir=' + dir + ' busy=' + R.busy + ' cur=' + R.cur + ' total=' + R.total); return; }
       commitFlip();
     } catch (err) {
-      document.body.setAttribute('data-dbg', 'flip-error ' + (err && err.message));
+      if (DBG) document.body.setAttribute('data-dbg', 'flip-error ' + (err && err.message));
     }
   }
 
@@ -899,6 +942,23 @@ window.__READER__ = !!document.getElementById('book');
     if (menu) menu.addEventListener('click', openPanel);
     var pbtn = document.getElementById('rProgBtn');
     if (pbtn) pbtn.addEventListener('click', openPanel);
+
+    /* كيبورد: الأسهم تقلّب الصفحات (RTL: اليسار تالٍ) */
+    document.addEventListener('keydown', function (e) {
+      if (e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+      if (e.key === 'ArrowLeft') flipTo(1);
+      else if (e.key === 'ArrowRight') flipTo(-1);
+      else if (e.key === 'PageDown') flipTo(1);
+      else if (e.key === 'PageUp') flipTo(-1);
+    });
+
+    /* عجلة الماوس الأفقية تقلّب الصفحات */
+    stage.addEventListener('wheel', function (e) {
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      if (R.busy) return;
+      e.preventDefault();
+      flipTo(e.deltaX < 0 ? 1 : -1);
+    }, { passive: false });
 
     /* الروابط الداخلية (فهرس الفصول) تقفز إلى الصفحة */
     stage.addEventListener('click', function (e) {
@@ -972,8 +1032,8 @@ window.__READER__ = !!document.getElementById('book');
       '<div class="rpjump"><input type="number" id="rJumpIn" min="1" placeholder="رقم الصفحة">' +
       '<button class="rpgo" id="rJumpGo">انتقل</button></div>' +
       '<div class="rpfont"><span>حجم الخط</span>' +
-      '<button data-fs="0.9">ص</button><button data-fs="1">م</button>' +
-      '<button data-fs="1.12">ك</button><button data-fs="1.25">ج</button></div>' +
+      '<button data-fs="0.9" title="صغير" aria-label="حجم خط صغير">ص</button><button data-fs="1" title="متوسط" aria-label="حجم خط متوسط">م</button>' +
+      '<button data-fs="1.12" title="كبير" aria-label="حجم خط كبير">ك</button><button data-fs="1.25" title="كبير جدًا" aria-label="حجم خط كبير جدًا">ج</button></div>' +
       '<div class="rplist" id="rPlist"></div>' +
       '<a class="rphome" href="index.html">فهرس الموسوعة</a>';
     document.body.appendChild(pan);
@@ -990,10 +1050,18 @@ window.__READER__ = !!document.getElementById('book');
       });
     });
   }
+  function markFontBtns() {
+    var p = document.getElementById('rPanel');
+    if (!p) return;
+    p.querySelectorAll('[data-fs]').forEach(function (b) {
+      b.classList.toggle('on', parseFloat(b.getAttribute('data-fs')) === R.fs);
+    });
+  }
   function openPanel() {
     var p = document.getElementById('rPanel');
     if (!p) return;
     p.classList.add('on');
+    markFontBtns();
     var inp = document.getElementById('rJumpIn');
     if (inp) { inp.max = R.total; inp.value = R.cur + 1; inp.focus(); }
   }
@@ -1008,6 +1076,7 @@ window.__READER__ = !!document.getElementById('book');
     applyFont();
     layout();
     repaginate();
+    markFontBtns();
   }
 
   /* ---------- ١٦) البحث في نص الكتاب ---------- */
@@ -1070,7 +1139,7 @@ window.__READER__ = !!document.getElementById('book');
       });
     }
     if (!res.length) {
-      sb.innerHTML = '<p style="text-align:center;color:var(--muted);padding:2rem">لا توجد نتائج</p>';
+      sb.innerHTML = '<p class="nores">لا توجد نتائج</p>';
       return;
     }
     var html = '';
@@ -1243,7 +1312,7 @@ window.__READER__ = !!document.getElementById('book');
         }
       });
     });
-    sb.innerHTML = html || '<p style="text-align:center;color:var(--muted);padding:2rem">لا توجد نتائج</p>';
+    sb.innerHTML = html || '<p class="nores">لا توجد نتائج</p>';
   };
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
   function hl(s, q2) {

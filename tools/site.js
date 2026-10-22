@@ -37,14 +37,13 @@ const HEAD = (title, desc) => `<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script>try{if(localStorage.getItem('ti_theme')==='1')document.documentElement.classList.add('dark')}catch(e){}</script>
 <meta name="description" content="${desc}">
 <title>${title}</title>
 <link rel="preload" href="assets/fonts/amiri-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/amiri-700.woff2" as="font" type="font/woff2" crossorigin>
-<style>
-${css}
-</style>
+<link rel="stylesheet" href="assets/app.css">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon_32.png">
 <link rel="icon" type="image/png" sizes="64x64" href="favicon_64.png">
 <link rel="shortcut icon" href="favicon.ico">
@@ -58,11 +57,11 @@ const TOPBAR = (pageId, reader) => `<header class="top${reader ? ' reading' : ''
     reader ? '<span class="rbrand" id="rBrand"></span>'
            : '<span class="btxt">موسوعة تاريخ الإسلام</span>'}</a>
   <div class="tools">
-    ${reader ? '<button class="ib" id="rMenu" title="الفهرس والذهاب إلى صفحة">☰</button>' : ''}
+    ${reader ? '<button class="ib" id="rMenu" title="الفهرس والذهاب إلى صفحة" aria-label="الفهرس والذهاب إلى صفحة">☰</button>' : ''}
     <span class="dome" title="نسبة إكمالك للصفحة">${DOME}</span>
-    <button class="ib" onclick="openSearch()" title="بحث">🔍</button>
-    <button class="ib" id="favBtn" title="حفظ">☆</button>
-    <button class="ib" id="themeBtn" title="الوضع الليلي">🌙</button>
+    <button class="ib" onclick="openSearch()" title="بحث" aria-label="بحث">🔍</button>
+    <button class="ib" id="favBtn" title="حفظ في المفضلة" aria-label="حفظ في المفضلة">☆</button>
+    <button class="ib" id="themeBtn" title="الوضع الليلي" aria-label="تبديل الوضع الليلي">🌙</button>
   </div>
 </header>`;
 
@@ -85,6 +84,7 @@ const PROGRESSBAR = `<div class="topbar"><i></i></div>`;
 
 /* ---------- هيكل القارئ: مسرح + شريط سفلي ---------- */
 const READER_MAIN = `<main class="reader" id="reader">
+  <div class="rload" id="rLoad"><i>📖</i>جاري تجهيز الكتاب…</div>
   <div class="rstage" id="rStage">
     <div class="rleaf" id="rLeaf">
       <div class="rface rfront" id="rFront"></div>
@@ -92,9 +92,9 @@ const READER_MAIN = `<main class="reader" id="reader">
     </div>
   </div>
   <div class="rfoot">
-    <button class="rnav" id="rPrev" title="الصفحة السابقة">السابق</button>
-    <button class="rprog" id="rProgBtn" title="اذهب إلى صفحة"><i id="rProg"></i></button>
-    <button class="rnav" id="rNext" title="الصفحة التالية">التالي</button>
+    <button class="rnav" id="rPrev" title="الصفحة السابقة" aria-label="الصفحة السابقة">السابق</button>
+    <button class="rprog" id="rProgBtn" title="اذهب إلى صفحة" aria-label="اذهب إلى صفحة"><i id="rProg"></i></button>
+    <button class="rnav" id="rNext" title="الصفحة التالية" aria-label="الصفحة التالية">التالي</button>
   </div>
 </main>`;
 
@@ -182,9 +182,7 @@ ${PROGRESSBAR}
 </main>
 <div class="sword">${SWORD}<span>القراءة ٠٪</span></div>
 ${PANEL}
-<script>
-${js}
-</script>
+<script src="assets/app.js" defer></script>
 </body>
 </html>`;
 }
@@ -259,8 +257,8 @@ ${PROGRESSBAR}
   </div>
 </main>
 ${PANEL}
+<script src="assets/app.js" defer></script>
 <script>
-${js}
 (function(){
   var pr=JSON.parse(localStorage.getItem('ti_progress')||'{}'),
       bm=JSON.parse(localStorage.getItem('ti_bookmarks')||'[]');
@@ -458,17 +456,22 @@ ${PROGRESSBAR}
 ${READER_MAIN}
 ${PANEL}
 ${jsonBlock(book)}
-<script>
-${js}
-</script>
+<script src="assets/app.js" defer></script>
 </body>
 </html>`;
 }
 
 /* ---------------- التنفيذ ---------------- */
-fs.writeFileSync(path.join(root, 'index.html'), buildHome(), 'utf8');
+/* التضمين: CSS و JS داخل كل صفحة (ملف واحد يعمل بلا شبكة وبلا مسارات) */
+const CSS_TAG = '<link rel="stylesheet" href="assets/app.css">';
+const JS_TAG = '<script src="assets/app.js" defer></script>';
+const inline = html => html
+  .split(CSS_TAG).join('<style>\n' + css + '\n</style>')
+  .split(JS_TAG).join('<script>\n' + js + '\n</script>');
+
+fs.writeFileSync(path.join(root, 'index.html'), inline(buildHome()), 'utf8');
 for (const p of pages) {
-  fs.writeFileSync(path.join(root, p.file), p.parts ? buildDeep(p) : buildPage(p), 'utf8');
+  fs.writeFileSync(path.join(root, p.file), inline(p.parts ? buildDeep(p) : buildPage(p)), 'utf8');
 }
 
 console.log(pages.map(p => (p.file + ' ').padEnd(20) +
