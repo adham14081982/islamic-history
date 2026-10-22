@@ -567,3 +567,28 @@ body.rready .rload{opacity:0;pointer-events:none}
   .rbody .tblwrap td{font-size:.8rem;line-height:1.7}
   .rbody .tblwrap th{font-size:.76rem}
 }
+
+/* ===== تبويبات الأقسام: وصول مباشر لكل قسم ===== */
+.rtabs{flex:0 0 auto;display:flex;gap:.3rem;overflow-x:auto;overflow-y:hidden;
+  padding:.38rem .5rem;border-bottom:1px solid var(--line);background:var(--paper);
+  scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.rtabs::-webkit-scrollbar{display:none}
+.rtab{flex:0 0 auto;display:inline-flex;align-items:center;gap:.32rem;
+  border:1px solid var(--line);border-radius:20px;background:transparent;
+  padding:.28rem .62rem;font-family:'Cairo';font-size:.74rem;color:var(--muted);
+  cursor:pointer;white-space:nowrap;transition:.18s;max-width:64vw}
+.rtab b{font-size:.92rem;line-height:1;font-weight:400}
+.rtab span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rtab:hover{border-color:var(--gold);color:var(--c)}
+.rtab.on{background:var(--c);border-color:var(--c);color:#fff;font-weight:700}
+
+/* ===== فهرس الأقسام: سطر لكل قسم (صفحة واحدة) ===== */
+.toclist .toc-row{display:flex;align-items:center;gap:.55rem;padding:.3rem 0;margin:0;
+  border-bottom:1px dashed var(--line)}
+.toclist .toc-row:last-child{border-bottom:0}
+.toclist .toc-row>a{flex:1 1 auto;min-width:0;border:0;padding:0;background:none;gap:.4rem}
+.toclist .toc-row>a:hover{background:none;padding-right:0;color:var(--c)}
+.toclist .toc-row .ttl{flex:1 1 auto;min-width:0;font-size:.84rem;font-weight:600;line-height:1.5}
+.toclist .toc-row .tcnt{flex:0 0 auto;font-size:.66rem;color:var(--muted);
+  background:rgba(184,148,47,.1);border-radius:10px;padding:.06rem .45rem}
+.toclist .toc-row .tpg{flex:0 0 auto;margin-inline-start:.3rem}

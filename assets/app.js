@@ -178,6 +178,7 @@ window.__READER__ = !!document.getElementById('book');
       var m = /[?&#]p=(\d+)/.exec(location.href);
       if (m) { var jp = parseInt(m[1], 10); if (jp >= 1 && jp <= R.total) R.cur = jp - 1; }
 
+      buildTabs();
       render();
       buildPanel();
       wire();
@@ -441,10 +442,11 @@ window.__READER__ = !!document.getElementById('book');
   function tocRows(el) {
     var host = listHost(el), rows = [];
     Array.prototype.slice.call(host.children).forEach(function (li) {
-      var ul = (li.classList && li.classList.contains('toc-part')) ? li.querySelector('ul') : null;
-      if (ul) {
+      var isPart = !!(li.classList && li.classList.contains('toc-part'));
+      var ul = isPart ? li.querySelector('ul') : null;
+      if (isPart) {
         rows.push({ kind: 'p', node: li });
-        Array.prototype.slice.call(ul.children).forEach(function (c) { rows.push({ kind: 'c', node: c }); });
+        if (ul) Array.prototype.slice.call(ul.children).forEach(function (c) { rows.push({ kind: 'c', node: c }); });
       } else rows.push({ kind: 'c', node: li });
     });
     return rows;
@@ -489,8 +491,9 @@ window.__READER__ = !!document.getElementById('book');
       if (measureOne(buildToc(el, a, mid)) <= avail) { best = mid; lo = mid + 1; } else hi = mid - 1;
     }
     if (best < 0 || best <= a) return null;
-    /* لا تترك عنوان قسم وحده في آخر الصفحة بلا فصول */
-    while (best > a + 1 && rows[best - 1] && rows[best - 1].kind === 'p') best--;
+    /* لا تترك عنوان قسم في آخر الصفحة وفصوله في التالية — فقط حين تليه فصول */
+    while (best > a + 1 && rows[best - 1] && rows[best - 1].kind === 'p'
+           && rows[best] && rows[best].kind === 'c') best--;
     return [
       { d: { k: 'toc', a: a, b: best }, node: buildToc(el, a, best) },
       { d: { k: 'toc', a: best, b: e }, node: buildToc(el, best, e) }
@@ -638,9 +641,10 @@ window.__READER__ = !!document.getElementById('book');
     });
 
     R.plan = {
-      v: 8, w: R.cw, h: R.ch, fs: R.fs, spread: R.spread,
+      v: 9, w: R.cw, h: R.ch, fs: R.fs, spread: R.spread,
       sig: R.units.length + ':' + R.units.reduce(function (a, u) { return a + u.blocks.length; }, 0),
       chaps: R.chaps,
+      parts: R.partPages,
       pages: pages.map(function (p) {
         return { ch: p.ch, items: p.items.map(function (it) { return { u: it.u, b: it.b, d: it.d }; }) };
       })
@@ -654,11 +658,12 @@ window.__READER__ = !!document.getElementById('book');
       var raw = localStorage.getItem(planKey());
       if (!raw) return false;
       var pl = JSON.parse(raw);
-      if (!pl || pl.v !== 8 || (pl.pages.length !== undefined && !pl.pages.length)) return false;
+      if (!pl || pl.v !== 9 || (pl.pages.length !== undefined && !pl.pages.length)) return false;
       /* بصمة المحتوى: إذا تغيّر عدد الوحدات أو الكتل فالخطة قديمة ولا تصلح */
       var sig = R.units.length + ':' + R.units.reduce(function (a, u) { return a + u.blocks.length; }, 0);
       if (pl.sig !== sig) return false;
       R.chaps = pl.chaps || [];
+      R.partPages = pl.parts || {};
       R.pages = pl.pages.map(function (p) {
         return {
           ch: p.ch,
@@ -820,12 +825,26 @@ window.__READER__ = !!document.getElementById('book');
     if (R.ovN >= 3 || R.ch <= 142) return;
     R.ovN = (R.ovN || 0) + 1;
     R.checking = true;
+    /* احفظ موضعك قبل إعادة الترقيم ثم أعده: وإلا انزاح القارئ عدة صفحات */
+    var keepPart = null, pid0;
+    for (pid0 in R.partPages) if (R.partPages[pid0] - 1 === R.cur) keepPart = pid0;
+    var ca0 = keepPart ? null : chapAt(R.cur), off0 = ca0 ? ca0.i - 1 : 0, chId0 = ca0 ? ca0.c.id : null;
     /* قلّل ارتفاع العمود بقدر الفيض وأعد الترقيم: القياس النظري أقلّ من الواقع بعد استقرار الخط */
     R.ch = Math.max(142, R.ch - Math.min(30, over + 4));
     R.refixed = true;
     paginate(); savePlan();
     R.checking = false;
     R.cur = Math.min(R.cur, R.total - 1);
+    if (keepPart && R.partPages[keepPart]) {
+      R.cur = R.partPages[keepPart] - 1;
+    } else if (chId0) {
+      for (var ci0 = 0; ci0 < R.chaps.length; ci0++) {
+        if (R.chaps[ci0].id === chId0) {
+          R.cur = Math.min(R.chaps[ci0].page - 1 + off0, R.total - 1);
+          break;
+        }
+      }
+    }
     setTimeout(render, 0);
   }
 
@@ -845,6 +864,23 @@ window.__READER__ = !!document.getElementById('book');
       ' pages=' + R.pages.length + ' ch=' + R.ch);
     if (progEl) progEl.style.width = Math.round(fr * 100) + '%';
     if (chapEl) chapEl.textContent = (R.pages[R.cur] && R.pages[R.cur].ch) || BOOK.n;
+    /* التبويب النشط = قسم الصفحة الحالية */
+    var cp = null, pid;
+    for (pid in R.partPages) {
+      var pp = R.partPages[pid] - 1;
+      if (pp <= R.cur && (cp === null || pp > R.partPages[cp] - 1)) cp = pid;
+    }
+    if (cp !== R.tabCur) {
+      R.tabCur = cp;
+      var tabs = document.querySelectorAll('.rtab');
+      for (var ti = 0; ti < tabs.length; ti++) {
+        var on = tabs[ti].getAttribute('data-part') === cp;
+        tabs[ti].classList.toggle('on', on);
+        if (on) {
+          try { tabs[ti].scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' }); } catch (e) { }
+        }
+      }
+    }
     if (window.__paintProgress) window.__paintProgress(fr);
     if (window.__setProgress) window.__setProgress(PGID, fr);
     try { localStorage.setItem('ti_pos_' + PGID, String(R.cur + 1)); } catch (e) { }
@@ -1023,6 +1059,37 @@ window.__READER__ = !!document.getElementById('book');
   }
 
   /* ---------- ١٥) لوحة الفهرس والذهاب إلى صفحة ---------- */
+  /* ---------- ١٢ب) تبويبات الأقسام: وصول مباشر لكل قسم ---------- */
+  function tabLabel(s) {
+    return String(s || '')
+      .replace(/^القسم\s+\S+\s*:\s*/, '')
+      .replace(/\s*\([^)]*\)\s*$/, '')
+      .trim();
+  }
+  function buildTabs() {
+    var host = document.getElementById('rTabs');
+    if (!host) return;
+    host.innerHTML = '';
+    BOOK.units.forEach(function (u) {
+      if (u.u !== 'p') return;
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'rtab';
+      b.setAttribute('data-part', u.id);
+      var ic = document.createElement('b');
+      ic.textContent = u.ic || '📖';
+      var tx = document.createElement('span');
+      tx.textContent = tabLabel(u.n);
+      b.appendChild(ic); b.appendChild(tx);
+      b.title = u.n;
+      b.addEventListener('click', function () {
+        var pg = R.partPages[u.id];
+        if (pg) { closePanel(); goto(pg - 1); }
+      });
+      host.appendChild(b);
+    });
+  }
+
   function buildPanel() {
     var pan = document.createElement('div');
     pan.className = 'rpanel';

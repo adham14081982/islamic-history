@@ -85,6 +85,7 @@ const PROGRESSBAR = `<div class="topbar"><i></i></div>`;
 /* ---------- هيكل القارئ: مسرح + شريط سفلي ---------- */
 const READER_MAIN = `<main class="reader" id="reader">
   <div class="rload" id="rLoad"><i>📖</i>جاري تجهيز الكتاب…</div>
+  <nav class="rtabs" id="rTabs" aria-label="أقسام الكتاب"></nav>
   <div class="rstage" id="rStage">
     <div class="rleaf" id="rLeaf">
       <div class="rface rfront" id="rFront"></div>
@@ -319,20 +320,18 @@ function buildDeep(p) {
   </section>`
   });
 
-  /* ٢) فهرس الفصول */
-  const tocHTML = parts.map((x, pi) => {
-    const chs = x.chapters.map(c => `<li><a href="#${esc(c.id)}"><i></i><span class="ttl">${esc(c.n)}</span></a></li>`).join('');
-    return `<li class="toc-part"><b>${x.part.ic || '📖'}</b>
-      <a href="#part-${pi + 1}"><span class="ttl">${esc(x.part.n)}</span></a>
-      <ul>${chs}</ul>
-    </li>`;
-  }).join('');
+  /* ٢) فهرس الأقسام: سطر لكل قسم (صفحة واحدة) — الفصول تُفتح من التبويب أو لوحة الفهرس */
+  const tocHTML = parts.map((x, pi) => `
+    <li class="toc-part toc-row"><b>${x.part.ic || '📖'}</b>
+      <a href="#part-${pi + 1}"><span class="ttl">${esc(x.part.n)}</span>
+      <span class="tcnt">${ar(x.chapters.length)} فصول</span></a>
+    </li>`).join('');
 
   units.push({
-    u: 'f', one: true, id: 'toc', n: 'فهرس الفصول',
+    u: 'f', one: true, id: 'toc', n: 'المحتويات',
     h: `<div class="toc frame" style="--c:${esc(p.c)}">
     ${FRAME_1}
-    <h2 class="sec" style="margin-top:0">فهرس الفصول</h2>
+    <h2 class="sec" style="margin-top:0">المحتويات</h2>
     <ol class="toclist">${tocHTML}</ol>
   </div>`
   });
@@ -340,7 +339,7 @@ function buildDeep(p) {
   /* ٣) الأقسام والفصول */
   parts.forEach((x, pi) => {
     units.push({
-      u: 'p', one: true, id: 'part-' + (pi + 1), n: x.part.n,
+      u: 'p', one: true, id: 'part-' + (pi + 1), n: x.part.n, ic: x.part.ic || '📖',
       h: `<div class="part-h" id="part-${pi + 1}" style="--c:${esc(p.c)}">
       ${PART_ORN}
       <div class="part-ic">${x.part.ic || '📖'}</div>
