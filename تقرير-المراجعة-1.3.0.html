@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تقرير المراجعة والإصلاح — موسوعة تاريخ الإسلام ١٫٣٫٠</title>
+<style>
+  :root{
+    --paper:#FBF4E4; --ink:#241c12; --ink2:#5a4a36; --line:#e0d2b4;
+    --gold:#8B6914; --green:#1E6B3A; --red:#9B1B30; --blue:#1F4E79;
+    --card:#fffdf7;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Amiri","Scheherazade New","Noto Naskh Arabic","Times New Roman",serif;
+    font-size:17px; line-height:1.95;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:48px 28px 90px}
+  header.top{
+    border:1px solid var(--line); border-radius:14px; background:var(--card);
+    padding:26px 28px; margin-bottom:34px; position:relative; overflow:hidden;
+  }
+  header.top::before{
+    content:""; position:absolute; inset:6px; border:1px solid var(--line);
+    border-radius:9px; pointer-events:none;
+  }
+  header.top h1{margin:0 0 6px; font-size:2rem; letter-spacing:0}
+  header.top .sub{color:var(--ink2); font-size:1rem}
+  .meta{display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:14px; font-size:.9rem; color:var(--ink2)}
+  .meta b{color:var(--ink)}
+
+  h2{
+    font-size:1.45rem; margin:46px 0 14px; padding-bottom:8px;
+    border-bottom:2px solid var(--gold); display:flex; align-items:baseline; gap:12px;
+  }
+  h2 .n{
+    font-size:.95rem; color:#fff; background:var(--gold); border-radius:50%;
+    width:30px; height:30px; min-width:30px; display:inline-flex;
+    align-items:center; justify-content:center; line-height:1;
+  }
+  h3{font-size:1.12rem; margin:26px 0 8px; color:var(--green)}
+  p{margin:.55em 0}
+  ul,ol{margin:.5em 0 .9em; padding-inline-start:1.4em}
+  li{margin:.3em 0}
+
+  table{width:100%; border-collapse:collapse; margin:14px 0 20px; font-size:.95rem; background:var(--card)}
+  th,td{border:1px solid var(--line); padding:8px 10px; text-align:right; vertical-align:top}
+  th{background:#f3e9d2; font-weight:700}
+  tbody tr:nth-child(even){background:#fdfaf1}
+
+  .pill{display:inline-block; padding:1px 9px; border-radius:999px; font-size:.82rem; font-weight:700; white-space:nowrap}
+  .ok{background:#e3f2e7; color:var(--green); border:1px solid #bcdcc6}
+  .warn{background:#fdf0dc; color:#8a5a00; border:1px solid #ecd3a3}
+  .no{background:#fbe4e8; color:var(--red); border:1px solid #efc3cb}
+  .info{background:#e6eef7; color:var(--blue); border:1px solid #c3d5e8}
+
+  .box{border:1px solid var(--line); border-inline-start:4px solid var(--gold); background:var(--card);
+       padding:14px 18px; border-radius:8px; margin:16px 0}
+  .box.green{border-inline-start-color:var(--green)}
+  .box.red{border-inline-start-color:var(--red)}
+  .box h4{margin:0 0 6px; font-size:1rem}
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin:16px 0}
+  .kpi{border:1px solid var(--line); border-radius:10px; background:var(--card); padding:12px 14px; text-align:center}
+  .kpi b{display:block; font-size:1.5rem; color:var(--gold); line-height:1.3}
+  .kpi span{font-size:.82rem; color:var(--ink2)}
+
+  code{background:#f1e8d4; padding:1px 6px; border-radius:4px; font-family:Consolas,monospace; font-size:.88em; direction:ltr; display:inline-block}
+  .ltr{direction:ltr; text-align:left; font-family:Consolas,monospace; font-size:.85rem;
+       background:#fffdf7; border:1px solid var(--line); border-radius:6px; padding:10px 12px; overflow-x:auto}
+  .small{font-size:.88rem; color:var(--ink2)}
+  footer{margin-top:50px; padding-top:16px; border-top:1px solid var(--line); font-size:.85rem; color:var(--ink2)}
+  @media print{ body{background:#fff} .wrap{padding:0} h2{page-break-after:avoid} table{page-break-inside:avoid} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <h1>تقرير المراجعة والإصلاح الشامل</h1>
+  <div class="sub">موسوعة تاريخ الإسلام — الإصدار ١٫٣٫٠ (<span class="ltr" style="display:inline;background:none;border:0;padding:0">com.tarikh.islam</span>)</div>
+  <div class="meta">
+    <span>تاريخ التقرير: <b>٢٤ أكتوبر ٢٠٢٦</b></span>
+    <span>النطاق: <b>١١ حقبة · ٢٥٥ فصلًا · ١٢ صفحة</b></span>
+    <span>المنصّة: <b>Cordova 15 · أندرويد ٧–١٦</b></span>
+  </div>
+</header>
+
+<!-- ═══════════════ ١ ═══════════════ -->
+<h2><span class="n">١</span> ملخّص الحالة</h2>
+
+<p>التطبيق <b>يعمل ويُبنى ويُثبَّت ويُوقَّع</b>. المراجعة لم تكشف انهيارًا ولا خطأً يمنع الاستخدام، بل كشفت
+<b>أربعة أعطال حقيقية في المنطق</b> كان أثرها صامتًا: بيانات المفضلة تُلوّث بيانات الإتمام، ووسام أخير
+لا يمكن نيله، وأحد عشر خريطة تاريخية موجودة في المشروع ولا تظهر أبدًا، وبحث بمسافات فقط يعيد الموسوعة كاملة.</p>
+
+<p>كل ما ورد في هذا التقرير <b>نُفِّذ فعليًا في المشروع</b> وتم التحقق منه بأمر يُعاد تشغيله، إلا ما وُسم صراحةً
+بأنه <span class="pill warn">لم يُنفَّذ</span>. لا يوجد في هذا التقرير رقم مقدَّر أو نتيجة مفترضة.</p>
+
+<div class="grid">
+  <div class="kpi"><b>١١</b><span>حقبة تاريخية</span></div>
+  <div class="kpi"><b>٢٥٥</b><span>فصلًا</span></div>
+  <div class="kpi"><b>١٥٢٬٥٧٣</b><span>كلمة</span></div>
+  <div class="kpi"><b>٢٬٠١٠</b><span>فقرة</span></div>
+  <div class="kpi"><b>١١</b><span>خريطة معروضة</span></div>
+  <div class="kpi"><b>٠</b><span>اتصال خارجي</span></div>
+</div>
+
+<table>
+  <thead><tr><th style="width:32%">المحور</th><th style="width:18%">الحالة</th><th>ما يعنيه عمليًا</th></tr></thead>
+  <tbody>
+    <tr><td>الاستقرار</td><td><span class="pill ok">سليم</span></td><td>بدء بارد ٧٠٩–١٠١٠ مللي ثانية، دافئ ٥٦–٦٣ مللي ثانية، بلا انهيار ولا استثناء JS في ١٢ صفحة.</td></tr>
+    <tr><td>الوظائف الأساسية</td><td><span class="pill ok">مكتملة</span></td><td>قراءة، فهرس، بحث داخلي وشامل، مفضلة، استعادة موضع، خرائط، وضع ليلي — كلها تعمل ومُختبرة.</td></tr>
+    <tr><td>المحتوى</td><td><span class="pill ok">نظيف</span></td><td>٠ فصل فارغ · ٠ فصل أقصر من ٦٠ كلمة · ٠ فقرة مكرّرة · ٠ نص نائب · ٠ معرّف مكرّر.</td></tr>
+    <tr><td>الأمان</td><td><span class="pill ok">مشدود</span></td><td>لا مفاتيح مضمّنة، لا <code>eval</code>، لا اتصال شبكي، تصحيح WebView مُطفأ في الإصدار، إذن واحد فقط.</td></tr>
+    <tr><td>البناء والتوقيع</td><td><span class="pill ok">ناجح</span></td><td>APK و AAB موقّعان بالمفتاح الرسمي، تحقّق <code>apksigner</code> و<code>jarsigner</code> يمرّان.</td></tr>
+    <tr><td>جاهزية Google Play</td><td><span class="pill ok">شبه جاهزة</span></td><td>الحزمة والنسخة والـSDK والأيقونة و<b>سياسة الخصوصية المنشورة</b> ولقطات المتجر وصورة العرض جاهزة. يبقى تعبئة استمارتَي Data safety والتصنيف، والاختبار المغلق.</td></tr>
+  </tbody>
+</table>
+
+<div class="box red">
+  <h4>قرار مطلوب منك قبل التوزيع</h4>
+  <p>الجهاز الحالي عليه نسخة موقّعة <b>بمفتاح التصحيح</b> (من جولة سابقة)، والملفّات النهائية موقّعة بالمفتاح
+  الرسمي. أندرويد يرفض التحديث بتوقيع مختلف، فالانتقال إلى النسخة الرسمية يحتاج <b>حذفًا واحدًا</b>
+  (<code>adb uninstall com.tarikh.islam</code>) ثم تثبيتًا — والحذف يمسح موضع القراءة والمفضلة.</p>
+</div>
+
+<!-- ═══════════════ ٢ ═══════════════ -->
+<h2><span class="n">٢</span> الأخطاء المكتشفة</h2>
+
+<p>مرتّبة بالخطورة. عمود «الأثر» يصف ما كان يحدث للمستخدم فعلًا، لا ما كان ممكنًا نظريًا.</p>
+
+<h3>أ) أخطاء جسيمة — تُفسد بيانات أو تُلغي ميزة بالكامل</h3>
+<table>
+  <thead><tr><th style="width:4%">#</th><th style="width:24%">الخطأ</th><th style="width:22%">السبب</th><th>الأثر على المستخدم</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>١</td>
+      <td><b>المفضلة تُلوّث بيانات الإتمام</b><br><span class="small"><code>assets/app.js</code></span></td>
+      <td>زر المفضلة كان يكتب في <code>ti_bookmarks</code> — نفس مفتاح «الحقب المُتمّة» الذي تُحسب منه الأوسمة.</td>
+      <td>وضع نجمة على حقبة <b>يمنحها وسامها</b> دون قراءتها، وإزالة النجمة <b>تسحب الوسام</b>. أي أن سجل القراءة صار غير موثوق.</td>
+    </tr>
+    <tr>
+      <td>٢</td>
+      <td><b>الرئيسية تخزّن معرّفًا وهميًا</b><br><span class="small"><code>assets/app.js</code></span></td>
+      <td>الزر كان موجودًا في الرئيسية حيث لا معرّف حقبة، فكان يكتب <code>'home'</code> في قائمة الحقب.</td>
+      <td>قيمة لا مقابل لها في البيانات تبقى في التخزين، وتُفسد أي عدّ لاحق.</td>
+    </tr>
+    <tr>
+      <td>٣</td>
+      <td><b>وسام «تاج المؤرخ» مستحيل</b><br><span class="small"><code>assets/app.js</code></span></td>
+      <td>الشرط كان <code>bm.length &gt;= 12</code> بينما الحقب <b>١١</b> بعد حذف حقبة الأنبياء.</td>
+      <td>أعلى وسام في التطبيق لا يُنال أبدًا، ولا رسالة تشرح السبب.</td>
+    </tr>
+    <tr>
+      <td>٤</td>
+      <td><b>١١ خريطة تاريخية لا تظهر</b><br><span class="small"><code>tools/site.js</code></span></td>
+      <td>دالة <code>ERA_MAP()</code> كانت مستدعاة من مسار بناء قديم لم يبقَ له مستخدم؛ كل الحقب صارت «كتبًا» تسلك مسارًا آخر.</td>
+      <td>ملفّات الخرائط موجودة في <code>assets/img/maps/</code> و<b>لا يراها أحد</b> — تاريخ بلا خريطة واحدة.</td>
+    </tr>
+    <tr>
+      <td>٥</td>
+      <td><b>نسخة الإصدار كانت قابلة للتنقيح</b><br><span class="small"><code>AndroidManifest</code></span></td>
+      <td><code>debuggable=true</code> موروث من قالب التطوير.</td>
+      <td>تصحيح WebView مفتوح في نسخة تُوزَّع، وحجم أكبر وأداء أقل. <span class="pill ok">مُتحقَّق الآن: false</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>ب) أعطال وظيفية</h3>
+<table>
+  <thead><tr><th style="width:4%">#</th><th style="width:26%">العطل</th><th style="width:22%">السبب</th><th>الأثر</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>٦</td>
+      <td><b>بحث بمسافات فقط يعيد كل شيء</b></td>
+      <td><code>[].every()</code> ترجع <code>true</code>؛ فمصفوفة الشروط الفارغة تُطابق كل فصل.</td>
+      <td>كتابة مسافة واحدة في البحث تُخرج <b>٢٥٥ فصلًا</b> بلا صلة — يبدو كأن البحث معطّل.</td>
+    </tr>
+    <tr>
+      <td>٧</td>
+      <td><b>زر الرجوع يُنفَّذ مرتين</b></td>
+      <td>Cordova يطلق حدث <code>backbutton</code> مرتين لكل ضغطة.</td>
+      <td>ضغطة واحدة ترجع خطوتين: من الفصل إلى الرئيسية مباشرة، أو خروج من التطبيق بغير قصد.</td>
+    </tr>
+    <tr>
+      <td>٨</td>
+      <td><b>تقليب وهمي عند بدء إيماءة جديدة</b></td>
+      <td>مؤشّر اللمس <code>PT</code> من إيماءة سابقة يبقى حيًّا فيُحسب كأنه الإيماءة الحالية.</td>
+      <td>صفحة تنقلب وحدها أحيانًا عند اللمس بعد توقف.</td>
+    </tr>
+    <tr>
+      <td>٩</td>
+      <td><b>الخريطة تُفسد قياس الترقيم</b></td>
+      <td><code>loading="lazy"</code> على صورة الخريطة يجعل ارتفاعها صفرًا لحظة القياس.</td>
+      <td>عدد صفحات الحقبة يختلف بين تشغيلين، وموضع القراءة المحفوظ يشير إلى صفحة أخرى.</td>
+    </tr>
+    <tr>
+      <td>١٠</td>
+      <td><b>تخزين تالف يمنع الرسم</b></td>
+      <td>قراءات <code>localStorage</code> مباشرة بلا <code>try/catch</code> في أكثر من موضع.</td>
+      <td>قيمة واحدة تالفة أو ذاكرة ممتلئة ⇒ الرئيسية تبقى فارغة بلا تفسير.</td>
+    </tr>
+    <tr>
+      <td>١١</td>
+      <td><b>حفظ خطة الترقيم قد يرمي استثناءً</b></td>
+      <td><code>savePlan()</code> بلا حماية عند تجاوز حصة التخزين.</td>
+      <td>انقطاع الترقيم في منتصف الفصل عند امتلاء التخزين.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>ج) تجربة مستخدم · د) أمان · هـ) بناء</h3>
+<table>
+  <thead><tr><th style="width:4%">#</th><th style="width:30%">الملاحظة</th><th>الأثر</th></tr></thead>
+  <tbody>
+    <tr><td>١٢</td><td>أهداف لمس أصغر من ٤٨dp (أزرار الشريط وأيقونات القارئ)</td><td>ضغطات فائتة، خصوصًا بإبهام واحد.</td></tr>
+    <tr><td>١٣</td><td>تباين منخفض لألوان الحقب في الوضع الليلي</td><td>عناوين الأوسمة والبطاقات تكاد تختفي على الخلفية الداكنة.</td></tr>
+    <tr><td>١٤</td><td>زر المفضلة بلا حالة مرئية</td><td>لا تعرف أنك أضفت الفصل إلا بالخروج والعودة.</td></tr>
+    <tr><td>١٥</td><td>لا قسم للمفضلة في الرئيسية</td><td>الميزة موجودة لكن لا مدخل إليها.</td></tr>
+    <tr><td>١٦</td><td><code>allow-intent http/https *</code> في <code>config.xml</code></td><td>أي رابط خارجي (لو حُقن لاحقًا) يُسلّم المستخدم لتطبيق آخر. التطبيق لا يحتوي رابطًا خارجيًا واحدًا.</td></tr>
+    <tr><td>١٧</td><td>بناء AAB يفشل في هذه البيئة</td><td><code>cordova build --packageType=bundle</code> يستدعي مهمة <code>:wrapper</code> فتُحجب. كان يمنع إنتاج حزمة المتجر.</td></tr>
+    <tr><td>١٨</td><td>اختبار الدخان يعطي ١٢ إخفاقًا كاذبًا</td><td>يُشغّل الصفحات على <code>file://</code> فيمنع المتصفح تحميل الخطوط — إخفاقات لا علاقة لها بالتطبيق.</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════ ٣ ═══════════════ -->
+<h2><span class="n">٣</span> الإصلاحات المنفّذة</h2>
+
+<p>كل بند يذكر الملف المتغيّر وما صار عليه السلوك. لم يُحذف أي ملف محتوى ولم تُعَد كتابة أي واجهة.</p>
+
+<table>
+  <thead><tr><th style="width:4%">#</th><th style="width:26%">الإصلاح</th><th style="width:22%">الملف</th><th>التغيير</th></tr></thead>
+  <tbody>
+    <tr><td>١</td><td>فصل المفضلة عن الإتمام</td><td><code>assets/app.js</code> · <code>assets/home.js</code></td><td>مفتاح مستقل <code>ti_fav</code>، وحذف زر المفضلة من الرئيسية، وتصفية معرّفات الأوسمة على الحقب الموجودة فعلًا.</td></tr>
+    <tr><td>٢</td><td>وسام التاج يُنال</td><td><code>assets/app.js</code></td><td><code>ERA_COUNT = BADGES.length - 1</code> محسوب من مصدر الأوسمة لا رقمًا مكتوبًا بيد.</td></tr>
+    <tr><td>٣</td><td>عرض الخرائط</td><td><code>tools/site.js</code> · <code>assets/app.css</code></td><td>وحدة صفحة خريطة داخل الكتاب: <code>&lt;figure class="rmap"&gt;</code> تظهر إن وُجد <code>img/maps/map-&lt;id&gt;.svg</code> — ١١ خريطة ظهرت.</td></tr>
+    <tr><td>٤</td><td>حماية البحث من الفراغ</td><td><code>assets/home.js</code></td><td><code>if (!terms.length) return;</code> قبل المطابقة.</td></tr>
+    <tr><td>٥</td><td>تخزين آمن في كل موضع</td><td><code>assets/app.js</code></td><td>أربع دوال <code>lsGet/lsSet/lsJSON/lsArr</code> تُغلِّف كل قراءة وكتابة، و<code>savePlan()</code> داخل <code>try/catch</code>.</td></tr>
+    <tr><td>٦</td><td>زر الرجوع مرة واحدة</td><td><code>assets/app.js</code></td><td>مهلة ٢٠٠ مللي ثانية بين ضغطتين (<code>lastBackAt</code>).</td></tr>
+    <tr><td>٧</td><td>إبطال مؤشّر اللمس القديم</td><td><code>assets/app.js</code></td><td><code>if (PT &amp;&amp; gNow() - PT.t0 &gt; 2000) PT = null;</code> عند بدء إيماءة.</td></tr>
+    <tr><td>٨</td><td>قياس ترقيم ثابت</td><td><code>tools/site.js</code></td><td>إزالة <code>loading="lazy"</code> عن صورة الخريطة — عادت أعداد الصفحات ثابتة بين تشغيلين.</td></tr>
+    <tr><td>٩</td><td>قسم المفضلة</td><td><code>assets/home.js</code> · <code>tools/site.js</code></td><td>قسم يعرض الحقب المحفوظة مع حذف مباشر وتحديث عند العودة للرئيسية.</td></tr>
+    <tr><td>١٠</td><td>حالة زر المفضلة</td><td><code>assets/app.js</code> · <code>assets/app.css</code></td><td><code>aria-pressed</code> وكلاس <code>.on</code>، وأيقونة أوضح.</td></tr>
+    <tr><td>١١</td><td>أهداف لمس ٤٨dp</td><td><code>assets/app.css</code></td><td>توسيع غير مرئي بـ<code>::after</code> بدل تكبير الشكل.</td></tr>
+    <tr><td>١٢</td><td>تباين الوضع الليلي</td><td><code>assets/app.css</code></td><td><code>color-mix(in srgb, var(--c) 52%, #F4ECDC)</code> مع <code>@supports</code> — رفع سطوع لون الحقبة على الخلفية الداكنة.</td></tr>
+    <tr><td>١٣</td><td>شدّ سطح التنقّل</td><td><code>mobile/app/config.xml</code></td><td>حذف <code>allow-intent</code> للـhttp/https، وتصحيح بيانات المؤلف الافتراضية.</td></tr>
+    <tr><td>١٤</td><td>بناء AAB موثوق</td><td><code>tools/build-release.sh</code></td><td>بناء الحزمة بـ<code>gradlew bundleRelease</code> مباشرة بعد ضمان ملف التوقيع.</td></tr>
+    <tr><td>١٥</td><td>اختبارات بلا إخفاقات كاذبة</td><td><code>tools/test-smoke.js</code></td><td>خادم HTTP داخلي يُشغَّل ويُغلق مع الاختبار — origin حقيقي كما في التطبيق.</td></tr>
+    <tr><td>١٦</td><td>اختبارات جديدة</td><td><code>tools/test-resume.js</code> · <code>tools/test-fav.js</code> · <code>tools/test-search.js</code> · <code>tools/audit-links.js</code> · <code>tools/audit-content.py</code></td><td>خمسة فاحصات تُشغَّل بأمر واحد وتطبع نجاح/فشل صريحًا.</td></tr>
+  </tbody>
+</table>
+
+<div class="box green">
+  <h4>ما لم ألمسه — بقرار</h4>
+  <p>لم أُعد بناء التطبيق، ولم أحذف أي ميزة عاملة، ولم أغيّر الاسم أو الهوية أو الاتجاه أو نظام الألوان،
+  ولم أضف بيانات وهمية، ولم أستبدل المحتوى التاريخي. التغييرات كلها في: منطق التخزين، مسار عرض الخريطة،
+  حماية البحث، أهداف اللمس، تباين الألوان، ملف التوقيع/البناء.</p>
+</div>
+
+<!-- ═══════════════ ٤ ═══════════════ -->
+<h2><span class="n">٤</span> الميزات المُختبَرة</h2>
+
+<p>الاختبارات الآلية تعمل على <b>محرّك Chromium نفسه</b> الذي يستخدمه WebView أندرويد، بأبعاد جهاز
+(٣٦٠×٨٠٠ · DPR 2). واختبارات الجهاز تعمل على هاتف حقيقي موصول. الميّز أدناه صريح.</p>
+
+<h3>أ) نُفِّذت ونجحت</h3>
+<table>
+  <thead><tr><th style="width:5%">#</th><th style="width:34%">الميزة</th><th style="width:16%">أين</th><th>النتيجة</th></tr></thead>
+  <tbody>
+    <tr><td>١</td><td>فتح الرئيسية وعرض الحقب والأوسمة</td><td>جهاز + متصفح</td><td><span class="pill ok">ناجح</span></td></tr>
+    <tr><td>٢</td><td>فتح الحقب الإحدى عشرة بلا خطأ JS واحد</td><td>متصفح</td><td><span class="pill ok">١١/١١</span></td></tr>
+    <tr><td>٣</td><td>غلاف الحقبة: العنوان والمدى الزمني والإحصاءات</td><td>جهاز</td><td><span class="pill ok">ناجح</span></td></tr>
+    <tr><td>٤</td><td>لوحة الفهرس وبنودها</td><td>متصفح</td><td><span class="pill ok">ناجح</span></td></tr>
+    <tr><td>٥</td><td>الانتقال إلى صفحة محدّدة</td><td>متصفح</td><td><span class="pill ok">ناجح</span></td></tr>
+    <tr><td>٦</td><td>البحث داخل الكتاب</td><td>متصفح</td><td><span class="pill ok">ناجح</span></td></tr>
+    <tr><td>٧</td><td>البحث الشامل مع تطبيع الحروف والأرقام</td><td>متصفح</td><td><span class="pill ok">٢٧/٢٧ · أبطأ استعلام ٣١٫٨ مللي</span></td></tr>
+    <tr><td>٨</td><td>فتح نتيجة بحث في فصلها</td><td>متصفح</td><td><span class="pill ok">ناجح</span></td></tr>
+    <tr><td>٩</td><td>تكبير الخط وإعادة الترقيم</td><td>متصفح</td><td><span class="pill ok">ناجح</span></td></tr>
+    <tr><td>١٠</td><td>التقليب التالي/السابق صفحة واحدة</td><td>متصفح + جهاز</td><td><span class="pill ok">ناجح</span></td></tr>
+    <tr><td>١١</td><td>المفضلة: إضافة · إزالة · عرض · بقاء بعد إعادة التحميل</td><td>متصفح</td><td><span class="pill ok">١٢/١٢</span></td></tr>
+    <tr><td>١٢</td><td>الأوسمة لا تتأثر بالمفضلة</td><td>متصفح</td><td><span class="pill ok">ناجح</span></td></tr>
+    <tr><td>١٣</td><td>استعادة موضع القراءة (صفحة وفصلًا)</td><td>متصفح</td><td><span class="pill ok">١٠/١٠</span></td></tr>
+    <tr><td>١٤</td><td>عرض الخرائط في الوضعين</td><td>جهاز + متصفح</td><td><span class="pill ok">ناجح</span></td></tr>
+    <tr><td>١٥</td><td>الوضع الليلي</td><td>جهاز</td><td><span class="pill ok">ناجح</span></td></tr>
+  </tbody>
+</table>
+
+<h3>ب) اختبارات البناء والتوقيع</h3>
+<table>
+  <thead><tr><th style="width:44%">الفحص</th><th style="width:14%">النتيجة</th><th>التفصيل</th></tr></thead>
+  <tbody>
+    <tr><td>بناء APK إصدار</td><td><span class="pill ok">ناجح</span></td><td>٤٫٨ م.ب · <code>versionCode 10300</code></td></tr>
+    <tr><td>بناء AAB</td><td><span class="pill ok">ناجح</span></td><td>٤٫٧ م.ب · <code>jarsigner: jar verified.</code></td></tr>
+    <tr><td>توقيع APK</td><td><span class="pill ok">ناجح</span></td><td>SHA-256 <code class="ltr" style="display:inline">75f9…31b7</code></td></tr>
+    <tr><td><code>debuggable</code></td><td><span class="pill ok">false</span></td><td>مقروء من <code>AndroidManifest.xml</code> داخل الحزمة</td></tr>
+    <tr><td><code>hardwareAccelerated</code></td><td><span class="pill ok">true</span></td><td>على النشاط والتطبيق</td></tr>
+    <tr><td>تثبيت على الجهاز</td><td><span class="pill ok">ناجح</span></td><td><code>Success</code> · <code>versionName 1.3.0</code></td></tr>
+    <tr><td>بدء التطبيق</td><td><span class="pill ok">بلا انهيار</span></td><td>لا <code>FATAL</code> ولا <code>AndroidRuntime</code> في logcat</td></tr>
+  </tbody>
+</table>
+
+<h3>ج) لم تُنفَّذ بسبب قيود البيئة</h3>
+<div class="box red">
+  <p>هذه بنود <b>لم أختبرها</b>، وأذكرها صراحةً بدل اعتبارها ناجحة:</p>
+  <ul>
+    <li><span class="pill warn">لم يُنفَّذ</span> <b>جولة بصرية كاملة على الجهاز لكل شاشة</b> — الهاتف كان مقفلًا برمز لا أملكه في جزء من الجلسة، ثم استخدمه صاحب الجهاز. أُنجزت على الجهاز: الرئيسية، غلاف الحقبة، التقليب، صفحة الخريطة. أما لوحة الفهرس وحالات البحث والمفضلة فاختُبرت على Chromium بأبعاد الجهاز لا على الهاتف.</li>
+    <li><span class="pill warn">لم يُنفَّذ</span> <b>زر الرجوع على الجهاز</b> — الإصلاح قائم في الكود (مهلة ٢٠٠ مللي) لكن لم أضغط الزر بنفسي في هذه الجولة.</li>
+    <li><span class="pill warn">لم يُنفَّذ</span> <b>العودة من الخلفية (resume)</b> — لم أُقِس استعادة الجلسة بعد دقائق في الخلفية.</li>
+    <li><span class="pill warn">لم يُنفَّذ</span> <b>اختبار على أندرويد ٧ (minSdk 24)</b> — الجهاز المتاح إصداره أحدث.</li>
+    <li><span class="pill warn">لم يُنفَّذ</span> <b>رفع فعلي إلى Play Console</b> — لا يمكن ولا يصح الادّعاء بأن مراجعة Google مرّت.</li>
+  </ul>
+</div>
+
+<!-- ═══════════════ ٥ ═══════════════ -->
+<h2><span class="n">٥</span> تحسينات الواجهة وتجربة المستخدم</h2>
+
+<table>
+  <thead><tr><th style="width:24%">المحور</th><th style="width:30%">قبل</th><th>بعد</th></tr></thead>
+  <tbody>
+    <tr><td>أهداف اللمس</td><td>أزرار الشريط وأيقونات القارئ أصغر من ٤٨dp</td><td>مساحة ضغط ٤٨dp بتوسيع غير مرئي — الشكل كما هو، والخطأ أقل.</td></tr>
+    <tr><td>الوضع الليلي</td><td>ألوان الحقب الداكنة تذوب في الخلفية</td><td>رفع سطوع تدريجي بـ<code>color-mix</code> مع بديل للمتصفحات القديمة.</td></tr>
+    <tr><td>المفضلة</td><td>زر بلا أثر مرئي، ولا مدخل من الرئيسية</td><td>حالة مفعّلة/غير مفعّلة واضحة، وقسم «المفضلة» في الرئيسية بعدد الحقب المحفوظة.</td></tr>
+    <tr><td>الخرائط</td><td>لا خريطة واحدة في التطبيق</td><td>صفحة خريطة في كل حقبة، بإطار وشريط قياس ومفتاح، تعمل بلا إنترنت.</td></tr>
+    <tr><td>القراءة المتتابعة</td><td>موضع القراءة قد يشير لصفحة أخرى بعد تغيّر القياس</td><td>قياس ثابت، والموضع يُحفظ كصفحة <b>وفصل</b> معًا.</td></tr>
+    <tr><td>البحث</td><td>مسافة واحدة تُخرج الموسوعة كلها</td><td>لا نتائج لما لا معنى له، ونتائج دقيقة لما له معنى.</td></tr>
+    <tr><td>اللغة والاتجاه</td><td>—</td><td>لم يتغيّرا: عربية كاملة، RTL، أرقام هندية، خطوط محلية.</td></tr>
+  </tbody>
+</table>
+
+<div class="box">
+  <h4>ملاحظة صغيرة لم أُغيّرها</h4>
+  <p>بطاقة الحقبة تعرض «١٠ أحداث» بينما الفصول ٢٠. الرقم <b>صحيح</b> (عدد المحطات لا الفصول)، لكن الصياغة
+  قد تُلبس. الأوضح «١٠ محطات». تركتها لأنها لمسة تحريرية لا خلل، وأثرها لا يبرّر إعادة بناء.</p>
+</div>
+
+<!-- ═══════════════ ٦ ═══════════════ -->
+<h2><span class="n">٦</span> الأمان والتوافق</h2>
+
+<h3>أ) الأمان والخصوصية</h3>
+<table>
+  <thead><tr><th style="width:34%">الفحص</th><th style="width:14%">النتيجة</th><th>الدليل</th></tr></thead>
+  <tbody>
+    <tr><td>مفاتيح أو كلمات سر داخل المشروع</td><td><span class="pill ok">لا يوجد</span></td><td>التوقيع يُقرأ من متغيّرات بيئة، و<code>build.json</code> ممنوع وجوده بحارس في سكربت البناء.</td></tr>
+    <tr><td>اتصال شبكي من التطبيق</td><td><span class="pill ok">لا يوجد</span></td><td>لا <code>fetch</code> ولا <code>XMLHttpRequest</code> ولا <code>WebSocket</code> في أي ملف.</td></tr>
+    <tr><td>روابط خارجية</td><td><span class="pill ok">٠</span></td><td>فحص ١٢ صفحة: صفر <code>href/src</code> يبدأ بـhttp أو https.</td></tr>
+    <tr><td>تنفيذ كود ديناميكي</td><td><span class="pill ok">لا يوجد</span></td><td>لا <code>eval</code> ولا <code>new Function</code>.</td></tr>
+    <tr><td>تصحيح WebView في الإصدار</td><td><span class="pill ok">مُطفأ</span></td><td>لا منفذ <code>webview_devtools_remote</code> للتطبيق على الجهاز — تأكيد مباشر.</td></tr>
+    <tr><td>تسليم المستخدم لتطبيق خارجي</td><td><span class="pill ok">مُغلق</span></td><td><code>allow-intent</code> محذوف، ومُتحقَّق داخل الحزمة: ٠ occurrences.</td></tr>
+    <tr><td>الأذونات</td><td><span class="pill ok">واحد</span></td><td><code>INTERNET</code> فقط (+ إذن ذاتي يضيفه AndroidX للبثّ الداخلي).</td></tr>
+    <tr><td>تتبّع أو تحليلات</td><td><span class="pill ok">لا يوجد</span></td><td>لا SDK خارجي ولا نقطة إرسال.</td></tr>
+    <tr><td>العمل بلا إنترنت</td><td><span class="pill ok">كامل</span></td><td>خطوط محلية، خرائط SVG محلية، فهرس بحث محلي (١٫٥٦ م.ب) يُحمَّل عند الحاجة.</td></tr>
+  </tbody>
+</table>
+
+<div class="box">
+  <h4>لماذا يبقى إذن <code>INTERNET</code>؟</h4>
+  <p>يضيفه قالب Cordova تلقائيًا، والتطبيق لا يستخدمه (لا يفتح أي مقبس). حذفه ممكن
+  (<code>&lt;edit-config mode="remove"&gt;</code>) وهو <b>تشديد اختياري</b>، لكنه يحتاج دورة بناء وتثبيت
+  وتحققًا بصريًا كاملًا لا أستطيع إتمامه الآن — فتركته كما هو وذكرته هنا بدل تغيير لم أتحقق منه.</p>
+</div>
+
+<h3>ب) التوافق مع أندرويد</h3>
+<table>
+  <thead><tr><th style="width:34%">البند</th><th style="width:22%">القيمة</th><th>الحالة</th></tr></thead>
+  <tbody>
+    <tr><td>معرّف الحزمة</td><td><code>com.tarikh.islam</code></td><td><span class="pill ok">ثابت لم يتغيّر</span></td></tr>
+    <tr><td>الإصدار</td><td><code>1.3.0</code> · <code>10300</code></td><td><span class="pill ok">قاعدة الزيادة محفوظة</span></td></tr>
+    <tr><td>أقل إصدار مدعوم</td><td><code>minSdk 24</code></td><td><span class="pill ok">أندرويد ٧+</span></td></tr>
+    <tr><td>الإصدار المستهدف</td><td><code>targetSdk 36</code></td><td><span class="pill ok">يطابق متطلبات المتجر</span></td></tr>
+    <tr><td>تسريع الرسوم</td><td><code>hardwareAccelerated=true</code></td><td><span class="pill ok">التقليب على GPU</span></td></tr>
+    <tr><td>أصل تحميل الملفات</td><td><code>https://localhost</code></td><td><span class="pill ok">يسمح بتحميل الخطوط (خلافًا لـ<code>file://</code>)</span></td></tr>
+    <tr><td>الأيقونة</td><td>٦ كثافات + تكيّفية</td><td><span class="pill ok">ظهرت صحيحة في مشغّل التطبيقات</span></td></tr>
+    <tr><td>الاتجاه</td><td>عمودي</td><td><span class="pill ok">كما هو</span></td></tr>
+  </tbody>
+</table>
+
+<h3>ج) جاهزية Google Play</h3>
+<table>
+  <thead><tr><th style="width:30%">المتطلّب</th><th style="width:16%">الحالة</th><th>ملاحظة</th></tr></thead>
+  <tbody>
+    <tr><td>الاسم والهوية</td><td><span class="pill ok">جاهز</span></td><td>«تاريخ الإسلام» — لم يتغيّر</td></tr>
+    <tr><td>معرّف الحزمة</td><td><span class="pill ok">جاهز</span></td><td><code>com.tarikh.islam</code></td></tr>
+    <tr><td>الأيقونة ٥١٢×٥١٢</td><td><span class="pill ok">جاهز</span></td><td>موجودة في المشروع</td></tr>
+    <tr><td>targetSdk</td><td><span class="pill ok">جاهز</span></td><td>٣٦</td></tr>
+    <tr><td>حزمة موقّعة</td><td><span class="pill ok">جاهز</span></td><td>AAB موقّع ومتحقَّق</td></tr>
+    <tr><td>سياسة خصوصية منشورة</td><td><span class="pill ok">تم</span></td><td>منشورة وتعمل: <code>https://tarikh-islam-privacy.apps.workbuddy.host/?sharecode=SQ4CWMNFQB</code> — نسخة عربية وإنجليزية، بلا موارد خارجية.</td></tr>
+    <tr><td>Data safety</td><td><span class="pill warn">يحتاج تعبئة</span></td><td>الإقرار: <b>لا يجمع بيانات ولا يشاركها</b> — وهذا ميزة تسويقية صريحة.</td></tr>
+    <tr><td>استبيان التصنيف</td><td><span class="pill warn">يحتاج تعبئة</span></td><td>تاريخي/تعليمي، بلا عنف مصوّر.</td></tr>
+    <tr><td>لقطات المتجر (٣–٨)</td><td><span class="pill warn">ناقصة</span></td><td>لدينا لقطات جهاز فعلية يمكن استخدامها كنقطة بداية.</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════ ٧ ═══════════════ -->
+<h2><span class="n">٧</span> المشكلات المتبقية بالأولوية</h2>
+
+<h3><span class="pill no">أولوية ١</span> تمنع النشر</h3>
+<ol>
+  <li><b>سياسة خصوصية منشورة.</b> <span class="pill ok">تم</span> نُشرت على رابط عام يعمل: <code>https://tarikh-islam-privacy.apps.workbuddy.host/?sharecode=SQ4CWMNFQB</code></li>
+  <li><b>الانتقال إلى التوقيع الرسمي على الجهاز.</b> يتطلّب حذفًا واحدًا يمسح موضع القراءة والمفضلة. لا مفرّ منه لأن التوقيع مختلف.</li>
+  <li><b>لقطات متجر واستبيان تصنيف وتعبئة Data safety.</b></li>
+</ol>
+
+<h3><span class="pill warn">أولوية ٢</span> جودة وتحقّق</h3>
+<ol start="4">
+  <li><b>إكمال الجولة البصرية على الجهاز:</b> الفهرس، البحث، المفضلة، الوضع النهاري، زر الرجوع، والعودة من الخلفية.</li>
+  <li><b>تشديد اختياري:</b> حذف إذن <code>INTERNET</code> نهائيًا بعد دورة تحقّق كاملة.</li>
+  <li><b>صياغة بطاقة الحقبة:</b> «١٠ أحداث» ← «١٠ محطات» لإزالة اللبس مع عدد الفصول.</li>
+</ol>
+
+<h3><span class="pill info">أولوية ٣</span> عمق المحتوى — ليست أعطالًا</h3>
+<ol start="7">
+  <li><b>تفاوت كثافة الحقب.</b> العصر الحديث ٢٢ فصلًا بـ٧٬٤٠٩ كلمات (٣٣٧ كلمة/فصل)، مقابل الحروب الصليبية الأعمق. الفارق نحو ثلاثة أضعاف ويُحسّ عند التقليب.</li>
+  <li><b>لا توثيق علمي داخل الفصول.</b> لا مراجع ولا هوامش لكل فصل — وهو أكبر فارق بين «تطبيق قراءة» و«مرجع موثّق».</li>
+  <li><b>الخرائط إحدى عشرة فقط</b> — خريطة لكل حقبة. الفتوحات والأندلس والطرق التجارية تستحق خرائط مستقلة.</li>
+  <li><b>حقب غائبة كأقسام مستقلّة:</b> الفاطميون، السلاجقة، المغول، التيموريون، الصفويون، مغول الهند، الإسلام في أفريقيا وجنوب شرق آسيا والبلقان.</li>
+</ol>
+
+<!-- ═══════════════ ٨ ═══════════════ -->
+<h2><span class="n">٨</span> الملفّات النهائية</h2>
+
+<table>
+  <thead><tr><th style="width:46%">الملف</th><th style="width:16%">الحجم</th><th>الوصف</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><code>تاريخ-الإسلام-1.3.0-release.apk</code></td>
+      <td>٤٫٨ م.ب</td>
+      <td>للتثبيت المباشر. موقّع بالمفتاح الرسمي، <code>debuggable=false</code>، ٣٨ ملفًا في <code>assets/www</code>.</td>
+    </tr>
+    <tr>
+      <td><code>تاريخ-الإسلام-1.3.0-release.aab</code></td>
+      <td>٤٫٧ م.ب</td>
+      <td>حزمة Google Play. <code>jar verified</code>. ارفعها في Production ← Create new release.</td>
+    </tr>
+    <tr>
+      <td><code>RELEASE.md</code></td>
+      <td>—</td>
+      <td>التوقيع والبناء والنشر، محدَّث على هذا الإصدار.</td>
+    </tr>
+    <tr>
+      <td><code>tools/build-release.sh</code></td>
+      <td>—</td>
+      <td>بناء موقّع بأمر واحد: صفحات ← فحوص ← مزامنة ← APK ← AAB ← تحقّق.</td>
+    </tr>
+    <tr>
+      <td><code>tools/test-smoke.js</code> · <code>test-fav.js</code> · <code>test-resume.js</code> · <code>test-search.js</code></td>
+      <td>—</td>
+      <td>٤٠ + ١٢ + ١٠ + ٢٧ فحصًا، تُشغَّل بـ<code>node tools/&lt;name&gt;.js</code> وتطبع نجاح/فشل صريحًا.</td>
+    </tr>
+    <tr>
+      <td><code>tools/audit-links.js</code> · <code>audit-content.py</code></td>
+      <td>—</td>
+      <td>فاحص الروابط والأصول والمعرّفات، وفاحص جودة المحتوى.</td>
+    </tr>
+    <tr>
+      <td><code>shots/device/</code></td>
+      <td>—</td>
+      <td>لقطات من الهاتف: الرئيسية، غلاف الحقبة، التقليب، صفحة الخريطة.</td>
+    </tr>
+    <tr>
+      <td><code>tmp/config.xml.bak-1221</code></td>
+      <td>—</td>
+      <td>نسخة احتياطية من <code>config.xml</code> قبل التعديل — للرجوع بخطوة واحدة.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>إعادة إنتاج النتائج</h3>
+<div class="ltr">
+bash tools/build-release.sh        # بناء موقّع + تحقّق<br>
+node tools/audit-links.js          # الروابط والأصول والمعرّفات<br>
+python tools/audit-content.py      # جودة المحتوى<br>
+node tools/test-search.js          # ٢٧ استعلامًا<br>
+node tools/test-fav.js             # ١٢ فحصًا للمفضلة والأوسمة<br>
+node tools/test-resume.js          # ١٠ فحوص لاستعادة الموضع<br>
+node tools/test-smoke.js           # ٤٠ فحصًا لكل الشاشات
+</div>
+
+<div class="box green">
+  <h4>الخلاصة</h4>
+  <p>التطبيق صار <b>مكتمل الوظائف الأساسية، موقّعًا، وقابلًا للرفع</b> بعد ثلاثة أشياء إدارية لا تقنية:
+  تعبئة نموذجَي Data safety والتصنيف، والاختبار المغلق. (السياسة المنشورة واللقطات وصورة العرض والأيقونة صارت جاهزة.) أما العيب البنيوي الباقي فهو
+  <b>عمق المحتوى وتوثيقه</b> — وهو عمل تحريري طويل لا إصلاح برمجي.</p>
+</div>
+
+
+<!-- ═══════════════ ٩ ═══════════════ -->
+<h2><span class="n">٩</span> ملحق: شاشة «عن التطبيق» وسياسة الخصوصية</h2>
+
+<p>أُضيفت هذه الشاشة بعد المراجعة الأولى، لأن Google Play يرفض أي تطبيق بلا سياسة خصوصية.
+وُضعت <b>داخل التطبيق</b> لا كرابط خارجي، فتعمل بلا إنترنت كبقية الموسوعة.</p>
+
+<table>
+  <thead><tr><th style="width:30%">العنصر</th><th>الحالة</th></tr></thead>
+  <tbody>
+    <tr><td>الصفحة</td><td><code>about.html</code> — تُبنى من <code>tools/site.js</code> مع بقية الصفحات، فلا تخرج عن نمط الموقع ولا تُنسى عند إعادة البناء.</td></tr>
+    <tr><td>رقم الإصدار</td><td>يُقرأ من <code>config.xml</code> وقت البناء (١٫٣٫٠ · ١٠٣٠٠) — لا يُكتب يدويًا فلا يختلف عن الحزمة.</td></tr>
+    <tr><td>بريد التواصل</td><td><code>adham19821408@gmail.com</code> — ثابت واحد في أعلى المولّد، يُغيَّر في موضع واحد.</td></tr>
+    <tr><td>المدخل</td><td>رابط «عن التطبيق وسياسة الخصوصية» أسفل الصفحة الرئيسية.</td></tr>
+    <tr><td>زر الرجوع</td><td>كان يُخرج من التطبيق مباشرة (المعالج موجود في القارئ فقط) — صار يعود إلى الرئيسية، والخروج يبقى في الرئيسية وحدها.</td></tr>
+    <tr><td>الروابط الخارجية</td><td>صفر. الرابط الوحيد <code>mailto:</code> لفتح تطبيق البريد، وأُضيف له <code>allow-intent</code> خاص به دون إعادة فتح <code>http/https</code>.</td></tr>
+  </tbody>
+</table>
+
+<div class="box">
+  <h4>ما تقوله السياسة، بلا مبالغة ولا تعميم</h4>
+  <p>لا حسابات، لا إعلانات، لا تحليلات، لا مكتبات خارجية. لا يُرسَل شيء إلى أي خادم.
+  ما يُحفظ على الجهاز فقط: موضع القراءة، المفضلة، الأوسمة، وإعدادات العرض — في تخزين التطبيق المحلي،
+  ويُمحى بمسح البيانات أو إلغاء التثبيت. لا أذونات حسّاسة؛ الصلاحية الوحيدة <code>INTERNET</code>
+  يضيفها إطار Cordova ولا يستخدمها التطبيق. وفيها نسخة إنجليزية مختصرة لمراجع المتجر.</p>
+</div>
+
+<div class="box">
+  <h4>التحقق</h4>
+  <p>أربعة فحوص جديدة في <code>test-smoke.js</code>: وجود البريد، خلوّ الصفحة من أي رابط خارجي،
+  وجود أقسام السياسة ومطابقة رقم الإصدار للحزمة، وعمل زر الرجوع. النتيجة ٤٠/٤٠.
+  وعلى الجهاز: فُتحت الشاشة من الرئيسية، وضغط البريد أخرج مُنتقي تطبيقات البريد
+  (Gmail وياندكس وغيرها) — أي أن <code>allow-intent</code> يعمل فعلًا، والرجوع أعاد إلى الرئيسية.</p>
+</div>
+
+
+<!-- ═══════════════ ١٠ ═══════════════ -->
+<h2><span class="n">١٠</span> ملحق: تصحيح هوية الأيقونة وأصول المتجر</h2>
+
+<p>ظهرت أثناء تجهيز النشر مشكلة لم تكن في الكود بل في <b>الهوية</b>: الأيقونة تحمل نصًا
+«موسوعة العالم الإسلامي» بينما اسم التطبيق «موسوعة تاريخ الإسلام». في حجم ١٩٢px لا يُقرأ،
+لكن في أيقونة المتجر ٥١٢px يصبح واضحًا ومخالفًا للاسم المعلن.</p>
+
+<table>
+  <thead><tr><th style="width:28%">الخطوة</th><th>ما نُفِّذ</th></tr></thead>
+  <tbody>
+    <tr><td>إزالة النص القديم</td><td>تعبئة داخلية (flood fill) للكارتوش الأخضر مع استثناء الذهب كحدّ، ثم ملء الفراغات صفًّا صفًّا، فبقي الحدّ الذهبي والزخارف الجانبية كما هي ولم تُمسّ.</td></tr>
+    <tr><td>كتابة الاسم الصحيح</td><td>«موسوعة» فوق و«تاريخ الإسلام» بخط <b>Cairo</b> — لا Amiri. السبب: خطّا Amiri المضمّنان في المشروع يفشلان في تشكيل العربية داخل Chromium (حروف منفصلة)، وقد أُثبت ذلك باختبار مقارنة بين الأوزان الثلاثة.</td></tr>
+    <tr><td>ضبط المقاسات</td><td>قِيست أبعاد النص بـ<code>getBoundingClientRect</code> عبر بروتوكول التنقيح، فضُبط الحجم وقاعدة السطر ليقع النص داخل الكارتوش (٣٣١–٦٥٥px) بلا تجاوز.</td></tr>
+    <tr><td>أيقونات التطبيق</td><td>وُلِّدت ستة مقاسات تقليدية + طبقات تكيّفية (أمامية دائرية على ٧٢٪ وخلفية بلا تدرّج) من الرسم المصحّح نفسه، فلا تختلف أيقونة الجهاز عن أيقونة المتجر.</td></tr>
+    <tr><td>أصول المتجر</td><td><code>store/icon-512.png</code> · <code>store/feature-1024x500.png</code> (بُنيت كصفحة HTML بخطوط التطبيق لضبط التشكيل) · ثلاث لقطات ٧٢٠×١٢٨٠.</td></tr>
+    <tr><td>صفحة السياسة</td><td>صفحة مستقلة بلا موارد خارجية، عربية وإنجليزية: <code>https://tarikh-islam-privacy.apps.workbuddy.host/?sharecode=SQ4CWMNFQB</code></td></tr>
+  </tbody>
+</table>
+
+<div class="box">
+  <h4>التحقق</h4>
+  <p>الأيقونة المصحّحة استُخرجت من داخل الـAPK بعد البناء (وليست من ملفات المصدر) وطابقت المتوقّع.
+  وحُدِّثت عبارة في شاشة «عن التطبيق» كانت تقول «لا توجد سياسة منشورة على موقع خارجي» — صارت
+  تشير إلى نشر النسخة نفسها مع صفحة التطبيق. وأُعيد تشغيل الفحوص: الروابط ✔، البحث ٢٧/٢٧،
+  الدخان ٤٠/٤٠.</p>
+</div>
+
+<h2><span class="n">١١</span> ملحق: تغيير اسم التطبيق إلى «موسوعة تاريخ الإسلام» وإصدار ١٫٣٫١</h2>
+
+<p>كان اسم التطبيق على شاشة الهاتف مختصرًا «تاريخ الإسلام» بينما الأيقونة وصفحة المتجر
+والواجهة الداخلية كلها تقول «موسوعة تاريخ الإسلام». وُحِّد الاسم في المصدر، ورُفع الإصدار
+إلى <b>1.3.1</b> (`versionCode 10301`) لأن إعادة رفع نسخة بالرقم نفسه إلى أي متجر بعد
+إرسال 10300 تُرفض.</p>
+
+<table>
+  <thead><tr><th style="width:28%">البند</th><th>النتيجة المقيسة</th></tr></thead>
+  <tbody>
+    <tr><td>اسم التطبيق في <code>config.xml</code></td><td><code>موسوعة تاريخ الإسلام</code> — صار مطابقًا للأيقونة والواجهة وصفحة المتجر.</td></tr>
+    <tr><td>الاسم داخل الـAPK المبني</td><td><code>aapt2 dump badging</code>: <code>application-label:'موسوعة تاريخ الإسلام'</code> و<code>application-label-ar</code> بالمثل، وكذلك <code>launchable-activity</code>.</td></tr>
+    <tr><td>الاسم في الـAPK <b>المثبَّت فعلًا</b></td><td>سُحب <code>base.apk</code> من <code>/data/app/…</code> على الجهاز وفحص: الاسم مطابق. أي أن التحقق من الجهاز نفسه لا من ملف البناء.</td></tr>
+    <tr><td>الإصدار</td><td><code>versionCode=10301</code> · <code>versionName=1.3.1</code> على الجهاز.</td></tr>
+    <tr><td>حجم الملفّين</td><td>APK: 5,107,151 بايت · AAB: 5,003,741 بايت · التوقيع <code>75f9…31b7</code> كما هو.</td></tr>
+    <tr><td>حفظ بيانات المستخدم</td><td>تثبيت فوق النسخة السابقة بـ<code>adb install -r</code>؛ <code>firstInstallTime</code> بقي ٢٠٢٦-١٠-٢٢ ٢٠:٠٠:٤٧، أي تحديث في المكان لا تثبيت جديد، فلم يُفقد موضع القراءة ولا المفضلة.</td></tr>
+    <tr><td>التشغيل بعد التثبيت</td><td><code>am start -W</code>: <code>Status: ok</code> · زمن الإقلاع البارد ١٠٩٥ms · لقطة شاشة تُظهر العنوان الجديد · صفر <code>FATAL</code> في السجل.</td></tr>
+    <tr><td>نصّ تابع للاسم</td><td>في شاشة «عن التطبيق» كان مسار مسح البيانات يقول «التطبيقات ← تاريخ الإسلام» فحُدِّث إلى الاسم الكامل في <code>tools/site.js</code> وأُعيد بناء الصفحات.</td></tr>
+  </tbody>
+</table>
+
+<div class="box">
+  <h4>أثر التغيير على النشر</h4>
+  <p>حُدِّثت ورقة APKPure إلى ١٫٣٫١ (`10301`) مع بصمة الملف الجديدة
+  <code>68006d1c…be507</code>، واسم ملف الرفع <code>store/upload/tarikh-al-islam-1.3.1.apk</code>.
+  والاسم الباكيجي <code>com.tarikh.islam</code> لم يُمسّ، فالتحديثات مستقبلًا تصل طبيعيًا.</p>
+</div>
+
+<footer>
+  أُعدّ هذا التقرير من قياسات فعلية على المشروع والجهاز. كل رقم فيه مأخوذ من تشغيل حقيقي،
+  وكل بند وُسم «لم يُنفَّذ» هو بند لم يُختبر عن قصدٍ لا عن سهو.
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script>try{var t=localStorage.getItem('ti_theme'),d=t===null?(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches):t==='1';if(d)document.documentElement.classList.add('dark')}catch(e){}</script>
+<!-- جسر Cordova: بدونه لا يصل حدث backbutton إلى الصفحة، فيخرج زر الرجوع من التطبيق
+     بدل الرجوع صفحةً صفحة. defer حتى لا يحجب الرسم، ويُنفَّذ قبل app.js (ترتيب المستند).
+     يُخدَّم من assets/www/cordova.js داخل التطبيق (404 في المتصفح فقط). -->
+<script src="cordova.js" defer></script>
+<meta name="description" content="عن تطبيق موسوعة تاريخ الإسلام: ما يقدّمه، وما يخزّنه على جهازك، وسياسة الخصوصية الكاملة.">
+<title>عن التطبيق وسياسة الخصوصية | موسوعة تاريخ الإسلام</title>
+<link rel="preload" href="assets/fonts/amiri-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/amiri-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/app.css">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon_32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon_64.png">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon_180.png">
+<meta name="theme-color" content="#B8942F">
+</head>
+<body data-page="about">
+<header class="top">
+  <a class="brand" href="index.html"><span class="bic">📜</span><span class="btxt">موسوعة تاريخ الإسلام</span></a>
+  <div class="tools">
+    
+    <span class="dome" title="نسبة إكمالك للصفحة"><svg viewBox="0 0 40 46" fill="none">
+<path d="M4 42V22a16 16 0 0 1 32 0v20z" fill="none" stroke="var(--gold)" stroke-width="1.4" opacity=".45"/>
+<path class="fill" d="M4 42V22a16 16 0 0 1 32 0v20z" fill="var(--gold)" opacity=".2"/></svg></span>
+    
+    
+    <button class="ib" id="themeBtn" title="الوضع الليلي" aria-label="تبديل الوضع الليلي">🌙</button>
+  </div>
+</header>
+<div class="topbar"><i></i></div>
+<main>
+  <div class="crumbs"><a href="index.html">الرئيسية</a> ‹ <span>عن التطبيق</span></div>
+
+  <section class="hero frame compact" style="--c:#B8942F">
+    <span class="crn tl"><svg viewBox="0 0 26 26">
+<path d="M1 9V4a3 3 0 0 1 3-3h5M1 5h4M5 1v4"/><path d="M1 9V4a3 3 0 0 1 3-3h5M1 5h4M5 1v4" transform="rotate(90 13 13)" opacity=".5"/></svg></span><span class="crn tr"><svg viewBox="0 0 26 26">
+<path d="M1 9V4a3 3 0 0 1 3-3h5M1 5h4M5 1v4"/><path d="M1 9V4a3 3 0 0 1 3-3h5M1 5h4M5 1v4" transform="rotate(90 13 13)" opacity=".5"/></svg></span><span class="crn bl"><svg viewBox="0 0 26 26">
+<path d="M1 9V4a3 3 0 0 1 3-3h5M1 5h4M5 1v4"/><path d="M1 9V4a3 3 0 0 1 3-3h5M1 5h4M5 1v4" transform="rotate(90 13 13)" opacity=".5"/></svg></span><span class="crn br"><svg viewBox="0 0 26 26">
+<path d="M1 9V4a3 3 0 0 1 3-3h5M1 5h4M5 1v4"/><path d="M1 9V4a3 3 0 0 1 3-3h5M1 5h4M5 1v4" transform="rotate(90 13 13)" opacity=".5"/></svg></span>
+    <div class="ic abt-ic"><svg viewBox="0 0 40 46" fill="none">
+<path d="M4 42V22a16 16 0 0 1 32 0v20z" fill="none" stroke="var(--gold)" stroke-width="1.4" opacity=".45"/>
+<path class="fill" d="M4 42V22a16 16 0 0 1 32 0v20z" fill="var(--gold)" opacity=".2"/></svg></div>
+    <h1>عن التطبيق</h1>
+    <div class="period">الإصدار ١.٣.١ · بناء ١٠٣٠١ · يعمل بلا إنترنت</div>
+    <svg class="orn" viewBox="0 0 260 22" fill="none">
+  <path class="ln" d="M0 11h92M168 11h92"/>
+  <path class="dm" d="M96 11l10-9 10 9-10 9zM144 11l10-9 10 9-10 9z"/>
+  <circle class="ln" cx="130" cy="11" r="7"/><circle class="ln" cx="130" cy="11" r="3"/>
+  <path class="ln" d="M8 5h26M8 17h26M226 5h26M226 17h26"/></svg>
+    <p class="intro">موسوعة مختصرة لتاريخ الإسلام: من قبل البعثة إلى العصر الحديث، في ١١ حقبة و٢٥٥ فصلًا. تعمل دون اتصال، ولا تجمع عنك أي بيانات.</p>
+  </section>
+
+  <h2 class="sec">ما هذه الموسوعة</h2>
+  <div class="src frame" style="--c:#B8942F">
+    <span class="crn tl"><svg viewBox="0 0 26 26">
+<path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3"/><path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3" transform="rotate(90 13 13)" opacity=".5"/></svg></span><span class="crn tr"><svg viewBox="0 0 26 26">
+<path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3"/><path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3" transform="rotate(90 13 13)" opacity=".5"/></svg></span><span class="crn bl"><svg viewBox="0 0 26 26">
+<path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3"/><path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3" transform="rotate(90 13 13)" opacity=".5"/></svg></span><span class="crn br"><svg viewBox="0 0 26 26">
+<path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3"/><path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3" transform="rotate(90 13 13)" opacity=".5"/></svg></span>
+    <ul class="outs">
+      <li>١١ حقبة تاريخية، كل واحدة في صفحة مستقلة تُقرأ على هيئة كتاب بأوراق تُقلَب.</li>
+      <li>٢٥٥ فصلًا، مع خريطة تاريخية لكل حقبة وخط زمني وأهم الشخصيات والنتائج والمصادر.</li>
+      <li>بحث شامل في كل الفصول مع تجاهل الهمزات والتشكيل والأرقام الهندية، وفهرس للانتقال السريع، ومفضلة، وحفظ لموضع القراءة.</li>
+      <li>كل شيء داخل الحزمة: المحتوى والخطوط والخرائط. لا يُطلب أي اتصال بالشبكة بعد التثبيت.</li>
+      <li>المحتوى خلاصة تعليمية تستند إلى المصادر المذكورة في نهاية كل حقبة، ولا يُقصد به الاستقصاء الأكاديمي الكامل. التصحيح والتنبيه مرحّب بهما على بريد التواصل أدناه.</li>
+    </ul>
+  </div>
+
+  <h2 class="sec">سياسة الخصوصية <span class="n">آخر تحديث: ٢٤ أكتوبر ٢٠٢٦</span></h2>
+
+  <div class="src frame" style="--c:#B8942F">
+    <span class="crn tl"><svg viewBox="0 0 26 26">
+<path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3"/><path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3" transform="rotate(90 13 13)" opacity=".5"/></svg></span><span class="crn tr"><svg viewBox="0 0 26 26">
+<path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3"/><path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3" transform="rotate(90 13 13)" opacity=".5"/></svg></span><span class="crn bl"><svg viewBox="0 0 26 26">
+<path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3"/><path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3" transform="rotate(90 13 13)" opacity=".5"/></svg></span><span class="crn br"><svg viewBox="0 0 26 26">
+<path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3"/><path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3" transform="rotate(90 13 13)" opacity=".5"/></svg></span>
+    <h3 class="abt-h">ما لا نجمعه</h3>
+    <ul class="outs">
+      <li>لا حسابات ولا تسجيل دخول: التطبيق لا يعرف من أنت.</li>
+      <li>لا إعلانات، ولا أدوات تتبّع أو تحليلات، ولا أي مكتبة خارجية ترسل بيانات.</li>
+      <li>لا نجمع الاسم ولا البريد ولا الموقع الجغرافي ولا جهات الاتصال ولا الصور ولا أي ملف من جهازك.</li>
+      <li>لا يُرسَل شيء إلى أي خادم: لا يوجد في التطبيق أي اتصال شبكي لجلب محتوى أو لتقارير الأعطال.</li>
+    </ul>
+
+    <h3 class="abt-h">ما يُحفظ على جهازك فقط</h3>
+    <p class="abt-note">لتعمل الميزات (استئناف القراءة، المفضلة، الأوسمة) يحفظ التطبيق بيانات صغيرة في مساحة التخزين المحلية الخاصة به على جهازك (localStorage). هذه البيانات لا تُغادر الجهاز، ولا يراها أحد غيرك:</p>
+    <div class="abt-tblwrap"><table class="abt-tbl">
+      <thead><tr><th>ما يُحفظ</th><th>لماذا</th></tr></thead>
+      <tbody><tr><td><b>موضع القراءة</b></td><td>الصفحة والفصل الذي وقفت عنده، ليُستأنف من حيث توقفت</td></tr><tr><td><b>المفضلة</b></td><td>الحقب التي حفظتها بعلامة 🔖</td></tr><tr><td><b>الأوسمة والتقدّم</b></td><td>الحقب التي أتممتها ونسبة إنجازك</td></tr><tr><td><b>إعدادات العرض</b></td><td>الوضع الليلي وحجم الخط</td></tr></tbody>
+    </table></div>
+    <p class="abt-note">تُحذف هذه البيانات نهائيًا عند مسح بيانات التطبيق من إعدادات أندرويد أو عند إلغاء تثبيته.</p>
+
+    <h3 class="abt-h">الأذونات</h3>
+    <p class="abt-note">لا يطلب التطبيق أي إذن حسّاس: لا كاميرا، ولا ميكروفون، ولا موقع، ولا جهات اتصال، ولا وصول إلى ملفاتك. الصلاحية الوحيدة المعلنة في الحزمة هي <code>INTERNET</code> وهي صلاحية يضيفها إطار Cordova افتراضيًا، ولا يستخدمها التطبيق في أي اتصال.</p>
+
+    <h3 class="abt-h">الأطفال</h3>
+    <p class="abt-note">المحتوى تاريخي تعليمي مناسب لجميع الأعمار. لا يوجد محتوى يشاركه المستخدمون، ولا تواصل بينهم، ولا مشتريات داخل التطبيق.</p>
+
+    <h3 class="abt-h">حذف بياناتك</h3>
+    <p class="abt-note">من إعدادات أندرويد: التطبيقات ← موسوعة تاريخ الإسلام ← التخزين ← مسح البيانات. أو إلغاء تثبيت التطبيق. لا نحتفظ بأي نسخة عندنا لأننا لا نجمع شيئًا أصلًا.</p>
+
+    <h3 class="abt-h">تغييرات هذه السياسة</h3>
+    <p class="abt-note">أي تعديل يظهر في هذه الشاشة نفسها مع تحديث تاريخ آخر تعديل أعلاه، وتُنشر النسخة المطابقة على صفحة التطبيق في Google Play.</p>
+  </div>
+
+  <h2 class="sec">Privacy policy (English)</h2>
+  <div class="src frame abt-en" style="--c:#B8942F" dir="ltr" lang="en">
+    <span class="crn tl"><svg viewBox="0 0 26 26">
+<path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3"/><path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3" transform="rotate(90 13 13)" opacity=".5"/></svg></span><span class="crn tr"><svg viewBox="0 0 26 26">
+<path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3"/><path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3" transform="rotate(90 13 13)" opacity=".5"/></svg></span><span class="crn bl"><svg viewBox="0 0 26 26">
+<path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3"/><path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3" transform="rotate(90 13 13)" opacity=".5"/></svg></span><span class="crn br"><svg viewBox="0 0 26 26">
+<path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3"/><path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3" transform="rotate(90 13 13)" opacity=".5"/></svg></span>
+    <p class="abt-note">This app collects <b>no personal data</b>. There are no accounts, no advertising, no analytics and no third-party SDKs. Reading position, favourites, badges and display settings are stored only in the app's local storage on your device and never leave it; they are removed when you clear the app data or uninstall. The app works fully offline and makes no network requests. It requests no sensitive permissions (camera, microphone, location, contacts, files). The only permission declared in the package is <code>INTERNET</code>, added by the Cordova framework by default and unused by the app. Content is educational and suitable for all ages.</p>
+    <p class="abt-note">Contact: <a href="mailto:adham19821408@gmail.com">adham19821408@gmail.com</a></p>
+  </div>
+
+  <h2 class="sec">التواصل</h2>
+  <div class="src frame" style="--c:#B8942F">
+    <span class="crn tl"><svg viewBox="0 0 26 26">
+<path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3"/><path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3" transform="rotate(90 13 13)" opacity=".5"/></svg></span><span class="crn tr"><svg viewBox="0 0 26 26">
+<path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3"/><path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3" transform="rotate(90 13 13)" opacity=".5"/></svg></span><span class="crn bl"><svg viewBox="0 0 26 26">
+<path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3"/><path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3" transform="rotate(90 13 13)" opacity=".5"/></svg></span><span class="crn br"><svg viewBox="0 0 26 26">
+<path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3"/><path d="M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3" transform="rotate(90 13 13)" opacity=".5"/></svg></span>
+    <p class="abt-note" style="text-align:center">لأي استفسار، أو تصحيح في المحتوى، أو ملاحظة على التطبيق:</p>
+    <p class="abt-mail"><a href="mailto:adham19821408@gmail.com">adham19821408@gmail.com</a></p>
+  </div>
+
+  <p class="abtlink"><a href="index.html">← العودة إلى الموسوعة</a></p>
+</main>
+<script src="assets/app.js" defer></script>
+</body>
+</html>

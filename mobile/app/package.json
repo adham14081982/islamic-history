@@ -1,8 +1,8 @@
 {
   "name": "com.tarikh.islam",
   "displayName": "تاريخ الإسلام",
-  "version": "1.0.0",
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
+  "version": "1.3.0",
+  "description": "موسوعة تفاعلية في تاريخ الإسلام: من عصر النبوة إلى العصور المتأخرة.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,7 @@
   "keywords": [
     "ecosystem:cordova"
   ],
-  "author": "Apache Cordova Team",
+  "author": "موسوعة تاريخ الإسلام",
   "license": "Apache-2.0",
   "devDependencies": {
     "cordova-android": "^15.1.0"

@@ -1,0 +1,11 @@
+{
+  "android": {
+    "release": {
+      "keystore": "../keys/tarikh-release.jks",
+      "storePassword": "<STORE_PASSWORD>",
+      "alias": "tarikh",
+      "password": "<KEY_PASSWORD>",
+      "keystoreType": "pkcs12"
+    }
+  }
+}

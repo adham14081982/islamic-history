@@ -2,25 +2,50 @@
 
 /* الخطوط محليّة (Subset عربي): لا شبكة، ولا اختلاف في القياس بين تشغيل وتشغيل */
 @font-face{font-family:'Amiri';font-style:normal;font-weight:400;font-display:block;
-  src:url(assets/fonts/amiri-400.woff2) format('woff2')}
+  src:url(fonts/amiri-400.woff2) format('woff2')}
 @font-face{font-family:'Amiri';font-style:normal;font-weight:700;font-display:block;
-  src:url(assets/fonts/amiri-700.woff2) format('woff2')}
+  src:url(fonts/amiri-700.woff2) format('woff2')}
 @font-face{font-family:'Cairo';font-style:normal;font-weight:200 1000;font-display:block;
-  src:url(assets/fonts/cairo-var.woff2) format('woff2')}
+  src:url(fonts/cairo-var.woff2) format('woff2')}
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
   --gold:#B8942F;--gold2:#8B6914;--cream:#FBF4E4;--paper:#FFFDF8;
-  --ink:#2E2A24;--muted:#7C7364;--line:#E7DCC3;
+  --ink:#2E2A24;--muted:#6B6252;--line:#E7DCC3;
   --green:#1E6B3A;--blue:#155E9C;
   --shadow:0 4px 18px rgba(80,60,20,.08);
   --c:#B8942F;
+  --map-sea:#C8D8DB;--map-land:#E8DCC4;--map-coast:#9A8A6A;
+  --map-river:#7A9AAA;--map-halo:#E8DCC4;--map-route:#B0522E;
+  --map-dot:#8B6914;--map-cap:#A33B1E;
+  /* الهيكل العظمي (Skeleton) — درجتان قريبتان من الورق ليمرّ اللمعان بهدوء */
+  --skl-a:#EFE6D0;--skl-b:#FBF5E6;
+  /* حركة الورق */
+  --flip-dur:460ms;--flip-ease:cubic-bezier(.25,1,.5,1);
 }
+html{background:var(--cream)}   /* لا تُترك لوحة المتصفح سوداء بين تنقّلين */
 body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--ink);
   min-height:100vh;line-height:1.9;transition:.3s}
 
-html.dark body,body.dark{--paper:#201E1A;--cream:#161512;--ink:#E8E1D2;--muted:#A79E8B;
-  --line:#3A362C;--shadow:0 4px 18px rgba(0,0,0,.35)}
+html.dark,html.dark body,body.dark{--paper:#201E1A;--cream:#161512;--ink:#E8E1D2;--muted:#A79E8B;
+  --line:#3A362C;--shadow:0 4px 18px rgba(0,0,0,.35);
+  --skl-a:#2A2823;--skl-b:#3B372C;
+  --map-sea:#2A3E45;--map-land:#3D3528;--map-coast:#7A6A52;
+  --map-river:#5A7A8A;--map-halo:#3D3528;--map-route:#C0683E;
+  --map-dot:#C8A84A;--map-cap:#C85A3E}
+
+/* لون الحقبة (--c) يُضبط لكل بطاقة/صفحة، وألوانه مشبعة لتناسب الورق الفاتح.
+   على الخلفية الداكنة تنخفض نسبة التباين، فنرفع إضاءتها مع الحفاظ على الصبغة.
+   color-mix مدعوم في WebView الحديث؛ وحيث لا يكون مدعومًا يبقى السلوك السابق. */
+@supports (color: color-mix(in srgb, #fff, #000)) {
+  html.dark .hero h1,html.dark h2.sec,html.dark .tli b,html.dark .ec b,
+  html.dark .res b,html.dark .part-h h2,html.dark .toc-part>a,
+  html.dark .btl .nm,html.dark .ch3 .sub,html.dark .rbody .sub,
+  html.dark .pager a b,html.dark .cho-part,html.dark .part-list a,
+  html.dark .toclist a{
+    color:color-mix(in srgb, var(--c) 52%, #F4ECDC);
+  }
+}
 
 main{max-width:820px;margin:0 auto;padding:1.2rem 1.1rem 5rem}
 
@@ -29,16 +54,19 @@ header.top{position:sticky;top:0;z-index:60;display:flex;align-items:center;
   justify-content:space-between;gap:.6rem;padding:.55rem 1rem;
   background:var(--paper);border-bottom:2px solid var(--gold)}
 .brand{font-family:'Amiri',serif;font-weight:700;font-size:1.02rem;color:var(--ink);
-  text-decoration:none;display:flex;align-items:center;gap:.4rem}
+  text-decoration:none;display:flex;align-items:center;gap:.4rem;white-space:nowrap;min-width:0}
+.brand .btxt{overflow:hidden;text-overflow:ellipsis}
+@media (max-width:400px){.brand{font-size:.94rem;gap:.3rem}.brand .bic{font-size:.95rem}}
 .tools{display:flex;align-items:center;gap:.5rem}
-.ib{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);
+.ib{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
   background:transparent;color:var(--ink);font-size:1.05rem;cursor:pointer;
   display:grid;place-items:center;transition:.2s}
 .ib:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
 .ib:active{transform:scale(.9)}
 
 /* ---------- قبة التقدم ---------- */
-.dome{width:38px;height:44px;position:relative;cursor:default}
+/* القبة كانت تظهر كهيئة زر فارغ حين لا تقدّم — أُخفيت لأن شريط التقدم العلوي والسفلي يغنيان عنها */
+.dome{display:none}
 .dome svg{width:100%;height:100%;display:block}
 .dome .fill{fill:var(--gold);opacity:.85;transition:.4s}
 
@@ -62,6 +90,14 @@ header.top{position:sticky;top:0;z-index:60;display:flex;align-items:center;
 .hero .period{color:var(--gold2);font-size:.85rem;font-weight:600;margin-bottom:.6rem}
 .hero .intro{color:var(--muted);font-size:.96rem;line-height:2;max-width:620px;margin:0 auto}
 
+/* ---------- خرائط الحقب ---------- */
+.emap-sec{margin:1.2rem 0;text-align:center}
+.emap{display:block;width:100%;height:auto;aspect-ratio:1000/640;
+  border-radius:12px;border:1px solid var(--line);background:var(--map-sea);
+  box-shadow:var(--shadow)}
+.emap-cap{display:block;margin-top:.4rem;font-size:.78rem;color:var(--muted);
+  font-family:'Cairo',sans-serif}
+
 /* ---------- زخرفة SVG ---------- */
 .orn{display:block;margin:1.2rem auto;opacity:.55}
 .orn line,.orn path,.orn circle{stroke:var(--gold);stroke-width:1.1;fill:none}
@@ -75,8 +111,10 @@ h2.sec .n{margin-right:auto;font-family:'Cairo';font-size:.75rem;color:var(--mut
 
 /* ---------- الخط الزمني ---------- */
 .tlwrap{position:relative;margin-bottom:.4rem}
-.tl{display:flex;gap:.6rem;overflow-x:auto;padding:.6rem .2rem 1rem;
-  scroll-snap-type:x mandatory;scrollbar-width:thin}
+.tl{display:flex;gap:.6rem;overflow-x:auto;padding:.6rem 1rem 1rem;
+  scroll-snap-type:x proximity;scroll-padding-inline:1rem;scrollbar-width:thin;
+  -webkit-mask-image:linear-gradient(to left,transparent 0,#000 8px,#000 calc(100% - 8px),transparent 100%);
+  mask-image:linear-gradient(to left,transparent 0,#000 8px,#000 calc(100% - 8px),transparent 100%)}
 .tl::-webkit-scrollbar{height:5px}
 .tl::-webkit-scrollbar-thumb{background:var(--gold);border-radius:9px}
 .tli{flex:0 0 150px;scroll-snap-align:center;background:var(--paper);
@@ -208,16 +246,14 @@ main{animation:pageIn .4s ease}
 .btl .yr{font-size:.65rem;color:var(--muted)}
 .btl .st{font-size:.6rem;color:var(--gold2);font-weight:700}
 
-/* ========== ٣) تقليب الصفحة ========== */
-.flip{position:fixed;inset:0;background:var(--cream);z-index:200;pointer-events:none;opacity:0}
-.flip.go{animation:flipA .5s ease forwards}
-@keyframes flipA{
-  0%{opacity:.95;transform:perspective(1200px) rotateY(0)}
-  55%{opacity:.95;transform:perspective(1200px) rotateY(-38deg)}
-  100%{opacity:1;transform:perspective(1200px) rotateY(0)}
-}
-main.flip-out{animation:flipB .3s ease forwards}
-@keyframes flipB{to{opacity:0;transform:perspective(1200px) translateX(-45px)}}
+/* ========== ٣) انتقال الأقسام: هيكل انتظار معتم، لا شاشة سوداء ========== */
+/* الطبقة القديمة كانت تدور rotateY فتكشف زوايا الشاشة الفارغة (سوداء في الوضع الليلي)
+   أثناء الدوران. الآن: طبقة معتمة تمامًا + هيكل صفحة نابض تختفي بتلاشٍ ناعم. */
+.flip{position:fixed;inset:0;z-index:200;background:var(--cream);
+  opacity:0;visibility:hidden;pointer-events:none;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;
+  transition:opacity .18s ease,visibility 0s .18s}
+.flip.go{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .18s ease}
 
 /* ========== ٤) تقدّم على شكل سيف ========== */
 .sword{position:fixed;bottom:14px;right:50%;transform:translateX(50%);
@@ -293,7 +329,8 @@ main.flip-out{animation:flipB .3s ease forwards}
 .cho-rule i:last-child{background:linear-gradient(to left,var(--gold),rgba(184,148,47,.06))}
 .cho-rule b{color:var(--gold);font-size:.68rem;font-weight:400;line-height:1}
 .ch3 .lead,.rbody .lead{font-family:'Amiri',serif;font-size:1.12rem;line-height:2.05;
-  color:var(--c);font-weight:700;margin-bottom:.7rem;text-align:right}
+  color:var(--gold2);font-weight:700;margin-bottom:.7rem;text-align:right;
+  padding-right:.7rem;border-right:3px solid var(--gold)}
 .ch3 .ap,.rbody .ap{font-family:'Amiri',serif;font-size:1.1rem;line-height:2.15;
   text-align:justify;margin-bottom:.75rem}
 .ch3 .sub,.rbody .sub{font-family:'Amiri',serif;font-size:1.15rem;color:var(--c);
@@ -425,52 +462,111 @@ main.reader{max-width:none;margin:0;padding:0;flex:1;min-height:0;
   display:flex;flex-direction:column;animation:none}
 
 /* الشريط العلوي يحمل اسم الفصل */
-.top.reading .brand{flex:1;min-width:0;gap:.35rem}
+/* في وضع القراءة نضغط الأيقونات ونلغي إطاراتها الدائرية: أربع دوائر 44px
+   كانت تزاحم اسم الفصل على شاشة 360px */
+.top.reading{padding:.4rem .55rem;gap:.3rem}
+.top.reading .brand{flex:1 1 auto;min-width:0;gap:.25rem}
 .top.reading .btxt{display:none}
-.rbrand{font-family:'Amiri',serif;font-size:.92rem;color:var(--ink);
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.top.reading .tools{flex:0 0 auto;gap:.12rem}
+.top.reading .ib{width:40px;height:40px;font-size:.95rem;border-color:transparent}
+.top.reading .ib:hover{background:rgba(184,148,47,.14);color:var(--gold2);border-color:transparent}
+.top.reading .ib:active{transform:scale(.94);background:rgba(184,148,47,.18)}
+/* في وضع القراءة: شريط التقدم في التذييل يغني عن القبة، فتُخفى لتفسح لاسم الفصل */
+body.reading .dome{display:none}
+.rbrand{font-family:'Amiri',serif;font-size:.82rem;line-height:1.45;color:var(--ink);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+@media (max-width:400px){.top.reading .brand .bic{display:none}}
 
 /* المسرح */
 .rstage{position:relative;flex:1;min-height:0;overflow:hidden;
-  perspective:2200px;perspective-origin:50% 50%;touch-action:pan-y}
+  perspective:2200px;perspective-origin:50% 50%;
+  /* pan-y: المتصفح لا يجرّ الصفحة أفقيًا أبدًا (يلغي الارتداد والميلان) */
+  touch-action:pan-y;overscroll-behavior:contain;-webkit-touch-callout:none}
 
-/* طبقة انتظار الترقيم: تختفي حين يجهز القارئ */
-.rload{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:.8rem;color:var(--muted);
-  font-size:1rem;transition:opacity .3s}
-.rload i{font-style:normal;font-size:2.2rem;animation:rloadPulse 1.2s ease-in-out infinite}
-@keyframes rloadPulse{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.15);opacity:1}}
-body.rready .rload{opacity:0;pointer-events:none}
+/* ---------- طبقة الانتظار: هيكل عظمي متحرك (Skeleton + Shimmer) ---------- */
+/* بديل الشاشة السوداء/الفارغة: صفحة وهمية بنفس مقاسات الصفحة الحقيقية،
+   تلمع خطوطها بحركة CSS خفيفة حتى يجهز الترقيم. */
+.rload{position:fixed;inset:0;z-index:150;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:.85rem;
+  background:var(--cream);color:var(--muted);font-size:.84rem;
+  transition:opacity .35s ease,visibility 0s .35s}
+body.rready .rload{opacity:0;visibility:hidden;pointer-events:none}
+
+.skl{width:100%;max-width:700px;padding:0 16px}
+.skl-page{position:relative;display:flex;flex-direction:column;gap:10px;overflow:hidden;
+  min-height:min(60vh,430px);padding:16px 20px;
+  background:var(--paper);border:1px solid var(--line);border-radius:10px;
+  box-shadow:0 6px 22px rgba(80,60,20,.07)}
+/* تلاشٍ سفلي: يوحي بأن الصفحة تُكتب لا أنها محبوسة */
+.skl-page:after{content:"";position:absolute;inset:auto 0 0 0;height:56px;
+  background:var(--paper);pointer-events:none;
+  -webkit-mask-image:linear-gradient(to top,#000 30%,transparent);
+  mask-image:linear-gradient(to top,#000 30%,transparent)}
+.skl-h{height:22px;width:54%;border-radius:7px}
+.skl-l{height:11px;border-radius:6px}
+.skl-l.w100{width:100%}.skl-l.w98{width:98%}.skl-l.w97{width:97%}.skl-l.w96{width:96%}
+.skl-l.w95{width:95%}.skl-l.w94{width:94%}.skl-l.w92{width:92%}.skl-l.w90{width:90%}
+.skl-l.w88{width:88%}.skl-l.w85{width:85%}.skl-l.w76{width:76%}.skl-l.w70{width:70%}
+.skl-l.w40{width:40%}
+.skl-gap{height:6px}
+.skl-h,.skl-l{position:relative;overflow:hidden;background:var(--skl-a)}
+/* اللمعان يُحرَّك بـ transform لا بـ background-position:
+   حركات transform تُنفَّذ على الـ compositor فتبقى تعمل حتى أثناء حجب الخيط الرئيسي بالترقيم */
+.skl-h:after,.skl-l:after{content:"";position:absolute;inset:0;
+  background:linear-gradient(100deg,transparent 20%,var(--skl-b) 50%,transparent 80%);
+  transform:translateX(-120%);animation:sklSweep 1.6s linear infinite}
+.skl-h:after{animation-delay:-.4s}
+.skl-page .skl-l:nth-of-type(3n):after{animation-delay:-.25s}
+.skl-page .skl-l:nth-of-type(3n+1):after{animation-delay:-.7s}
+@keyframes sklSweep{to{transform:translateX(120%)}}
+
+.skl-cap{display:flex;align-items:center;gap:.45rem;font-family:'Cairo';font-size:.82rem;
+  color:var(--muted)}
+.skl-cap i{width:13px;height:13px;border-radius:50%;border:2px solid var(--line);
+  border-top-color:var(--gold);animation:sklSpin .8s linear infinite}
+@keyframes sklSpin{to{transform:rotate(360deg)}}
 
 /* الصفحة */
 .rpage{position:absolute;display:flex;flex-direction:column;overflow:hidden;
   background:var(--paper);border:1px solid var(--line);border-radius:10px;
   box-shadow:0 6px 22px rgba(80,60,20,.12)}
-.rbody{flex:1;min-height:0;overflow:hidden;padding:12px 20px}
+/* الحشو السفلي 8px لا 16: مساحة محتوى أوسع بـ ٨px تبتلع فروق التقريب
+   (حتى ١١px) فلا يُقصّ ذيل السطر الأخير، وتبقى المسافة البصرية عن التذييل مريحة */
+.rbody{flex:1;min-height:0;overflow:hidden;padding:16px 20px;
+  /* تباعد أسطر مريح للنص العربي المشكول: أقل من 1.8 تتداخل الحركات */
+  line-height:1.85;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 .rpfoot{position:relative;flex:0 0 auto;height:26px;display:flex;align-items:center;justify-content:center;
   font-size:.72rem;color:var(--muted);border-top:1px solid var(--line);
-  direction:ltr;unicode-bidi:isolate}
+  direction:rtl;unicode-bidi:isolate}
 .rpch{position:absolute;right:10px;top:50%;transform:translateY(-50%);
   font-size:.66rem;color:var(--muted);opacity:.9;direction:rtl;white-space:nowrap;
   unicode-bidi:isolate;background:rgba(184,148,47,.1);border-radius:20px;padding:.05rem .45rem}
 
 /* حاوية القياس (خارج الشاشة) */
+/* حاوية القياس تُطابق الصفحة الحقيقية تمامًا: نفس عرض الصندوق ونفس الحشو.
+   كان الحشو صفرًا مع عرض المحتوى، فاختلف عرض السطر ٢px أحيانًا وكسر النصّ
+   سطرًا مختلفًا — فيُقاس ١٧٥px ويُرسم ١٩٧px، وتفيض الصفحة بعد الترقيم. */
 .rmeas{position:absolute;left:-99999px;top:0;visibility:hidden;pointer-events:none}
-.rmeas .rbody{height:auto!important;padding:0;overflow:hidden}
+.rmeas .rbody{height:auto!important;padding:16px 20px;overflow:hidden}
 
 /* ورقة التقليب */
+/* كل ما يتحرك هنا transform/opacity فقط: الطبقتان تُنفَّذان على الـcompositor
+   فلا تُعاد تخطيطات ولا تُمسّ الشجرة أثناء السحب (هدف 60fps على جهاز متوسط) */
 .rleaf{position:absolute;display:none;transform-style:preserve-3d;
-  will-change:transform;z-index:20;pointer-events:none}
+  will-change:transform;z-index:20;pointer-events:none;backface-visibility:hidden}
 .rleaf.on{display:block}
 .rface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
   background:var(--paper);border:1px solid var(--line);border-radius:10px;
   box-shadow:0 10px 30px rgba(0,0,0,.25);overflow:hidden}
 .rback{transform:rotateY(180deg);
   background:linear-gradient(270deg,var(--paper) 55%,var(--cream) 100%)}
-.rleaf::after{content:"";position:absolute;inset:0;pointer-events:none;
+/* ظلّ الانحناء: عنصر مستقلّ يُحرَّك بـopacity وحدها.
+   كان ::after يعتمد على متغيّر --a يُكتب كل إطار، وكتابة متغيّر CSS تُبطل
+   حساب الأنماط وتُعيد رسم التدرّج على الخيط الرئيسي — أي ٦٠ إعادة رسم/ثانية. */
+.rshade{position:absolute;inset:0;pointer-events:none;z-index:3;
   background:linear-gradient(to left,rgba(0,0,0,.30),rgba(0,0,0,0) 45%);
-  opacity:calc(var(--a,0)*.95)}
-.rleaf.prev::after{background:linear-gradient(to right,rgba(0,0,0,.30),rgba(0,0,0,0) 45%)}
+  opacity:0;will-change:opacity}
+.rleaf.prev .rshade{background:linear-gradient(to right,rgba(0,0,0,.30),rgba(0,0,0,0) 45%)}
 
 /* الشريط السفلي */
 .rfoot{flex:0 0 auto;display:flex;align-items:center;gap:.6rem;
@@ -486,17 +582,25 @@ body.rready .rload{opacity:0;pointer-events:none}
   background:linear-gradient(90deg,var(--gold),#E3C56A);transition:width .25s}
 
 /* لوحة الفهرس والذهاب إلى صفحة */
-.rpanel{position:fixed;top:0;right:0;bottom:0;width:min(86vw,360px);z-index:120;
-  background:var(--paper);border-left:1px solid var(--line);display:flex;flex-direction:column;
-  transform:translateX(100%);transition:transform .28s ease;
-  box-shadow:-6px 0 24px rgba(0,0,0,.14)}
-.rpanel.on{transform:translateX(0)}
+/* لوحة الفهرس: bottom sheet على الجوال (في متناول الإبهام) */
+.rpanel{position:fixed;left:0;right:0;bottom:0;top:auto;width:auto;max-width:820px;margin:0 auto;
+  max-height:78vh;z-index:120;background:var(--paper);border-top:1px solid var(--line);
+  border-radius:18px 18px 0 0;display:flex;flex-direction:column;
+  transform:translateY(100%);transition:transform .3s cubic-bezier(.2,.8,.2,1);
+  box-shadow:0 -8px 28px rgba(0,0,0,.18);padding-bottom:env(safe-area-inset-bottom)}
+.rpanel.on{transform:translateY(0)}
+.rpanel:before{content:"";display:block;width:44px;height:4px;border-radius:3px;
+  background:var(--line);margin:.55rem auto .1rem;flex:0 0 auto}
+.rpscrim{position:fixed;inset:0;background:rgba(20,15,5,.38);opacity:0;pointer-events:none;
+  visibility:hidden;transition:opacity .25s,visibility 0s .25s;z-index:110}
+.rpscrim.on{opacity:1;pointer-events:auto;visibility:visible;transition:opacity .25s}
 .rphead{display:flex;align-items:center;justify-content:space-between;
   padding:.65rem .9rem;border-bottom:2px solid var(--gold);
   font-family:'Amiri';font-size:1.05rem;color:var(--c)}
 .rpjump{display:flex;gap:.5rem;padding:.7rem .9rem;border-bottom:1px solid var(--line)}
 .rpjump input{flex:1;min-width:0;min-height:46px;border:1px solid var(--line);border-radius:10px;
   background:var(--cream);color:var(--ink);font-family:'Cairo';font-size:1rem;padding:0 .7rem}
+.rpjump input::placeholder{color:var(--muted);opacity:.85;font-size:.86rem}
 .rpgo{min-height:46px;padding:0 1rem;border:0;border-radius:10px;background:var(--gold);
   color:#fff;font-family:'Cairo';font-weight:700;cursor:pointer}
 .rpfont{display:flex;align-items:center;gap:.45rem;padding:.55rem .9rem;
@@ -510,6 +614,9 @@ body.rready .rload{opacity:0;pointer-events:none}
   border-bottom:1px dashed var(--line);text-decoration:none;color:var(--ink);font-size:.9rem}
 .rpitem i{background:var(--gold);color:#fff;border-radius:6px;min-width:32px;text-align:center;
   font-size:.72rem;font-style:normal;padding:.15rem .2rem;flex:0 0 auto}
+.rpitem span{flex:1;min-width:0;white-space:normal;line-height:1.45;font-size:.86rem}
+.rpitem .rpgn{font-style:normal;font-size:.68rem;color:var(--muted);flex:0 0 auto;
+  background:rgba(184,148,47,.1);border-radius:20px;padding:.05rem .4rem;direction:rtl;unicode-bidi:isolate}
 .rpitem:hover{color:var(--c);background:rgba(184,148,47,.07)}
 .rphome{display:block;text-align:center;padding:.85rem;border-top:1px solid var(--line);
   color:var(--c);text-decoration:none;font-weight:700;font-size:.9rem}
@@ -550,16 +657,15 @@ body.rready .rload{opacity:0;pointer-events:none}
 .rbody.rflow{overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px}
 
 @media(max-width:420px){
-  .rbody{padding:10px 14px}
+  /* الحشوة موحّدة مع PADX/PADY في app.js — لا تُغيَّر هنا وإلا اختلف الترقيم عن العرض */
   .rnav{min-width:56px;font-size:.82rem;padding:.3rem .55rem}
   .rfoot{gap:.4rem;padding:.3rem .5rem}
 }
 
 /* كثافة القراءة على الجوال: صفحة كتاب لا شرائح عرض */
 @media(max-width:560px){
-  .rbody{padding:10px 15px}
-  .rbody .ap{font-size:1.02rem;line-height:1.95}
-  .rbody .lead{font-size:1.06rem;line-height:1.95}
+  .rbody .ap{font-size:1.05rem;line-height:1.95}
+  .rbody .lead{font-size:1.08rem;line-height:1.95}
   .rbody .ch3 h3{font-size:1.22rem;line-height:1.55}
   .rbody .lead .drop{font-size:2.7rem}
   .rbody h4.sub{font-size:1.08rem}
@@ -569,14 +675,17 @@ body.rready .rload{opacity:0;pointer-events:none}
 }
 
 /* ===== تبويبات الأقسام: وصول مباشر لكل قسم ===== */
-.rtabs{flex:0 0 auto;display:flex;gap:.3rem;overflow-x:auto;overflow-y:hidden;
-  padding:.38rem .5rem;border-bottom:1px solid var(--line);background:var(--paper);
-  scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.rtabs{flex:0 0 auto;display:flex;align-items:center;gap:.26rem;overflow-x:auto;overflow-y:hidden;
+  min-height:42px;padding:.26rem .5rem;border-bottom:1px solid var(--line);background:var(--paper);
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-padding-inline:.6rem;
+  scroll-snap-type:x proximity;overscroll-behavior-x:contain;
+  -webkit-mask-image:linear-gradient(to left,transparent 0,#000 10px,#000 calc(100% - 10px),transparent 100%);
+  mask-image:linear-gradient(to left,transparent 0,#000 10px,#000 calc(100% - 10px),transparent 100%)}
 .rtabs::-webkit-scrollbar{display:none}
-.rtab{flex:0 0 auto;display:inline-flex;align-items:center;gap:.32rem;
-  border:1px solid var(--line);border-radius:20px;background:transparent;
-  padding:.28rem .62rem;font-family:'Cairo';font-size:.74rem;color:var(--muted);
-  cursor:pointer;white-space:nowrap;transition:.18s;max-width:64vw}
+.rtab{flex:0 0 auto;display:inline-flex;align-items:center;gap:.32rem;min-height:34px;
+  border:1px solid var(--line);border-radius:17px;background:transparent;
+  padding:.3rem .64rem;font-family:'Cairo';font-size:.72rem;color:var(--muted);
+  cursor:pointer;white-space:nowrap;transition:.18s;max-width:58vw;scroll-snap-align:center}
 .rtab b{font-size:.92rem;line-height:1;font-weight:400}
 .rtab span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .rtab:hover{border-color:var(--gold);color:var(--c)}
@@ -592,3 +701,143 @@ body.rready .rload{opacity:0;pointer-events:none}
 .toclist .toc-row .tcnt{flex:0 0 auto;font-size:.66rem;color:var(--muted);
   background:rgba(184,148,47,.1);border-radius:10px;padding:.06rem .45rem}
 .toclist .toc-row .tpg{flex:0 0 auto;margin-inline-start:.3rem}
+
+/* ===== الرئيسية: بطاقة مضغوطة + بحث شامل + أكمل القراءة ===== */
+.hero.compact{padding:.85rem .9rem .6rem}
+.hero.compact .ic{font-size:1.45rem}
+.hero.compact h1{font-size:1.45rem;margin:.05rem 0 .1rem}
+.hero.compact .period{font-size:.72rem;margin-bottom:.15rem}
+.hero.compact .orn{height:15px;margin:.35rem auto 0}
+
+.gsearch{position:relative;margin:.85rem 0 .2rem;display:flex;gap:.45rem;align-items:center}
+.gsearch input{flex:1;min-width:0;height:46px;border-radius:14px;border:1px solid var(--line);
+  background:var(--paper);color:var(--ink);padding:0 .9rem;font-family:'Cairo';font-size:1rem;
+  box-shadow:var(--shadow);-webkit-appearance:none;appearance:none}
+.gsearch input::placeholder{color:var(--muted);font-size:.86rem}
+.gsearch input:focus{outline:0;border-color:var(--gold)}
+.gsearch button{width:46px;height:46px;border-radius:14px;border:1px solid var(--gold);
+  background:var(--gold);color:#fff;font-size:1rem;cursor:pointer;flex:0 0 auto}
+.gsres{display:none}
+.gsres.on{display:block;position:absolute;top:calc(100% + 6px);right:0;left:0;z-index:50;
+  background:var(--paper);border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 12px 32px rgba(40,30,10,.18);max-height:62vh;overflow:auto;padding:.3rem}
+.gmeta{font-size:.7rem;color:var(--muted);padding:.45rem .6rem}
+.ge{font-family:'Amiri',serif;font-weight:700;color:var(--gold2);font-size:.82rem;
+  padding:.5rem .6rem .2rem;border-top:1px dashed var(--line);margin-top:.15rem}
+.ge:first-of-type{border-top:0;margin-top:0}
+.grow{display:block;padding:.5rem .6rem;border-radius:10px;text-decoration:none;color:var(--ink)}
+.grow:hover,.grow:active{background:rgba(184,148,47,.1)}
+.grow b{display:block;font-size:.88rem;font-weight:700;margin-bottom:.15rem}
+.grow span{display:block;font-family:'Amiri',serif;font-size:.82rem;color:var(--muted);line-height:1.7}
+.grow mark{background:rgba(184,148,47,.3);color:inherit;border-radius:3px;padding:0 .1rem}
+.gempty{text-align:center;color:var(--muted);font-size:.82rem;padding:1.2rem .5rem}
+
+.cont{display:flex;align-items:center;gap:.7rem;margin:.9rem 0 .2rem;padding:.7rem .85rem;
+  border:1px solid var(--line);border-right:4px solid var(--gold);border-radius:14px;
+  background:var(--paper);text-decoration:none;color:var(--ink);box-shadow:var(--shadow)}
+.cont .ci{font-size:1.5rem;flex:0 0 auto}
+.cont .ct{flex:1;min-width:0;display:flex;flex-direction:column;gap:.05rem}
+.cont small{font-size:.68rem;color:var(--gold2);font-weight:700}
+.cont b{font-family:'Amiri',serif;font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cont em{font-style:normal;font-size:.72rem;color:var(--muted)}
+.cont .ca{flex:0 0 auto;color:var(--gold);opacity:.75;line-height:0}
+.cont .ca svg{width:16px;height:16px;display:block}
+
+/* ---------- خريطة الحقبة داخل الكتاب ---------- */
+.rmap{margin:0;padding:10px;border:1px solid var(--line);border-radius:12px;
+  background:var(--paper);box-shadow:var(--shadow);margin-top:clamp(16px,11vh,96px)}
+.rmap img{display:block;width:100%;height:auto;border-radius:8px}
+.rmap figcaption{text-align:center;font-family:'Amiri',serif;font-size:.8rem;
+  color:var(--muted);margin-top:.45rem;line-height:1.5}
+html.dark .rmap{background:#1B1A17}
+html.dark .rmap img{opacity:.9}
+
+/* ---------- المفضلة في الرئيسية ---------- */
+.favrow{display:flex;align-items:center;gap:.45rem}
+.favrow .cont{flex:1;min-width:0}
+.favdel{flex:0 0 auto;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
+  background:transparent;color:var(--muted);font-size:1rem;cursor:pointer;transition:.2s;
+  display:grid;place-items:center}
+.favdel:hover,.favdel:active{background:#A33B1E;border-color:#A33B1E;color:#fff}
+
+/* ---------- مساحة لمس 48dp دون تغيير الحجم المرئي ----------
+   تكبير الزر نفسه كان سيُغيّر ارتفاع الشريط فيتغيّر ارتفاع مسرح القراءة
+   وبالتالي عدد الصفحات. الطبقة الشفافة توسّع الهدف فقط. */
+.ib{position:relative}
+.ib::after{content:'';position:absolute;inset:-4px;border-radius:50%}
+.rtab{position:relative}
+.rtab::after{content:'';position:absolute;left:0;right:0;top:-7px;bottom:-7px}
+/* الحالة النشطة (مفضلة محفوظة) */
+.ib.on{background:var(--gold);color:#fff;border-color:var(--gold)}
+.top.reading .ib.on{background:rgba(184,148,47,.2);color:var(--gold2);border-color:rgba(184,148,47,.45)}
+
+/* زر الانتقال يصبح «الفصل التالي» في آخر صفحة من الفصل */
+.rnav.emph{border-color:var(--gold);color:var(--gold2);font-weight:700;
+  background:rgba(184,148,47,.12)}
+.rnav.emph:hover:not(:disabled){background:rgba(184,148,47,.2)}
+
+/* خاتمة الفصل داخل آخر صفحة (تظهر فقط عند وجود فراغ) */
+.chend{margin:1.1rem 0 .1rem;text-align:center;color:var(--muted);line-height:1.6}
+.chend .dm{display:block;color:var(--gold);font-size:.95rem;margin-bottom:.15rem;opacity:.8}
+.chend b{display:block;font-family:'Amiri',serif;color:var(--gold2);font-size:.95rem}
+.chend span:last-child{display:block;font-size:.72rem;margin-top:.1rem}
+
+/* تلميح أول استخدام — داخل شريط الترقيم فقط، حتى لا يغطّي أي سطر من النص */
+.rpfoot{position:relative}
+.rphint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:.4rem;
+  background:var(--paper);color:var(--gold2);font-family:'Cairo';font-size:.76rem;font-weight:700;
+  white-space:nowrap;animation:rhintIn .3s ease-out both}
+.rphint b{font-size:.95rem;line-height:1;font-weight:400}
+.rphint.out{animation:none;opacity:0;transition:opacity .35s}
+@keyframes rhintIn{from{opacity:0}to{opacity:1}}
+
+/* سلّم أحجام موحّد */
+:root{--fs-display:1.75rem;--fs-h1:1.5rem;--fs-h2:1.28rem;--fs-h3:1.06rem;
+  --fs-body:1rem;--fs-small:.82rem;--fs-micro:.72rem}
+h2.sec{font-size:var(--fs-h2)}
+.hero h1,.hero.compact h1{font-size:var(--fs-h1)}
+.rbody .ch3-h h3{font-size:var(--fs-h1)}
+.rphead{font-size:var(--fs-h3)}
+
+/* ===== حركة الورق: مصدر واحد للزمن والمنحنى ===== */
+/* JS يضبط الزمن سطريًا أثناء السحب، وهذه هي القيمة الافتراضية لأي تقليب آخر */
+.rleaf{transition:transform var(--flip-dur) var(--flip-ease)}
+@keyframes rIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+body.rready main.reader{animation:rIn .3s var(--flip-ease) both}
+
+/* ===== احترام «تقليل الحركة» في إعدادات النظام ===== */
+@media (prefers-reduced-motion:reduce){
+  .skl-h,.skl-l{animation:none;background:var(--skl-a)}
+  .skl-cap i{animation-duration:2.4s}
+  .rleaf{transition-duration:1ms!important}
+  body.rready main.reader{animation:none}
+}
+
+/* ===== صفحة «عن التطبيق» وسياسة الخصوصية ===== */
+.abt-h{font-size:var(--fs-h3);margin:1.6rem 0 .5rem;color:var(--ink)}
+.abt-h:first-of-type{margin-top:.4rem}
+.abt-note{font-size:var(--fs-small);color:var(--muted);line-height:2;margin:.5rem 0}
+.abt-note code,.abt-k code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9em;
+  background:rgba(184,148,47,.14);color:var(--ink);padding:.05em .35em;border-radius:4px;
+  direction:ltr;display:inline-block;unicode-bidi:embed}
+.abt-tblwrap{overflow-x:auto;margin:.7rem 0;-webkit-overflow-scrolling:touch}
+.abt-tbl{width:100%;border-collapse:collapse;font-size:var(--fs-small);table-layout:fixed}
+.abt-tbl th:first-child,.abt-tbl td:first-child{width:36%}
+.abt-tbl th{text-align:right;font-weight:700;color:var(--gold2);padding:.5rem .4rem;
+  border-bottom:1px solid var(--line);white-space:nowrap;font-size:var(--fs-micro)}
+.abt-tbl td{padding:.55rem .4rem;border-bottom:1px dashed var(--line);color:var(--muted);
+  line-height:1.8;vertical-align:top}
+.abt-tbl td:first-child{color:var(--ink);white-space:nowrap}
+.abt-k{text-align:left;direction:ltr}
+.abt-mail{text-align:center;margin:1rem 0 .3rem;font-size:1.02rem;direction:ltr;
+  user-select:all;-webkit-user-select:all;word-break:break-all}
+.abt-mail a{color:var(--gold);text-decoration:none;border-bottom:1px dashed currentColor;padding-bottom:2px}
+.abtlink{text-align:center;margin:2.2rem 0 3rem}
+.abtlink a{color:var(--gold);text-decoration:none;font-size:var(--fs-small);
+  border-bottom:1px solid transparent;padding-bottom:2px}
+.abtlink a:hover,.abt-mail a:hover{opacity:.82}
+.abt-en{text-align:left}
+html.dark .abt-tbl th{color:var(--gold)}
+html.dark .abt-note code,html.dark .abt-k code{background:rgba(227,197,106,.16)}
+.hero .abt-ic svg{width:44px;height:51px;display:inline-block}
+.abt-en a{color:var(--gold);text-decoration:none;border-bottom:1px dashed currentColor}

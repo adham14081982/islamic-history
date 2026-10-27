@@ -8,8 +8,6 @@ const path = require('path');
 
 const root = path.join(__dirname, '..');
 const pagesDir = path.join(root, 'data', 'pages');
-const css = fs.readFileSync(path.join(root, 'assets', 'app.css'), 'utf8');
-const js = fs.readFileSync(path.join(root, 'assets', 'app.js'), 'utf8');
 
 const files = fs.readdirSync(pagesDir).filter(f => f.endsWith('.json')).sort();
 const pages = files.map(f => JSON.parse(fs.readFileSync(path.join(pagesDir, f), 'utf8')));
@@ -29,6 +27,15 @@ const CORNER = d =>
 const FRAME_1 = CORNER('M1 9V4a3 3 0 0 1 3-3h5M1 5h4M5 1v4');
 const FRAME_2 = CORNER('M1 8V3a2 2 0 0 1 2-2h5M1 4h3M4 1v3');
 
+/* خريطة الحقبة — تُدرَج بعد المقدمة إن وُجدت */
+function ERA_MAP(p) {
+  const mapFile = 'assets/img/maps/map-' + p.id + '.svg';
+  if (!fs.existsSync(path.join(root, mapFile))) return '';
+  return '<section class="emap-sec">' +
+    '<img src="' + mapFile + '" class="emap" alt="خريطة ' + esc(p.n) + '" width="1000" height="640">' +
+    '<small class="emap-cap">خريطة ' + esc(p.n) + '</small></section>';
+}
+
 const DOME = `<svg viewBox="0 0 40 46" fill="none">
 <path d="M4 42V22a16 16 0 0 1 32 0v20z" fill="none" stroke="var(--gold)" stroke-width="1.4" opacity=".45"/>
 <path class="fill" d="M4 42V22a16 16 0 0 1 32 0v20z" fill="var(--gold)" opacity=".2"/></svg>`;
@@ -38,7 +45,11 @@ const HEAD = (title, desc) => `<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<script>try{if(localStorage.getItem('ti_theme')==='1')document.documentElement.classList.add('dark')}catch(e){}</script>
+<script>try{var t=localStorage.getItem('ti_theme'),d=t===null?(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches):t==='1';if(d)document.documentElement.classList.add('dark')}catch(e){}</script>
+<!-- جسر Cordova: بدونه لا يصل حدث backbutton إلى الصفحة، فيخرج زر الرجوع من التطبيق
+     بدل الرجوع صفحةً صفحة. defer حتى لا يحجب الرسم، ويُنفَّذ قبل app.js (ترتيب المستند).
+     يُخدَّم من assets/www/cordova.js داخل التطبيق (404 في المتصفح فقط). -->
+<script src="cordova.js" defer></script>
 <meta name="description" content="${desc}">
 <title>${title}</title>
 <link rel="preload" href="assets/fonts/amiri-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -52,15 +63,16 @@ const HEAD = (title, desc) => `<!DOCTYPE html>
 </head>`;
 
 /* ---------- الشريط العلوي: في وضع القارئ يحمل اسم الفصل ---------- */
-const TOPBAR = (pageId, reader) => `<header class="top${reader ? ' reading' : ''}">
+/* plain = صفحة معلوماتية (عن التطبيق): لا بحث داخلي ولا مفضلة، فلا معنى لهما فيها */
+const TOPBAR = (pageId, reader, plain) => `<header class="top${reader ? ' reading' : ''}">
   <a class="brand" href="index.html"><span class="bic">📜</span>${
     reader ? '<span class="rbrand" id="rBrand"></span>'
            : '<span class="btxt">موسوعة تاريخ الإسلام</span>'}</a>
   <div class="tools">
     ${reader ? '<button class="ib" id="rMenu" title="الفهرس والذهاب إلى صفحة" aria-label="الفهرس والذهاب إلى صفحة">☰</button>' : ''}
     <span class="dome" title="نسبة إكمالك للصفحة">${DOME}</span>
-    <button class="ib" onclick="openSearch()" title="بحث" aria-label="بحث">🔍</button>
-    <button class="ib" id="favBtn" title="حفظ في المفضلة" aria-label="حفظ في المفضلة">☆</button>
+    ${plain ? '' : '<button class="ib" onclick="openSearch()" title="بحث" aria-label="بحث">🔍</button>'}
+    ${plain ? '' : '<button class="ib" id="favBtn" title="حفظ في المفضلة" aria-label="حفظ في المفضلة" aria-pressed="false">🔖</button>'}
     <button class="ib" id="themeBtn" title="الوضع الليلي" aria-label="تبديل الوضع الليلي">🌙</button>
   </div>
 </header>`;
@@ -83,13 +95,32 @@ const SWORD = `<svg viewBox="0 0 118 11" fill="none">
 const PROGRESSBAR = `<div class="topbar"><i></i></div>`;
 
 /* ---------- هيكل القارئ: مسرح + شريط سفلي ---------- */
+/* هيكل الانتظار (Skeleton): صفحة وهمية بنفس مقاسات الصفحة الحقيقية.
+   يظهر فورًا عند تحميل الصفحة فيمنع الشاشة السوداء/الفارغة أثناء الترقيم. */
+const SKELETON = `<div class="skl" aria-hidden="true"><div class="skl-page">
+      <span class="skl-h"></span>
+      <span class="skl-l w100"></span><span class="skl-l w96"></span>
+      <span class="skl-l w88"></span><span class="skl-l w94"></span>
+      <span class="skl-gap"></span>
+      <span class="skl-l w100"></span><span class="skl-l w92"></span>
+      <span class="skl-l w97"></span><span class="skl-l w85"></span><span class="skl-l w70"></span>
+      <span class="skl-gap"></span>
+      <span class="skl-l w100"></span><span class="skl-l w95"></span>
+      <span class="skl-l w90"></span><span class="skl-l w98"></span>
+      <span class="skl-l w76"></span>
+    </div></div>`;
+
 const READER_MAIN = `<main class="reader" id="reader">
-  <div class="rload" id="rLoad"><i>📖</i>جاري تجهيز الكتاب…</div>
+  <div class="rload" id="rLoad" role="status" aria-live="polite">
+    ${SKELETON}
+    <div class="skl-cap"><i></i><span>جاري تجهيز الكتاب…</span></div>
+  </div>
   <nav class="rtabs" id="rTabs" aria-label="أقسام الكتاب"></nav>
   <div class="rstage" id="rStage">
     <div class="rleaf" id="rLeaf">
       <div class="rface rfront" id="rFront"></div>
       <div class="rface rback" id="rBack"></div>
+      <i class="rshade" id="rShade"></i>
     </div>
   </div>
   <div class="rfoot">
@@ -155,7 +186,7 @@ ${PROGRESSBAR}
       <span><b style="color:${esc(p.c)};font-size:1.3rem">${AR_DIG((p.timeline || []).length)}</b> محطة زمنية</span>
     </div>
   </section>
-
+${ERA_MAP(p)}
   <h2 class="sec">الخط الزمني <span class="n">اسحب أفقياً للتنقل</span></h2>
   <div class="tlwrap"><div class="tl" id="tl">${timeline}</div></div>
   ${ORN}
@@ -190,6 +221,7 @@ ${PANEL}
 
 /* ---------------- الصفحة الرئيسية ---------------- */
 function buildHome() {
+  const CH_TOTAL = pages.reduce((s, p) => s + (p.parts || []).reduce((a, x) => a + x.chapters.length, 0), 0);
   const cards = pages.map(p => `<a class="ec" style="--c:${esc(p.c)}" href="${p.file}">
       <div class="ic">${p.ic}</div>
       <b>${esc(p.n)}</b>
@@ -206,14 +238,14 @@ function buildHome() {
       <span class="st" id="st-${p.id}"></span>
     </a>`).join('');
 
-  const BI = { start: '🌱', prophets: '📜', seerah: '🕊️', rashidun: '⚔️', umayyad: '🏛️',
+  const BI = { start: '🌱', seerah: '🕊️', rashidun: '⚔️', umayyad: '🏛️',
     andalus: '🏰', abbasid: '📚', crusades: '🛡️', mamluk: '🐎', ottoman: '🕌',
     civilization: '🔬', modern: '🕰️', all: '👑' };
-  const BN = { start: 'نبت الطريق', prophets: 'وسام النبوة', seerah: 'وسام الرحمة',
+  const BN = { start: 'نبت الطريق', seerah: 'وسام الرحمة',
     rashidun: 'وسام الفاروق', umayyad: 'وسام البناء', andalus: 'وسام الأندلس',
     abbasid: 'وسام الفجر', crusades: 'وسام حطين', mamluk: 'وسام النصر',
     ottoman: 'وسام السلطان', civilization: 'وسام العقل', modern: 'وسام التاريخ', all: 'تاج المؤرخ' };
-  const BD = { start: 'ابدأ أول حقبة', prophets: 'الأنبياء', seerah: 'السيرة',
+  const BD = { start: 'ابدأ أول حقبة', seerah: 'السيرة',
     rashidun: 'الراشدون', umayyad: 'الأمويون', andalus: 'الأندلس', abbasid: 'العباسية',
     crusades: 'الصليبيون', mamluk: 'المماليك', ottoman: 'العثمانيون',
     civilization: 'الحضارة', modern: 'العصر الحديث', all: 'كل الحقب' };
@@ -221,26 +253,37 @@ function buildHome() {
   const badges = Object.keys(BI).map(k => `<div class="bg" data-b="${k}">
       <div class="bi">${BI[k]}</div><b>${BN[k]}</b><small>${BD[k]}</small></div>`).join('');
 
-  return `${HEAD('موسوعة تاريخ الإسلام', 'موسوعة مختصرة لتاريخ الإسلام: الأنبياء والسيرة والخلفاء والدول الكبرى والحروب الصليبية والعثمانيون والحضارة.')}
+  return `${HEAD('موسوعة تاريخ الإسلام', 'موسوعة مختصرة لتاريخ الإسلام: السيرة والخلفاء والدول الكبرى والحروب الصليبية والعثمانيون والحضارة.')}
 <body data-page="home">
 ${TOPBAR('home', false)}
 ${PROGRESSBAR}
 <main>
-  <section class="hero frame" style="--c:#B8942F">
+  <section class="hero frame compact" style="--c:#B8942F">
     ${FRAME_1}
-    <div class="ic">📜</div>
     <h1>موسوعة تاريخ الإسلام</h1>
-    <div class="period">${AR_DIG(pages.length)} حقبة · من قبل الإسلام إلى اليوم</div>
-    <p class="intro">موسوعة مختصرة تروي تاريخ الإسلام في صفحات مستقلة: ماذا حدث؟ ومتى؟ ومن الشخصيات؟ وما نتيجته؟
-    اختر حقبة لتقرأ أهم أحداثها وشخصياتها ونتائجها في دقائق.</p>
+    <div class="period">${AR_DIG(pages.length)} حقبة · ${AR_DIG(CH_TOTAL)} فصلًا · من قبل الإسلام إلى اليوم</div>
     ${ORN}
+  </section>
+
+  <div class="gsearch" role="search">
+    <input id="gq" type="search" placeholder="ابحث في الموسوعة: حطين، الأندلس، هارون…" autocomplete="off" aria-label="بحث شامل في الموسوعة">
+    <button id="gqBtn" type="button" aria-label="بحث">🔍</button>
+    <div class="gsres" id="gsres" aria-live="polite"></div>
+  </div>
+
+  <div id="contWrap"></div>
+  <div id="favWrap"></div>
+
+  <h2 class="sec">الحقب التاريخية <span class="n">اضغط للانتقال</span></h2>
+  <section class="eg">${cards}</section>
+
+  <section class="emap-sec">
+    <img src="assets/img/maps/map-world.svg" class="emap" alt="خريطة العالم الإسلامي" width="1000" height="640">
+    <small class="emap-cap">العالم الإسلامي عبر أربعة عشر قرنًا</small>
   </section>
 
   <h2 class="sec">الخط الزمني <span class="n">اسحب أفقياً للتنقل بين الحقب</span></h2>
   <div class="bigtl" id="bigtl">${strip}</div>
-
-  <h2 class="sec">الحقب التاريخية <span class="n">اضغط للانتقال</span></h2>
-  <section class="eg">${cards}</section>
 
   <h2 class="sec">نظام الأوسمة <span class="n">فتحت <b id="bcnt">٠</b> وساماً</span></h2>
   <div class="bar"><i id="bprog" style="display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),#E3C56A)"></i></div>
@@ -252,17 +295,21 @@ ${PROGRESSBAR}
     <ul class="outs" style="list-style:none">
       <li>كل حقبة في صفحة مستقلة: نبذة، خط زمني، أحداث، شخصيات، نتائج، ومصادر.</li>
       <li>مرّر الصفحة حتى النهاية ليكتمل الشريط الذهبي أعلى الشاشة ويُسجَّل الوسم لك.</li>
-      <li>اضغط 🔍 للبحث داخل صفحة الحقبة الحالية، و 🌙 لتبديل الوضع الليلي.</li>
-      <li>النجوم على بطاقات الحقب تشير إلى ما أتممته.</li>
+      <li>البحث في الأعلى يغطي الفصول الـ${AR_DIG(CH_TOTAL)} كلها؛ و🔍 داخل الحقبة يبحث فيها وحدها.</li>
+      <li>النجوم على بطاقات الحقب تشير إلى ما أتممته، و🔖 في شريط القارئ يحفظ الحقبة في المفضلة.</li>
     </ul>
   </div>
+
+  <p class="abtlink"><a href="about.html">عن التطبيق وسياسة الخصوصية</a></p>
 </main>
 ${PANEL}
 <script src="assets/app.js" defer></script>
 <script>
 (function(){
-  var pr=JSON.parse(localStorage.getItem('ti_progress')||'{}'),
-      bm=JSON.parse(localStorage.getItem('ti_bookmarks')||'[]');
+  /* قراءة التخزين قد ترمي (قيمة تالفة/مساحة ممتلئة) — لا نُسقط بقية السكربت */
+  var pr={},bm=[];
+  try{pr=JSON.parse(localStorage.getItem('ti_progress')||'{}')||{}}catch(e){}
+  try{var _b=JSON.parse(localStorage.getItem('ti_bookmarks')||'[]');if(Object.prototype.toString.call(_b)==='[object Array]')bm=_b}catch(e){}
   ${JSON.stringify(pages.map(p => p.id))}.forEach(function(id){
     var b=document.getElementById('pg-'+id),
         d=document.getElementById('dn-'+id),
@@ -273,6 +320,8 @@ ${PANEL}
   });
 })();
 </script>
+<script>window.__ERAS__=${JSON.stringify(pages.reduce((o, p) => (o[p.id] = { n: p.n, file: p.file, ic: p.ic }, o), {}))};</script>
+<script src="assets/home.js" defer></script>
 </body>
 </html>`;
 }
@@ -320,9 +369,23 @@ function buildDeep(p) {
   </section>`
   });
 
-  /* ٢) فهرس الأقسام: سطر لكل قسم (صفحة واحدة) — الفصول تُفتح من التبويب أو لوحة الفهرس */
+  /* ٢) خريطة الحقبة: صفحة مستقلة داخل الكتاب.
+     كانت الخرائط الـ١١ تُدرَج في الصفحات غير الكتابية فقط (buildPage)، وكل الحقب
+     صارت كتبًا بقارئ، فلم تكن أي خريطة تظهر للمستخدم رغم شحنها في الحزمة. */
+  const mapFile = 'assets/img/maps/map-' + p.id + '.svg';
+  if (fs.existsSync(path.join(root, mapFile))) {
+    units.push({
+      u: 'f', one: true, id: 'map', n: 'خريطة ' + p.n,
+      h: `<figure class="rmap">
+      <img src="${mapFile}" alt="خريطة ${esc(p.n)}" width="1000" height="640">
+      <figcaption>خريطة ${esc(p.n)}${p.period ? ' · ' + ar(p.period) : ''}</figcaption>
+    </figure>`
+    });
+  }
+
+  /* ٣) فهرس الأقسام: سطر لكل قسم (صفحة واحدة) — الفصول تُفتح من التبويب أو لوحة الفهرس */
   const tocHTML = parts.map((x, pi) => `
-    <li class="toc-part toc-row"><b>${x.part.ic || '📖'}</b>
+    <li class="toc-part toc-row"><b>${AR_DIG(pi + 1)}</b>
       <a href="#part-${pi + 1}"><span class="ttl">${esc(x.part.n)}</span>
       <span class="tcnt">${ar(x.chapters.length)} فصول</span></a>
     </li>`).join('');
@@ -336,7 +399,7 @@ function buildDeep(p) {
   </div>`
   });
 
-  /* ٣) الأقسام والفصول */
+  /* ٤) الأقسام والفصول */
   parts.forEach((x, pi) => {
     units.push({
       u: 'p', one: true, id: 'part-' + (pi + 1), n: x.part.n, ic: x.part.ic || '📖',
@@ -377,16 +440,11 @@ function buildDeep(p) {
           </div>
           <div class="cho-mid">
             <span class="cho-num">${AR_DIG(pi + 1)}<i>.</i>${AR_DIG(ci + 1)}</span>
-            <h3>${ch.ic ? ch.ic + ' ' : ''}${esc(ch.n)}</h3>
+            <h3>${esc(ch.n)}</h3>
           </div>
           <div class="cho-rule"><i></i><b>&#10070;</b><i></i></div>
         </div>
-        ${ch.lead ? (() => {
-          const t = String(ch.lead).trim();
-          const m = t.match(/^.[\u064B-\u0652\u0670\u0640]*/);
-          const dc = m ? m[0] : t.charAt(0);
-          return `<p class="lead"><span class="drop">${esc(dc)}</span>${esc(t.slice(dc.length))}</p>`;
-        })() : ''}
+        ${ch.lead ? `<p class="lead">${esc(String(ch.lead).trim())}</p>` : ''}
         ${(ch.p || []).map(x2 => `<p class="ap">${esc(x2)}</p>`).join('')}
         ${subs}
         ${keys ? `<div class="kbox"><div class="bt">خلاصة الفصل</div><div class="kgrid3">${keys}</div></div>` : ''}
@@ -397,7 +455,7 @@ function buildDeep(p) {
     });
   });
 
-  /* ٤) الشخصيات */
+  /* ٥) الشخصيات */
   if ((p.people || []).length) {
     units.push({
       u: 'f', one: true, id: 'people', n: 'أهم الشخصيات',
@@ -409,7 +467,7 @@ function buildDeep(p) {
     });
   }
 
-  /* ٥) النتائج */
+  /* ٦) النتائج */
   if ((p.outcomes || []).length) {
     units.push({
       u: 'f', one: true, id: 'outcomes', n: 'النتائج والآثار',
@@ -420,7 +478,7 @@ function buildDeep(p) {
     });
   }
 
-  /* ٦) المصادر */
+  /* ٧) المصادر */
   units.push({
     u: 'f', one: true, id: 'sources', n: 'المصادر والمراجع',
     h: `<div class="src frame" style="--c:${esc(p.c)}">
@@ -431,7 +489,7 @@ function buildDeep(p) {
   </div>`
   });
 
-  /* ٧) التنقّل بين الحقب */
+  /* ٨) التنقّل بين الحقب */
   units.push({
     u: 'f', one: true, id: 'pager', n: 'الحقب الأخرى',
     h: `<nav class="pager">
@@ -460,17 +518,121 @@ ${jsonBlock(book)}
 </html>`;
 }
 
-/* ---------------- التنفيذ ---------------- */
-/* التضمين: CSS و JS داخل كل صفحة (ملف واحد يعمل بلا شبكة وبلا مسارات) */
-const CSS_TAG = '<link rel="stylesheet" href="assets/app.css">';
-const JS_TAG = '<script src="assets/app.js" defer></script>';
-const inline = html => html
-  .split(CSS_TAG).join('<style>\n' + css + '\n</style>')
-  .split(JS_TAG).join('<script>\n' + js + '\n</script>');
+/* ---------------- صفحة «عن التطبيق» وسياسة الخصوصية ----------------
+   الإصدار يُقرأ من config.xml لا يُكتب يدويًا، فلا يختلف رقمٌ في الشاشة عن رقم الحزمة.
+   بيانات التواصل ثابت واحد في أعلى الملف: يُغيَّر هنا ويُعاد البناء. */
+const CONTACT = 'adham19821408@gmail.com';
+const POLICY_DATE = '٢٤ أكتوبر ٢٠٢٦';
+const CFG = fs.readFileSync(path.join(root, 'mobile', 'app', 'config.xml'), 'utf8');
+const APP_VER = (CFG.match(/<widget[^>]*\bversion="([^"]+)"/) || [])[1] || '';
+const APP_CODE = (CFG.match(/android-versionCode="([^"]+)"/) || [])[1] || '';
 
-fs.writeFileSync(path.join(root, 'index.html'), inline(buildHome()), 'utf8');
+function buildAbout() {
+  const chTotal = pages.reduce((s, p) => s + (p.parts || []).reduce((a, x) => a + x.chapters.length, 0), 0);
+  const stored = [
+    ['موضع القراءة', 'الصفحة والفصل الذي وقفت عنده، ليُستأنف من حيث توقفت'],
+    ['المفضلة', 'الحقب التي حفظتها بعلامة 🔖'],
+    ['الأوسمة والتقدّم', 'الحقب التي أتممتها ونسبة إنجازك'],
+    ['إعدادات العرض', 'الوضع الليلي وحجم الخط']
+  ].map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td></tr>`).join('');
+
+  return `${HEAD('عن التطبيق وسياسة الخصوصية | موسوعة تاريخ الإسلام',
+    'عن تطبيق موسوعة تاريخ الإسلام: ما يقدّمه، وما يخزّنه على جهازك، وسياسة الخصوصية الكاملة.')}
+<body data-page="about">
+${TOPBAR('about', false, true)}
+${PROGRESSBAR}
+<main>
+  <div class="crumbs"><a href="index.html">الرئيسية</a> ‹ <span>عن التطبيق</span></div>
+
+  <section class="hero frame compact" style="--c:#B8942F">
+    ${FRAME_1}
+    <div class="ic abt-ic">${DOME}</div>
+    <h1>عن التطبيق</h1>
+    <div class="period">الإصدار ${ar(APP_VER)}${APP_CODE ? ' · بناء ' + ar(APP_CODE) : ''} · يعمل بلا إنترنت</div>
+    ${ORN}
+    <p class="intro">موسوعة مختصرة لتاريخ الإسلام: من قبل البعثة إلى العصر الحديث، في ${ar(pages.length)} حقبة و${ar(chTotal)} فصلًا. تعمل دون اتصال، ولا تجمع عنك أي بيانات.</p>
+  </section>
+
+  <h2 class="sec">ما هذه الموسوعة</h2>
+  <div class="src frame" style="--c:#B8942F">
+    ${FRAME_2}
+    <ul class="outs">
+      <li>${ar(pages.length)} حقبة تاريخية، كل واحدة في صفحة مستقلة تُقرأ على هيئة كتاب بأوراق تُقلَب.</li>
+      <li>${ar(chTotal)} فصلًا، مع خريطة تاريخية لكل حقبة وخط زمني وأهم الشخصيات والنتائج والمصادر.</li>
+      <li>بحث شامل في كل الفصول مع تجاهل الهمزات والتشكيل والأرقام الهندية، وفهرس للانتقال السريع، ومفضلة، وحفظ لموضع القراءة.</li>
+      <li>كل شيء داخل الحزمة: المحتوى والخطوط والخرائط. لا يُطلب أي اتصال بالشبكة بعد التثبيت.</li>
+      <li>المحتوى خلاصة تعليمية تستند إلى المصادر المذكورة في نهاية كل حقبة، ولا يُقصد به الاستقصاء الأكاديمي الكامل. التصحيح والتنبيه مرحّب بهما على بريد التواصل أدناه.</li>
+    </ul>
+  </div>
+
+  <h2 class="sec">سياسة الخصوصية <span class="n">آخر تحديث: ${POLICY_DATE}</span></h2>
+
+  <div class="src frame" style="--c:#B8942F">
+    ${FRAME_2}
+    <h3 class="abt-h">ما لا نجمعه</h3>
+    <ul class="outs">
+      <li>لا حسابات ولا تسجيل دخول: التطبيق لا يعرف من أنت.</li>
+      <li>لا إعلانات، ولا أدوات تتبّع أو تحليلات، ولا أي مكتبة خارجية ترسل بيانات.</li>
+      <li>لا نجمع الاسم ولا البريد ولا الموقع الجغرافي ولا جهات الاتصال ولا الصور ولا أي ملف من جهازك.</li>
+      <li>لا يُرسَل شيء إلى أي خادم: لا يوجد في التطبيق أي اتصال شبكي لجلب محتوى أو لتقارير الأعطال.</li>
+    </ul>
+
+    <h3 class="abt-h">ما يُحفظ على جهازك فقط</h3>
+    <p class="abt-note">لتعمل الميزات (استئناف القراءة، المفضلة، الأوسمة) يحفظ التطبيق بيانات صغيرة في مساحة التخزين المحلية الخاصة به على جهازك (localStorage). هذه البيانات لا تُغادر الجهاز، ولا يراها أحد غيرك:</p>
+    <div class="abt-tblwrap"><table class="abt-tbl">
+      <thead><tr><th>ما يُحفظ</th><th>لماذا</th></tr></thead>
+      <tbody>${stored}</tbody>
+    </table></div>
+    <p class="abt-note">تُحذف هذه البيانات نهائيًا عند مسح بيانات التطبيق من إعدادات أندرويد أو عند إلغاء تثبيته.</p>
+
+    <h3 class="abt-h">الأذونات</h3>
+    <p class="abt-note">لا يطلب التطبيق أي إذن حسّاس: لا كاميرا، ولا ميكروفون، ولا موقع، ولا جهات اتصال، ولا وصول إلى ملفاتك. الصلاحية الوحيدة المعلنة في الحزمة هي <code>INTERNET</code> وهي صلاحية يضيفها إطار Cordova افتراضيًا، ولا يستخدمها التطبيق في أي اتصال.</p>
+
+    <h3 class="abt-h">الأطفال</h3>
+    <p class="abt-note">المحتوى تاريخي تعليمي مناسب لجميع الأعمار. لا يوجد محتوى يشاركه المستخدمون، ولا تواصل بينهم، ولا مشتريات داخل التطبيق.</p>
+
+    <h3 class="abt-h">حذف بياناتك</h3>
+    <p class="abt-note">من إعدادات أندرويد: التطبيقات ← موسوعة تاريخ الإسلام ← التخزين ← مسح البيانات. أو إلغاء تثبيت التطبيق. لا نحتفظ بأي نسخة عندنا لأننا لا نجمع شيئًا أصلًا.</p>
+
+    <h3 class="abt-h">تغييرات هذه السياسة</h3>
+    <p class="abt-note">أي تعديل يظهر في هذه الشاشة نفسها مع تحديث تاريخ آخر تعديل أعلاه، وتُنشر النسخة المطابقة على صفحة التطبيق في Google Play.</p>
+  </div>
+
+  <h2 class="sec">Privacy policy (English)</h2>
+  <div class="src frame abt-en" style="--c:#B8942F" dir="ltr" lang="en">
+    ${FRAME_2}
+    <p class="abt-note">This app collects <b>no personal data</b>. There are no accounts, no advertising, no analytics and no third-party SDKs. Reading position, favourites, badges and display settings are stored only in the app's local storage on your device and never leave it; they are removed when you clear the app data or uninstall. The app works fully offline and makes no network requests. It requests no sensitive permissions (camera, microphone, location, contacts, files). The only permission declared in the package is <code>INTERNET</code>, added by the Cordova framework by default and unused by the app. Content is educational and suitable for all ages.</p>
+    <p class="abt-note">Contact: <a href="mailto:${CONTACT}">${CONTACT}</a></p>
+  </div>
+
+  <h2 class="sec">التواصل</h2>
+  <div class="src frame" style="--c:#B8942F">
+    ${FRAME_2}
+    <p class="abt-note" style="text-align:center">لأي استفسار، أو تصحيح في المحتوى، أو ملاحظة على التطبيق:</p>
+    <p class="abt-mail"><a href="mailto:${CONTACT}">${CONTACT}</a></p>
+  </div>
+
+  <p class="abtlink"><a href="index.html">← العودة إلى الموسوعة</a></p>
+</main>
+<script src="assets/app.js" defer></script>
+</body>
+</html>`;
+}
+
+/* ---------------- التنفيذ ---------------- */
+/* الملفات المشتركة: كل صفحة تشير إلى assets/app.css و assets/app.js مباشرة.
+   كان التضمين ينسخ ~46KB CSS + ~77KB JS داخل كل صفحة من الـ12 (≈1.5MB تكرار)،
+   فيتضخّم الـAPK وتُحلَّل نفس الشيفرة 12 مرة. الآن تُحمَّل مرة واحدة وتُخزَّن مؤقتًا.
+   ملاحظة: <script src=... defer> يعمل بعد بناء الشجرة، فـwindow.__READER__
+   (الذي يفحص وجود #book) يجد العنصر تمامًا كما كان مع التضمين. */
+const css = fs.readFileSync(path.join(root, 'assets', 'app.css'), 'utf8');
+const js = fs.readFileSync(path.join(root, 'assets', 'app.js'), 'utf8');
+if (!css.length || !js.length) throw new Error('assets/app.css أو assets/app.js فارغ');
+
+fs.writeFileSync(path.join(root, 'index.html'), buildHome(), 'utf8');
+fs.writeFileSync(path.join(root, 'about.html'), buildAbout(), 'utf8');
 for (const p of pages) {
-  fs.writeFileSync(path.join(root, p.file), inline(p.parts ? buildDeep(p) : buildPage(p)), 'utf8');
+  fs.writeFileSync(path.join(root, p.file), p.parts ? buildDeep(p) : buildPage(p), 'utf8');
 }
 
 /* أيقونات الفافيكون: WebView يطلبها من جذر www فيرمي FileNotFoundException إن غابت */
@@ -490,4 +652,4 @@ console.log(pages.map(p => (p.file + ' ').padEnd(20) +
     Math.round(JSON.stringify(p.parts).length / 2600) + ' صفحة')
    : ((p.events || []).length + ' حدث')) ).join('\n'));
 console.log('─'.repeat(62));
-console.log('تم بناء ' + pages.length + ' صفحة + index.html');
+console.log('تم بناء ' + pages.length + ' صفحة + index.html + about.html');

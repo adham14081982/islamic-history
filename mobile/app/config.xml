@@ -1,17 +1,48 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.tarikh.islam" version="1.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>تاريخ الإسلام</name>
+<widget id="com.tarikh.islam" version="1.3.1" android-versionCode="10301" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>موسوعة تاريخ الإسلام</name>
     <description>
         موسوعة تفاعلية في تاريخ الإسلام: من عصر النبوة إلى العصور المتأخرة.
     </description>
-    <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
+    <author>
         موسوعة تاريخ الإسلام
     </author>
     <content src="index.html" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
+    <!-- لا يوجد في التطبيق أي رابط خارجي (فُحص: ٠ روابط http/https في كل الصفحات)،
+         فحُذف allow-intent العام لأن إبقاءه يسمح لأي رابط يُحقن بتسليم المستخدم إلى
+         تطبيق خارجي. الاستثناء الوحيد: mailto في شاشة «عن التطبيق» ليعمل زر
+         التواصل بفتح تطبيق البريد، وهو مخطَّط لا يمكنه تحميل صفحة ويب. -->
+    <allow-intent href="mailto:*" />
 
+    <!-- ===== إعدادات عامة ===== -->
+    <preference name="Orientation" value="portrait" />
+    <preference name="Fullscreen" value="false" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="SplashMaintainAspectRatio" value="true" />
+    <preference name="FadeSplashScreen" value="true" />
+    <preference name="FadeSplashScreenDuration" value="200" />
+
+    <!-- لون الخلفية = لون الورق في التطبيق (#FBF4E4) حتى لا يظهر وميض أبيض -->
+    <preference name="BackgroundColor" value="0xFFFBF4E4" />
+    <preference name="SplashScreenBackgroundColor" value="#FBF4E4" />
+    <preference name="AndroidWindowSplashScreenBackground" value="#FBF4E4" />
+    <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/icon/android/xxxhdpi.png" />
+    <preference name="AndroidWindowSplashScreenAnimationDuration" value="200" />
+    <preference name="AndroidInsetsBehavior" value="default" />
+
+    <!-- ===== منصة أندرويد ===== -->
     <platform name="android">
+        <!-- تسريع الرسوم على WebView:
+             Cordova يضع android:hardwareAccelerated="false" على MainActivity افتراضيًا،
+             فيرسم WebView كل شيء على الخيط الرئيسي (بلا GPU): تقليب الورقة يتقطّع.
+             هذا الـedit-config يفرض true على النشاط نفسه (وعلى <application> أيضًا). -->
+        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application/activity">
+            <activity android:hardwareAccelerated="true" />
+        </edit-config>
+        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
+            <application android:hardwareAccelerated="true" />
+        </edit-config>
+
         <!-- النسخ القديمة (أندرويد ٧ وما قبله): أيقونة كاملة مربعة -->
         <icon density="ldpi" src="res/icon/android/ldpi.png" width="36" height="36" />
         <icon density="mdpi" src="res/icon/android/mdpi.png" width="48" height="48"

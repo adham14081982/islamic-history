@@ -7,3 +7,18 @@ mobile/app/.gradle/
 *.aab
 Thumbs.db
 .DS_Store
+
+# مفاتيح التوقيع وكلمات السر — لا تُرفع إلى Git أبدًا
+mobile/keys/
+mobile/app/build.json
+*.jks
+*.keystore
+
+# مخلفات البناء والاختبار: تُولَّد محليًا وليست مصدرًا
+tmp/
+shots/
+*.log
+build/
+.gradle/
+local.properties
+*.version
