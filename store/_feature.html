@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:'Amiri';src:url(../assets/fonts/amiri-700.woff2) format('woff2');font-weight:700}
+@font-face{font-family:'Cairo';src:url(../assets/fonts/cairo-var.woff2) format('woff2');font-weight:200 1000}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1024px;height:500px;overflow:hidden}
+body{font-family:'Cairo',sans-serif;background:#00282E;position:relative;
+  display:flex;align-items:center;justify-content:center;gap:26px}
+.bg{position:absolute;inset:0;
+  background:
+    radial-gradient(680px 380px at 76% 50%, rgba(20,120,118,.55), transparent 70%),
+    radial-gradient(520px 300px at 12% 88%, rgba(184,148,47,.18), transparent 72%),
+    linear-gradient(100deg,#001E24 0%,#00353A 45%,#0A5254 100%)}
+.grain{position:absolute;inset:0;opacity:.16;
+  background-image:radial-gradient(rgba(255,255,255,.5) .6px, transparent .6px);
+  background-size:5px 5px}
+.wrap{position:relative;display:flex;align-items:center;justify-content:center;gap:34px;padding:0 34px;width:100%}
+.em{width:364px;height:364px;flex:0 0 auto;border-radius:50%;
+  box-shadow:0 22px 46px rgba(0,0,0,.55), 0 0 0 2px rgba(249,211,118,.35), 0 0 0 10px rgba(249,211,118,.08)}
+.tx{flex:1;text-align:right;color:#F7EFDD}
+.kicker{font-size:15px;letter-spacing:.5px;color:#E9C86F;font-weight:600;margin-bottom:10px;opacity:.95}
+h1{font-family:'Cairo',sans-serif;font-weight:700;font-size:44px;line-height:1.35;
+  background:linear-gradient(180deg,#FFF3CE 0%,#F3D488 48%,#C89B33 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 2px 0 rgba(0,0,0,.12);margin-bottom:14px}
+.rule{width:132px;height:2px;margin:0 0 14px auto;border-radius:2px;
+  background:linear-gradient(90deg,rgba(233,200,111,0),#E9C86F)}
+.facts{font-size:19px;color:#DCEAE5;line-height:1.75;font-weight:500}
+.facts b{color:#F3D488;font-weight:700}
+.off{display:inline-block;margin-top:16px;font-size:15px;color:#CFE3DC;
+  border:1px solid rgba(233,200,111,.42);border-radius:999px;padding:6px 16px;background:rgba(0,0,0,.18)}
+</style></head><body>
+<div class="bg"></div><div class="grain"></div>
+<div class="wrap">
+  <img class="em" src="icon-1024.png" alt="">
+  <div class="tx">
+    <div class="kicker">موسوعة عربية · تعمل دون إنترنت</div>
+    <h1>موسوعة تاريخ الإسلام</h1>
+    <div class="rule"></div>
+    <div class="facts"><b>١١</b> حقبة تاريخية &nbsp;·&nbsp; <b>٢٥٥</b> فصلًا &nbsp;·&nbsp; <b>١١</b> خريطة</div>
+    <div class="off">بلا إعلانات &nbsp;·&nbsp; بلا حسابات &nbsp;·&nbsp; بلا جمع بيانات</div>
+  </div>
+</div>
+</body></html>

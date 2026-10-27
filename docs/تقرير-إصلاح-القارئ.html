@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تقرير إصلاح تجربة القراءة — موسوعة تاريخ الإسلام</title>
+<style>
+  :root{
+    --paper:#FFFDF8; --cream:#F6F1E4; --ink:#241F18; --muted:#6E6455;
+    --line:#E2D8C2; --gold:#B8942F; --green:#2F6B4F; --red:#A33B1E;
+    --code-bg:#F7F3E9; --code-line:#E6DCC6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--ink);
+    font-family:"Segoe UI","Cairo",system-ui,sans-serif;line-height:1.85;font-size:16px}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 22px 80px}
+  header{border-bottom:2px solid var(--gold);padding-bottom:22px;margin-bottom:34px}
+  .kicker{font-size:.78rem;letter-spacing:.14em;color:var(--gold);font-weight:700;margin:0 0 8px}
+  h1{font-family:"Amiri","Times New Roman",serif;font-size:2.15rem;margin:0 0 10px;line-height:1.4}
+  .sub{color:var(--muted);font-size:.92rem;margin:0}
+  h2{font-family:"Amiri",serif;font-size:1.5rem;margin:44px 0 12px;padding-right:12px;
+    border-right:4px solid var(--gold);line-height:1.5}
+  h3{font-size:1.02rem;margin:26px 0 8px;color:var(--ink)}
+  p{margin:0 0 12px}
+  ul,ol{margin:0 0 14px;padding-right:22px}
+  li{margin-bottom:6px}
+  code{font-family:Consolas,"Courier New",monospace;font-size:.86em;background:var(--code-bg);
+    border:1px solid var(--code-line);border-radius:4px;padding:1px 5px;direction:ltr;display:inline-block}
+  pre{margin:14px 0 18px;background:var(--code-bg);border:1px solid var(--code-line);
+    border-radius:8px;padding:14px 16px;overflow-x:auto;direction:ltr;text-align:left}
+  pre code{background:none;border:0;padding:0;font-size:.82rem;line-height:1.7;display:block;white-space:pre}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:10px;
+    padding:16px 18px;margin:14px 0;box-shadow:0 4px 14px rgba(80,60,20,.05)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:18px 0}
+  .kpi{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .kpi b{display:block;font-size:1.5rem;color:var(--gold);line-height:1.2;margin-bottom:4px}
+  .kpi span{font-size:.82rem;color:var(--muted)}
+  table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-size:.9rem;background:var(--paper)}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:right;vertical-align:top}
+  th{background:var(--cream);font-weight:700;font-size:.84rem}
+  td code{font-size:.8rem}
+  .ok{color:var(--green);font-weight:700}
+  .no{color:var(--red);font-weight:700}
+  .note{background:#FBF6E6;border-right:4px solid var(--gold);padding:12px 16px;border-radius:6px;margin:16px 0}
+  .note b{color:var(--gold)}
+  .badge{display:inline-block;font-size:.72rem;padding:2px 9px;border-radius:20px;
+    border:1px solid var(--line);background:var(--cream);color:var(--muted);margin-inline-start:6px}
+  footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--line);
+    color:var(--muted);font-size:.8rem}
+  @media print{body{background:#fff}.wrap{padding:0}pre{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="kicker">تسليم تقني — Apache Cordova / WebView</p>
+  <h1>إصلاح تجربة القراءة في موسوعة تاريخ الإسلام</h1>
+  <p class="sub">حساسية اللمس · تقليب الصفحات · شاشة التحميل · واجهة القراءة — ٢٣ أكتوبر ٢٠٢٦</p>
+</header>
+
+<div class="grid">
+  <div class="kpi"><b>٦٠px / ٢٥٪</b><span>حد أدنى للسحب قبل التقليب</span></div>
+  <div class="kpi"><b>٣٨٠ms</b><span>مهلة إلزامية بين تقليبين</span></div>
+  <div class="kpi"><b>٤٦٠ms</b><span>زمن حركة الورقة (قابل للتعديل)</span></div>
+  <div class="kpi"><b>١٢</b><span>صفحة أُعيد بناؤها</span></div>
+</div>
+
+<h2>١) خلاصة ما تم</h2>
+<p>عولجت المشكلات الثلاث من جذورها، واكتُشف أثناء الفحص خللٌ أخفى السبب الحقيقي لإحساس «القفزة الفجائية»:</p>
+<div class="card">
+  <p><b>الخلل الجذري:</b> كان الشرط <code>if (!PT || R.busy) return false;</code> في بداية معالج الحركة يمنع تحديث زاوية الورقة بعد أول حركة، لأن <code>R.busy</code> يُرفع فور بدء التقليب. النتيجة: الورقة تدور ٥° مع أول ١٠ بكسل، ثم تتجمّد، ثم تقفز إلى ١٨٠° عند رفع الإصبع. المستخدم يرى «قفزة» لا «سحبًا».</p>
+  <p style="margin:0"><b>الإصلاح:</b> فصل شرط «بدء سحب جديد» عن «متابعة سحب قائم» — <code>R.busy</code> يُفحص فقط عند القفل على المحور الأفقي أول مرة، لا في كل حركة.</p>
+</div>
+
+<h2>٢) خريطة الملفات — ماذا يُستبدل وأين</h2>
+<p>البناء في هذا المشروع يعتمد مصدرين مركزيين يُحقنان داخل كل صفحة HTML عند تشغيل <code>node tools/site.js</code>. لذلك <b>لا تُعدَّل ملفات HTML يدويًا</b>؛ التعديل يقع على المصدر ثم يُعاد البناء.</p>
+<table>
+  <thead><tr><th>الملف المصدر</th><th>ما تغيّر فيه</th><th>النسخة داخل <code>www/</code></th></tr></thead>
+  <tbody>
+    <tr>
+      <td><code>assets/app.js</code><br><span class="badge">1655 سطرًا</span></td>
+      <td>محرّك الإيماءات الجديد (السطور ١١٠٥–١٢٣٠)، زمن التقليب ومنحناه، إطار الرسم الموحّد <code>requestAnimationFrame</code>، إزالة تقليب النقر على الحافة.</td>
+      <td><code>mobile/app/www/assets/app.js</code></td>
+    </tr>
+    <tr>
+      <td><code>assets/app.css</code><br><span class="badge">763 سطرًا</span></td>
+      <td>الهيكل العظمي <code>.skl-*</code> (٤٧٦–٥١٨)، هوامش القراءة <code>.rbody</code> (٥٢٠)، الورقة <code>.rleaf</code>، التبويبات <code>.rtabs</code> (٦٥٥)، قواعد تقليل الحركة.</td>
+      <td><code>mobile/app/www/assets/app.css</code></td>
+    </tr>
+    <tr>
+      <td><code>tools/site.js</code></td>
+      <td>قالب القارئ <code>READER_MAIN</code> + قالب <code>SKELETON</code> (السطر ٩٧) الذي يُحقن في كل صفحة قسم.</td>
+      <td>— (أداة بناء، لا تُنسخ)</td>
+    </tr>
+    <tr>
+      <td><code>*.html</code> (١٢ صفحة + index)</td>
+      <td>مُولَّدة: تحتوي نسخة مضمّنة من CSS و JS. تُعاد بالبناء الآلي.</td>
+      <td><code>mobile/app/www/*.html</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="note">
+  <b>أمر المزامنة الكامل بعد أي تعديل:</b>
+  <pre><code>node tools/site.js
+cp -f ./*.html mobile/app/www/
+cp -r assets/. mobile/app/www/assets/</code></pre>
+  <p style="margin:8px 0 0">ثم <code>cordova build android</code> من مجلد <code>mobile/app</code>. النسختان متزامنتان الآن (١٢:٥٤).</p>
+</div>
+
+<h2>٣) محرّك اللمس — الكود الكامل</h2>
+<p>كل الأرقام في مكان واحد أعلى المحرّك، بلا أرقام سحرية داخل المنطق. تُعدَّل الحساسية من <code>GEST</code> فقط.</p>
+
+<pre><code>/* ---------- ١٤) اللمس والسحب: محرّك إيماءات واحد ---------- */
+var GEST = {
+  MIN_PX: 60,          /* ① حد أدنى مطلق للسحب قبل التقليب */
+  MIN_RATIO: 0.25,     /* ① أو ربع عرض الصفحة */
+  MAX_PX: 140,         /* ① سقف مطلق: لا نطلب سحبًا أطول من هذا على الشاشات الكبيرة */
+  LOCK_PX: 10,         /* أقل حركة تُحدِّد المحور (أفقي/رأسي) */
+  MAX_SLOPE: 1.2,      /* |dy| &gt; |dx|×1.2 ⇒ تمرير رأسي، نتخلّى عن السحب */
+  MIN_MS: 80,          /* ② سحب أقصر من هذا = اهتزاز/نقرة منزلقة ⇒ يُهمَل */
+  VEL: 0.45,           /* ② px/ms: سحب قصير لكن سريع يُقبل */
+  VEL_MIN_PX: 40,      /* ② لكن لا يقلّ طوله عن هذا */
+  COOLDOWN_MS: 380,    /* ② مهلة إلزامية بين تقليبين (debounce) */
+  EDGE_RESIST: 0.25    /* مقاومة الورقة عند أول/آخر صفحة */
+};
+
+var PT = null;   /* المؤشر/الإصبع النشط */
+
+function gNow() {
+  return (window.performance &amp;&amp; performance.now) ? performance.now() : Date.now();
+}
+
+function gStart(x, y, id, target) {
+  if (R.busy || PT) return;
+  if (gNow() - R.lastFlip &lt; GEST.COOLDOWN_MS) return;      /* ② debounce بين التقليبين */
+  if (target &amp;&amp; target.closest) {
+    /* عناصر تفاعلية أو لوحة الفهرس: لا نسحب الصفحة منها.
+       لا نستثني .rflow: قفل المحور في gMove يكفي لترك التمرير الرأسي للمتصفح */
+    if (target.closest('a,button,input,select,textarea,label,.rpanel,.rpscrim')) return;
+  }
+  PT = { id: id, x0: x, y0: y, x: x, y: y, t0: gNow(), dir: 0, lock: '', dist: 0 };
+}
+
+function gMove(x, y, id) {
+  if (!PT) return false;
+  if (id != null &amp;&amp; PT.id != null &amp;&amp; id !== PT.id) return false;
+  var dx = x - PT.x0, dy = y - PT.y0;
+  PT.x = x; PT.y = y;
+
+  if (!PT.lock) {
+    /* R.busy يمنع بدء سحب جديد فقط، لا متابعة سحب قائم:
+       كان الفحص العام يحجب كل الحركات بعد أول واحدة فتقفز الورقة من ٥° إلى ١٨٠° */
+    if (R.busy) return false;
+    if (Math.abs(dx) &lt; GEST.LOCK_PX &amp;&amp; Math.abs(dy) &lt; GEST.LOCK_PX) return false;
+    /* تمرير رأسي: يُترك للمتصفح ولا يُعترض */
+    if (Math.abs(dy) &gt; Math.abs(dx) * GEST.MAX_SLOPE) { PT.lock = 'y'; return false; }
+    PT.lock = 'x';
+    PT.dir = dx &gt; 0 ? 1 : -1;
+    if (!startFlip(PT.dir)) { PT.lock = 'dead'; return false; }   /* لا صفحة في هذا الاتجاه */
+  }
+  if (PT.lock !== 'x') return false;
+
+  PT.dist = Math.abs(dx);
+  var deg = (dx / R.pageW) * 180;
+  /* الورقة لا تدور إلا في اتجاه سحبها، ولا تتجاوز المستويين */
+  if (PT.dir &gt; 0) deg = clamp(deg, 0, 180); else deg = clamp(deg, -180, 0);
+  /* مقاومة عند الحدود: الورقة تقاوم بدل أن تُقلب إلى العدم */
+  if ((PT.dir &gt; 0 &amp;&amp; R.cur &lt;= 0) || (PT.dir &lt; 0 &amp;&amp; R.cur &gt;= R.total - 1)) deg *= GEST.EDGE_RESIST;
+  queueAngle(deg);
+  return true;   /* استُهلكت الحركة ⇒ امنع التمرير الأفقي */
+}
+
+/* كتابة الزاوية مرة واحدة لكل إطار: أحداث اللمس تصل أسرع من الرسم،
+   وكتابة transform عند كل حدث تُجبر إعادة رسم طبقة ثلاثية الأبعاد بلا داعٍ */
+var pendDeg = 0, pendRaf = 0;
+function queueAngle(deg) {
+  pendDeg = deg;
+  if (pendRaf) return;
+  pendRaf = requestAnimationFrame(function () {
+    pendRaf = 0;
+    if (PT) setAngle(pendDeg);
+  });
+}
+function dropAngle() {
+  if (pendRaf) { cancelAnimationFrame(pendRaf); pendRaf = 0; }
+}
+
+function gEnd(x, y) {
+  if (!PT) return;
+  var p = PT; PT = null;
+  if (p.lock !== 'x') return;                 /* لم يبدأ تقليبًا أصلًا */
+  var dx = (x == null ? p.x : x) - p.x0;
+  var dt = Math.max(1, gNow() - p.t0);
+  var dist = Math.abs(dx);
+  var vel = dist / dt;
+  var need = Math.min(Math.max(GEST.MIN_PX, R.pageW * GEST.MIN_RATIO), GEST.MAX_PX);
+  var sameDir = (dx &gt;= 0 ? 1 : -1) === p.dir;
+  var far = dist &gt;= need;                                   /* ① مسافة كافية */
+  var flick = dist &gt;= GEST.VEL_MIN_PX &amp;&amp; vel &gt;= GEST.VEL;    /* ② أو سرعة كافية */
+  var jitter = dt &lt; GEST.MIN_MS &amp;&amp; dist &lt; need;              /* ② اهتزاز ⇒ تجاهُل */
+  if (sameDir &amp;&amp; !jitter &amp;&amp; (far || flick)) commitFlip();
+  else cancelFlip();
+}</code></pre>
+
+<h3>ربط الأحداث — مسار Pointer واحد وبديل احتياطي</h3>
+<pre><code>function bindGestures() {
+  /* المسار الأساسي: Pointer Events (لمس + ماوس + قلم بواجهة واحدة) */
+  if (window.PointerEvent) {
+    stage.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'mouse' &amp;&amp; e.button !== 0) return;
+      gStart(e.clientX, e.clientY, e.pointerId, e.target);
+    }, { passive: true });
+    window.addEventListener('pointermove', function (e) {
+      if (gMove(e.clientX, e.clientY, e.pointerId) &amp;&amp; e.cancelable) e.preventDefault();
+    }, { passive: false });
+    window.addEventListener('pointerup', function (e) {
+      gEnd(e.clientX, e.clientY);
+    }, { passive: true });
+    window.addEventListener('pointercancel', function () { gEnd(null, null); }, { passive: true });
+    return;
+  }
+  /* احتياط: WebView قديم بلا Pointer Events */
+  stage.addEventListener('touchstart', function (e) {
+    if (e.touches.length &gt; 1) { gEnd(null, null); return; }
+    var t = e.changedTouches[0];
+    gStart(t.clientX, t.clientY, t.identifier, e.target);
+  }, { passive: true });
+  stage.addEventListener('touchmove', function (e) {
+    if (e.touches.length &gt; 1) return;
+    var t = e.changedTouches[0];
+    if (gMove(t.clientX, t.clientY, t.identifier) &amp;&amp; e.cancelable) e.preventDefault();
+  }, { passive: false });
+  stage.addEventListener('touchend', function (e) {
+    var t = e.changedTouches[0];
+    gEnd(t.clientX, t.clientY);
+  }, { passive: true });
+  stage.addEventListener('touchcancel', function () { gEnd(null, null); }, { passive: true });
+}</code></pre>
+
+<h3>شرح الثوابت — كيف تُضبط الحساسية</h3>
+<table>
+  <thead><tr><th>الثابت</th><th>القيمة</th><th>الأثر على الإحساس</th></tr></thead>
+  <tbody>
+    <tr><td><code>MIN_PX</code></td><td>60</td><td>أقل سحب يُقبل. رفعه إلى 80 يجعل التقليب أكثر تحفظًا.</td></tr>
+    <tr><td><code>MIN_RATIO</code></td><td>0.25</td><td>ربع عرض الصفحة. على شاشة 390px يعطي 93px، وهو الحد الفعلي المسيطر.</td></tr>
+    <tr><td><code>MAX_PX</code></td><td>140</td><td>سقف يمنع أن يصبح الشرط مستحيلًا على الأجهزة اللوحية.</td></tr>
+    <tr><td><code>LOCK_PX</code></td><td>10</td><td>أقل حركة تُحدِّد المحور. أقل من ذلك يُعتبر نقرًا لا سحبًا.</td></tr>
+    <tr><td><code>MAX_SLOPE</code></td><td>1.2</td><td>سحب مائل رأسيًا يُترك للتمرير ولا يُقلّب.</td></tr>
+    <tr><td><code>MIN_MS</code></td><td>80</td><td>سحب أسرع من 80ms ومسافته غير كافية = اهتزاز ⇒ يُلغى.</td></tr>
+    <tr><td><code>VEL</code> / <code>VEL_MIN_PX</code></td><td>0.45 / 40</td><td>استثناء «الخفق السريع»: سحب قصير لكن سريع يُقبل، بشرط 40px على الأقل.</td></tr>
+    <tr><td><code>COOLDOWN_MS</code></td><td>380</td><td>حاجز زمني يمنع تقليبين متتاليين — يقتل «القفزات المتعددة» نهائيًا.</td></tr>
+    <tr><td><code>EDGE_RESIST</code></td><td>0.25</td><td>عند أول/آخر صفحة تدور الورقة ربع المسافة فقط: مقاومة مطاطية تُشعر بالحد.</td></tr>
+  </tbody>
+</table>
+
+<div class="note">
+  <b>ملاحظة تصميمية:</b> أُلغي تقليب «النقر على الحافة» (<code>TAP_FLIP</code>) لأنه كان يقلّب الصفحة عند أي لمسة عابرة على طرف الشاشة — وهو أحد أكبر مصادر القفز غير المقصود. التنقل الآن عبر: السحب، أزرار التذييل، أسهم الكيبورد، أو لوحة الفهرس.
+</div>
+
+<h2>٤) حركة الورق — الثقل والانتقال الناعم</h2>
+<p>الزمن والمنحنى معرّفان في مكان واحد، ومتغيّران في CSS حتى ترثهما أي حركة أخرى:</p>
+<pre><code>/* assets/app.css — السطر ٢٤ */
+--flip-dur: 460ms;
+--flip-ease: cubic-bezier(.25, 1, .5, 1);
+
+/* السطر ٧٥٣: قيمة افتراضية لأي تقليب لا يضبط زمنه سطريًا */
+.rleaf{transition: transform var(--flip-dur) var(--flip-ease)}</code></pre>
+<pre><code>/* assets/app.js — السطور ١٠٦٠–١٠٩٥ */
+var FLIP_MS = 460, FLIP_BACK_MS = 300;
+var FLIP_EASE = 'cubic-bezier(.25,1,.5,1)';
+
+function commitFlip() {
+  dropAngle();
+  R.lastFlip = gNow();
+  leaf.style.transition = 'transform ' + (FLIP_MS / 1000) + 's ' + FLIP_EASE;
+  leaf.style.transform = 'rotateY(' + (R.dir &gt; 0 ? 180 : -180) + 'deg)';
+  leaf.style.setProperty('--a', '1');       /* ظل الورقة يكتمل مع الطي */
+  setTimeout(function () {
+    leaf.classList.remove('on');
+    leafFront.innerHTML = '';
+    R.cur = clamp(R.cur + R.dir, 0, R.total - 1);
+    R.busy = false; R.dir = 0;
+    render();
+  }, FLIP_MS + 40);
+}
+
+function cancelFlip() {
+  dropAngle();
+  R.lastFlip = gNow();
+  leaf.style.transition = 'transform ' + (FLIP_BACK_MS / 1000) + 's ' + FLIP_EASE;
+  leaf.style.transform = 'rotateY(0deg)';
+  leaf.style.setProperty('--a', '0');
+  setTimeout(function () {
+    leaf.classList.remove('on');
+    leafFront.innerHTML = '';
+    R.busy = false; R.dir = 0;
+    render();
+  }, FLIP_BACK_MS + 40);
+}</code></pre>
+<p>الظل الديناميكي مربوط بزاوية الورقة عبر متغيّر CSS، فيزداد عتامةً كلما اقتربت من ٩٠° — وهو ما يعطي الإحساس بالورق لا بالشريحة المسطّحة:</p>
+<pre><code>.rleaf::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to left,rgba(0,0,0,.30),rgba(0,0,0,0) 45%);
+  opacity:calc(var(--a,0) * .95)}</code></pre>
+<p>ولإلغاء الارتداد الأفقي في WebView:</p>
+<pre><code>.rstage{position:relative;flex:1;min-height:0;overflow:hidden;
+  perspective:2200px;perspective-origin:50% 50%;
+  touch-action:pan-y;overscroll-behavior:contain;-webkit-touch-callout:none}</code></pre>
+<p><code>touch-action:pan-y</code> يجعل المتصفح يتولّى التمرير الرأسي فقط ويمنع أي سحب أفقي أصلي. و<code>e.preventDefault()</code> يُستدعى <b>فقط</b> عندما يعيد <code>gMove</code> القيمة <code>true</code> — أي عند سحب أفقي حقيقي، لا في كل حركة.</p>
+
+<h2>٥) شاشة التحميل — Skeleton + Shimmer</h2>
+<p>الشاشة السوداء استُبدلت بهيكل عظمي يُحاكي صفحة حقيقية بنفس مقاساتها وهوامشها، فيحدث الانتقال بلا وميض ولا تغيّر في التخطيط.</p>
+<pre><code>/* assets/app.css — السطور ٤٧٦–٥١٨ */
+.rload{position:fixed;inset:0;z-index:150;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:.85rem;
+  background:var(--cream);color:var(--muted);font-size:.84rem;
+  transition:opacity .35s ease,visibility 0s .35s}
+body.rready .rload{opacity:0;visibility:hidden;pointer-events:none}
+
+.skl{width:100%;max-width:700px;padding:0 16px}
+.skl-page{position:relative;display:flex;flex-direction:column;gap:10px;overflow:hidden;
+  min-height:min(60vh,430px);padding:16px 20px;
+  background:var(--paper);border:1px solid var(--line);border-radius:10px;
+  box-shadow:0 6px 22px rgba(80,60,20,.07)}
+
+/* تلاشٍ سفلي: يوحي بأن الصفحة تُكتب لا أنها محبوسة */
+.skl-page:after{content:"";position:absolute;inset:auto 0 0 0;height:56px;
+  background:var(--paper);pointer-events:none;
+  -webkit-mask-image:linear-gradient(to top,#000 30%,transparent);
+  mask-image:linear-gradient(to top,#000 30%,transparent)}
+
+.skl-h{height:22px;width:54%;border-radius:7px}
+.skl-l{height:11px;border-radius:6px}
+.skl-l.w100{width:100%}.skl-l.w96{width:96%}.skl-l.w92{width:92%}
+.skl-l.w88{width:88%}.skl-l.w70{width:70%}.skl-gap{height:6px}
+
+.skl-h,.skl-l{position:relative;overflow:hidden;background:var(--skl-a)}
+
+/* اللمعان يُحرَّك بـ transform لا بـ background-position:
+   حركات transform تُنفَّذ على الـ compositor فتبقى تعمل حتى أثناء حجب الخيط الرئيسي بالترقيم */
+.skl-h:after,.skl-l:after{content:"";position:absolute;inset:0;
+  background:linear-gradient(100deg,transparent 20%,var(--skl-b) 50%,transparent 80%);
+  transform:translateX(-120%);animation:sklSweep 1.6s linear infinite}
+.skl-h:after{animation-delay:-.4s}
+.skl-page .skl-l:nth-of-type(3n):after{animation-delay:-.25s}
+.skl-page .skl-l:nth-of-type(3n+1):after{animation-delay:-.7s}
+@keyframes sklSweep{to{transform:translateX(120%)}}
+
+.skl-cap{display:flex;align-items:center;gap:.45rem;font-family:'Cairo';font-size:.82rem;
+  color:var(--muted)}
+.skl-cap i{width:13px;height:13px;border-radius:50%;border:2px solid var(--line);
+  border-top-color:var(--gold);animation:sklSpin .8s linear infinite}
+@keyframes sklSpin{to{transform:rotate(360deg)}}</code></pre>
+
+<p>القالب نفسه مكرّر في موضعين: داخل كل صفحة (يُبنى من <code>tools/site.js</code>)، وفي طبقة الانتقال بين الأقسام (<code>assets/app.js</code> السطر ١٥١٥).</p>
+<pre><code>&lt;div class="skl" aria-hidden="true"&gt;&lt;div class="skl-page"&gt;
+  &lt;span class="skl-h"&gt;&lt;/span&gt;
+  &lt;span class="skl-l w100"&gt;&lt;/span&gt;&lt;span class="skl-l w96"&gt;&lt;/span&gt;
+  &lt;span class="skl-l w88"&gt;&lt;/span&gt;&lt;span class="skl-l w94"&gt;&lt;/span&gt;
+  &lt;span class="skl-gap"&gt;&lt;/span&gt;
+  &lt;span class="skl-l w100"&gt;&lt;/span&gt;&lt;span class="skl-l w92"&gt;&lt;/span&gt;
+  &lt;span class="skl-l w97"&gt;&lt;/span&gt;&lt;span class="skl-l w85"&gt;&lt;/span&gt;&lt;span class="skl-l w70"&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;
+&lt;div class="skl-cap"&gt;&lt;i&gt;&lt;/i&gt;&lt;span&gt;جارٍ فتح القسم…&lt;/span&gt;&lt;/div&gt;</code></pre>
+
+<div class="note">
+  <b>لماذا <code>transform</code> لا <code>background-position</code>؟</b> لأن الترقيم (pagination) يحجب الخيط الرئيسي، وحركة <code>background-position</code> تُحسب عليه فتتوقف وتُظهر «تجمّدًا». أما <code>transform</code> فيُنفَّذ على الـ compositor ويظل ناعمًا أثناء الحجب — وهذا هو الفرق بين شاشة تبدو حيّة وأخرى تبدو معلّقة.
+</div>
+
+<h2>٦) واجهة القراءة والتبويبات</h2>
+<pre><code>/* هوامش الكتاب وتباعد الأسطر */
+.rbody{flex:1;min-height:0;overflow:hidden;padding:16px 20px;
+  /* تباعد أسطر مريح للنص العربي المشكول: أقل من 1.8 تتداخل الحركات */
+  line-height:1.85;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+/* التبويبات: شريط أنحف، حشو أقل، تمرير أفقي بمحاذاة مغناطيسية */
+.rtabs{display:flex;align-items:center;gap:.26rem;overflow-x:auto;
+  min-height:42px;padding:.26rem .5rem;
+  scroll-snap-type:x proximity;overscroll-behavior-x:contain;
+  -webkit-mask-image:linear-gradient(to left,transparent 0,#000 10px,#000 calc(100% - 10px),transparent 100%)}
+.rtab{min-height:34px;border-radius:17px;padding:.3rem .64rem;
+  font-size:.72rem;max-width:58vw;scroll-snap-align:center}</code></pre>
+<p>الشريط العلوي في وضع القراءة يُخفي القبة والزخرفة ويُبقي اسم الفصل فقط، فيتقلّص الارتفاع ويترك مساحة أكبر للنص:</p>
+<pre><code>body.reading .dome{display:none}
+.rbrand{font-family:'Amiri',serif;font-size:.82rem;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+@media (max-width:400px){.top.reading .brand .bic{display:none}}</code></pre>
+<p>واحترامًا لإعدادات النظام، تُلغى الحركات لمن يفضّل تقليلها:</p>
+<pre><code>@media (prefers-reduced-motion:reduce){
+  .skl-h:after,.skl-l:after{animation:none}
+  .rleaf{transition-duration:1ms!important}
+  body.rready main.reader{animation:none}
+}</code></pre>
+
+<h2>٧) نتائج الاختبار</h2>
+<p>اختبارات آلية على محرّك Chromium بمقاس ٣٩٠×٨٤٤ (نفس مقاس WebView على جهاز متوسط)، بإيماءات لمس حقيقية عبر بروتوكول CDP:</p>
+<table>
+  <thead><tr><th>الحالة</th><th>الإيماءة</th><th>النتيجة</th><th>الحكم</th></tr></thead>
+  <tbody>
+    <tr><td>سحب كافٍ</td><td>130px أفقيًا</td><td>انتقل صفحة واحدة (12→13)، والورقة كانت عند 62.6° في منتصف السحب</td><td class="ok">✔</td></tr>
+    <tr><td>سحب قصير</td><td>40px أفقيًا</td><td>لم ينتقل، والورقة عادت إلى 0°</td><td class="ok">✔</td></tr>
+    <tr><td>تمرير رأسي</td><td>نزول 160px</td><td>لم ينتقل — تُرك للمتصفح</td><td class="ok">✔</td></tr>
+    <tr><td>نقر على الحافة</td><td>لمسة بلا حركة</td><td>لم ينتقل (السلوك أُلغي)</td><td class="ok">✔</td></tr>
+    <tr><td>سحبان متتاليان</td><td>120px × 2 بلا انتظار</td><td>صفحة واحدة فقط — الـ debounce يعمل</td><td class="ok">✔</td></tr>
+    <tr><td>الحدود</td><td>سحب عند أول/آخر صفحة</td><td>مقاومة ٢٥٪ ثم رجوع، بلا تقليب</td><td class="ok">✔</td></tr>
+  </tbody>
+</table>
+<p>الاختبار محفوظ كأداة قابلة لإعادة التشغيل: <code>node tools/test-touch.js rashidun.html</code>.</p>
+<p>وفحص التشغيل لكل الصفحات الاثنتي عشرة (٣٩٠×٨٤٤، جلسة مستقلة لكل صفحة): كل صفحة جاهزة خلال ثانية واحدة، بلا خطأ JavaScript واحد، وبعدد صفحات سليم:</p>
+<table>
+  <thead><tr><th>الصفحة</th><th>الصفحات</th><th>الصفحة</th><th>الصفحات</th><th>الصفحة</th><th>الصفحات</th></tr></thead>
+  <tbody>
+    <tr><td>ما قبل الإسلام</td><td>٢٠٦</td><td>الأمويون</td><td>٢١٨</td><td>الحروب الصليبية</td><td>٢٧٠</td></tr>
+    <tr><td>الأنبياء</td><td>١٦٨</td><td>الأندلس</td><td>٢١٢</td><td>المماليك</td><td>٣٤٢</td></tr>
+    <tr><td>السيرة</td><td>٢٢٩</td><td>العباسيون</td><td>٢٠٦</td><td>العثمانيون</td><td>٢١٢</td></tr>
+    <tr><td>الراشدون</td><td>٢٤٠</td><td>الحضارة</td><td>٢٠٣</td><td>الحديث</td><td>٢١٢</td></tr>
+  </tbody>
+</table>
+
+<h2>٨) استقرار الترقيم — ثلاث علل كانت تُقصّ نصًا وتقفز بالصفحات</h2>
+<p>أثناء التحقق ظهر خلل قديم في محرّك الترقيم لا علاقة له باللمس: صفحات معدودة يخرج آخر سطر منها خارج الورقة، ثم يتدخّل «حارس الفيض» فيعيد ترقيم الكتاب كله أثناء القراءة، فيقفز عدد الصفحات من ٢٣٧ إلى ٢٥٣ ويفقد القارئ موضعه. عولجت ثلاث علل متراكبة:</p>
+
+<h3>أ) الهوامش العلوية لم تكن تُقاس</h3>
+<p>أول عنصر داخل حاوية القياس يُسقط هامشه العلوي (margin collapse)، فكان كل قياس أقصر من الحقيقة بـ ١٦px — وهو هامش معظم الكتل. أُضيف «فاصل» فارغ قبل العنصر حتى يظهر الهامش في القياس:</p>
+<pre><code>function measureOne(node) {
+  measBody.innerHTML = '';
+  measBody.appendChild(document.createElement('div'));   /* فاصل: يمنع إسقاط الهامش */
+  measBody.appendChild(node.cloneNode(true));
+  measBody.appendChild(document.createElement('div'));
+  var k = measBody.children;
+  /* من الفاصل إلى الفاصل التالي = هامش علوي + ارتفاع + هامش سفلي */
+  var h = k[2].offsetTop - k[0].offsetTop;
+  measBody.innerHTML = '';
+  return h;
+}</code></pre>
+
+<h3>ب) صندوق القياس كان أوسع من الصفحة بـ ٢px</h3>
+<p>وهذا أخطرها: الصفحة لها حدّ 1px من كل جهة، فكان عرض سطر القياس ٣٣٤px مقابل ٣٣٢px في الصفحة. الفرق ٢px يكفي لكسر سطر كامل عند حدود الكسر: فقرة تُقاس ١٦٤px وتُرسم ١٩٧px — أي سطر زائد يفيض خارج الورقة.</p>
+<pre><code>/* assets/app.js — layout() */
+meas.style.width = (R.pageW - 2) + 'px';   /* عرض حدود الصفحة */
+
+/* assets/app.css — حاوية القياس تطابق الصفحة الحقيقية تمامًا */
+.rmeas .rbody{height:auto!important;padding:16px 20px;overflow:hidden}</code></pre>
+
+<h3>ج) الترقيم كان يسبق تحميل وزن الخط العريض</h3>
+<p>كان الانتظار يطلب <code>1em Amiri</code> فقط (وزن ٤٠٠)، بينما العناوين بوزن ٧٠٠ وملفّه يُحمَّل منفصلًا. فيُرقَّم الكتاب بخط بديل، فإذا وصل العريض طالت العناوين وخرج آخر سطر. صار الانتظار يطلب الأوزان الأربعة، وأُضيفت شبكة أمان: إن انقضت المهلة (٢٫٥s) قبل استقرار الخطوط، يُعاد الترقيم مرة واحدة عند اكتمالها مع تثبيت الموضع على أول كتلة في الصفحة الحالية لا على رقمها.</p>
+<pre><code>fontsReady = Promise.all([
+  document.fonts.load('400 1em Amiri'),
+  document.fonts.load('700 1em Amiri'),
+  document.fonts.load('400 1em Cairo'),
+  document.fonts.load('700 1em Cairo')
+]).catch(function () { });</code></pre>
+
+<div class="note">
+  <b>النتيجة:</b> بعد الإصلاحات الثلاثة صار عدد الصفحات ثابتًا قبل بدء القراءة ولا يتغيّر أبدًا أثناءها: راشدون ٢٤٠، مماليك ٣٤٢، عباسيون ٢٠٦، حديث ٢١٢ — بصفر صفحات فائضة في الفحص الآلي. وأُبطلت الخطط المخزَّنة (<code>v: 19</code>) فتُعاد مرة واحدة عند أول تشغيل بعد التحديث.
+</div>
+
+<h2>٩) ما تبقّى عليك</h2>
+<ol>
+  <li>الخطط المخزَّنة أُبطلت (v: 19): أول فتح بعد التحديث سيعيد ترقيم كل كتاب مرة واحدة — ثانية واحدة تقريبًا.</li>
+  <li>جرّب على جهاز حقيقي — محاكي اللمس في المتصفح لا يعكس تمامًا خصائص شاشة اللمس.</li>
+  <li>إن رأيت التقليب لا يزال سريعًا: ارفع <code>MIN_RATIO</code> إلى <code>0.3</code> و<code>COOLDOWN_MS</code> إلى <code>450</code>.</li>
+  <li>إن رأيت الحركة ثقيلة: أنزل <code>FLIP_MS</code> إلى <code>320</code> (وهي القيمة المذكورة في مواصفتك الأصلية).</li>
+  <li>بعد أي تعديل: أعد البناء ثم زامن <code>www/</code> بالأوامر أعلاه، ثم <code>cordova build android</code>.</li>
+</ol>
+
+<footer>
+  تقرير تسليم — موسوعة تاريخ الإسلام · Apache Cordova · ٢٣ أكتوبر ٢٠٢٦<br>
+  الملفات المعدّلة: <code>assets/app.js</code> · <code>assets/app.css</code> · <code>tools/site.js</code> · ١٢ صفحة HTML مُولَّدة · نسخة <code>mobile/app/www/</code> متزامنة.
+</footer>
+
+</div>
+</body>
+</html>

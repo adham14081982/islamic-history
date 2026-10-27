@@ -22,3 +22,6 @@ build/
 .gradle/
 local.properties
 *.version
+
+# ملفات حالة الجلسة المحلية
+.wbapp_*.genie
