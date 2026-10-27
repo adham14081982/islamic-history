@@ -25,3 +25,7 @@ local.properties
 
 # ملفات حالة الجلسة المحلية
 .wbapp_*.genie
+
+# إعدادات المحرّر المحلية
+.idea/
+*.iml
